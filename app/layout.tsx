@@ -28,7 +28,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-dvh md:grid md:grid-cols-[240px_1fr]">
+        {children}
+        {/* <div className="min-h-dvh md:grid md:grid-cols-[240px_1fr]">
           <aside className="md:sticky md:top-0 md:h-dvh">
             <nav className="px-4 pb-4 md:px-6 md:pb-6">
               <ul className="flex items-center gap-3 md:flex-col md:items-start md:gap-2">
@@ -59,7 +60,7 @@ export default function RootLayout({
             </nav>
           </aside>
           <main>{children}</main>
-        </div>
+        </div> */}
       </body>
     </html>
   );
