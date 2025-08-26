@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
-import ViewTransitionWrapper from "@/components/ViewTransitionWrapper";
+import { unstable_ViewTransition as ViewTransition } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,29 +30,27 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-dvh md:grid md:grid-cols-[240px_1fr]">
-          <aside className="md:sticky md:top-0 md:h-dvh">
-            <nav className="px-4 pb-4 md:px-6 md:pb-6">
-              <ul className="flex items-center gap-3 md:flex-col md:items-start md:gap-2">
-                <li>
-                  <Link href="/" className="hover:underline">
-                    about
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/projects" className="hover:underline">
-                    projects
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/writing" className="hover:underline">
-                    writing
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </aside>
+          <nav className="p-8">
+            <ul className="flex flex-col gap-4">
+              <li>
+                <Link href="/" className="hover:underline">
+                  about
+                </Link>
+              </li>
+              <li>
+                <Link href="/projects" className="hover:underline">
+                  projects
+                </Link>
+              </li>
+              <li>
+                <Link href="/writing" className="hover:underline">
+                  writing
+                </Link>
+              </li>
+            </ul>
+          </nav>
           <main>
-            <ViewTransitionWrapper>{children}</ViewTransitionWrapper>
+            <ViewTransition default="blur-fade">{children}</ViewTransition>
           </main>
         </div>
       </body>
