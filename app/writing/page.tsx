@@ -19,7 +19,7 @@ export default async function WritingIndexPage() {
           return (
             <li key={post.slug} className="py-4">
               <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between gap-2">
                   <Link
                     href={`/writing/${post.slug}`}
                     className="no-underline hover:underline"
@@ -28,7 +28,9 @@ export default async function WritingIndexPage() {
                       {post.metadata.title}
                     </h2>
                   </Link>
-                  <span className="text-stone-400">{formattedDate}</span>
+                  <span className="text-stone-400 whitespace-nowrap">
+                    {formattedDate}
+                  </span>
                 </div>
                 <p className="m-0 text-stone-500">
                   {post.metadata.description}

@@ -20,7 +20,7 @@ export default async function ProjectsIndexPage() {
           return (
             <li key={post.slug} className="py-4">
               <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between gap-2">
                   <Link
                     href={`/projects/${post.slug}`}
                     className="no-underline hover:underline"
@@ -29,7 +29,7 @@ export default async function ProjectsIndexPage() {
                       {post.metadata.title}
                     </h2>
                   </Link>
-                  <span className="text-stone-400">
+                  <span className="text-stone-400 whitespace-nowrap">
                     {isSameYear
                       ? startDateYear
                       : `${startDateYear} — ${endDateYear}`}
