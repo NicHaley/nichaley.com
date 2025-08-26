@@ -121,3 +121,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ViewTransition: blur + fade effect during transitions */
+@keyframes vt-blur-fade-out {
+  from {
+    filter: blur(0);
+    opacity: 1;
+  }
+  to {
+    filter: blur(6px);
+    opacity: 0;
+  }
+}
+
+@keyframes vt-blur-fade-in {
+  from {
+    filter: blur(6px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+::view-transition-old(.blur-fade) {
+  animation: vt-blur-fade-out 500ms ease both;
+}
+
+::view-transition-new(.blur-fade) {
+  animation: vt-blur-fade-in 500ms ease both;
+}
+
