@@ -5,6 +5,7 @@ import fs from "node:fs/promises";
 export type ProjectMetadata = Metadata & {
   title: string;
   description: string;
+  url?: string;
   startDate: Date;
   endDate: Date | "present";
 };
@@ -17,7 +18,7 @@ export type ProjectData = {
 
 export const getProject = async (slug: string): Promise<ProjectData> => {
   const project = await import(`@/projects/${slug}.mdx`);
-  const data = project.metadata;
+  const data = project.metadata as ProjectMetadata;
 
   if (!data.title || !data.description) {
     throw new Error(`Missing some required metadata fields in: ${slug}`);
@@ -26,7 +27,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
   const metadata: ProjectMetadata = {
     ...data,
     startDate: new Date(data.startDate),
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    endDate: data.endDate === "present" ? "present" : new Date(data.endDate),
   };
 
   return {
