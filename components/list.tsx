@@ -10,7 +10,7 @@ export default function List({ posts, title }: ListProps) {
   return (
     <div>
       <h1 className="mb-6 text-2xl font-semibold">{title}</h1>
-      <ul className="not-prose divide-y">
+      <ul className="not-prose">
         {posts.map((post) => {
           const date = new Date(post.metadata.date);
           const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -32,18 +32,6 @@ export default function List({ posts, title }: ListProps) {
                 </Link>
                 <span className="text-sm text-gray-500">{formattedDate}</span>
                 <p className="m-0">{post.metadata.description}</p>
-                {!!post.metadata.tags?.length && (
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {post.metadata.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="border-foreground rounded-full border px-2 py-1 text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
               </div>
             </li>
           );

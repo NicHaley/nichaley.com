@@ -31,15 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
-        <div className="min-h-dvh p-12">
+        <div className="min-h-dvh p-12 flex flex-col">
           <div className="mb-8">
             <Link href="/">
               <Image src="/glasses.svg" alt="logo" width={48} height={48} />
             </Link>
           </div>
-          <div className="md:grid md:grid-cols-[auto_1fr] gap-24">
+          <div className="md:grid md:grid-cols-[auto_1fr] gap-24 flex-1">
             <nav className="">
-              <ul className="flex flex-col gap-2">
+              <ul className="flex flex-col gap-2 h-full">
                 <li>
                   <NavLink href="/" exact>
                     about
@@ -50,6 +50,15 @@ export default function RootLayout({
                 </li>
                 <li>
                   <NavLink href="/writing">writing</NavLink>
+                </li>
+                <li className="mt-auto">
+                  <Link
+                    className="no-underline hover:underline text-stone-500"
+                    href="https://github.com/nichaley/nic-haley-com"
+                    target="_blank"
+                  >
+                    ↗ source
+                  </Link>
                 </li>
               </ul>
             </nav>
