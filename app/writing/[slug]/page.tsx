@@ -1,20 +1,16 @@
+import { type BlogPostMetadata, getBlogPost, listBlogPosts } from "@/lib/mdx";
+import { Metadata } from "next";
+
 type BlogPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-type BlogPostMetadata = {
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
-};
-
 export default async function BlogPage({ params }: BlogPageProps) {
   const { slug } = await params;
-  const post = await import(`@/writing/${slug}.mdx`);
+  const post = await getBlogPost(slug);
 
   // Get the react component from processing the MDX file
-  const MDXContent = post.default;
+  const MDXContent = post.component;
 
   // Process exported metadata to construct the title area of our blog post
   const metadata: BlogPostMetadata = post.metadata;
@@ -57,9 +53,27 @@ export default async function BlogPage({ params }: BlogPageProps) {
   );
 }
 
-export function generateStaticParams() {
-  // A list of params, which we will update shortly to use the file system.
-  return [{ slug: "test" }];
+export async function generateMetadata({
+  params,
+}: BlogPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const { metadata } = await getBlogPost(slug);
+
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.tags,
+    // other...
+  };
+}
+
+export async function generateStaticParams() {
+  const blogPosts = await listBlogPosts();
+  const blogStaticParams = blogPosts.map((post) => ({
+    slug: post.slug,
+  }));
+
+  return blogStaticParams;
 }
 
 // By marking as false, accessing a route not defined in generateStaticParams will 404.
