@@ -19,16 +19,20 @@ export default async function WritingIndexPage() {
           return (
             <li key={post.slug} className="py-4">
               <div className="flex flex-col gap-1">
-                <Link
-                  href={`/writing/${post.slug}`}
-                  className="no-underline hover:underline"
-                >
-                  <h2 className="m-0 text-xl font-semibold">
-                    {post.metadata.title}
-                  </h2>
-                </Link>
-                <span className="text-sm text-gray-500">{formattedDate}</span>
-                <p className="m-0">{post.metadata.description}</p>
+                <div className="flex items-center justify-between">
+                  <Link
+                    href={`/writing/${post.slug}`}
+                    className="no-underline hover:underline"
+                  >
+                    <h2 className="m-0 text-xl font-semibold">
+                      {post.metadata.title}
+                    </h2>
+                  </Link>
+                  <span className="text-stone-400">{formattedDate}</span>
+                </div>
+                <p className="m-0 text-stone-500">
+                  {post.metadata.description}
+                </p>
               </div>
             </li>
           );

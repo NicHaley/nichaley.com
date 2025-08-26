@@ -28,7 +28,11 @@ export default async function Page({ params }: PageProps) {
   }).format(date);
 
   return (
-    <PageComponent title={title} formattedDate={formattedDate}>
+    <PageComponent
+      title={title}
+      formattedDate={formattedDate}
+      description={metadata.description}
+    >
       <MDXContent />
     </PageComponent>
   );
