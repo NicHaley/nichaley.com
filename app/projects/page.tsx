@@ -9,5 +9,5 @@ export default async function ProjectsIndexPage() {
       new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
   );
 
-  return <List posts={posts} title="Projects" />;
+  return <List posts={posts} title="Projects" type="projects" />;
 }

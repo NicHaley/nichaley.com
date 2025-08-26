@@ -9,5 +9,5 @@ export default async function WritingIndexPage() {
       new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
   );
 
-  return <List posts={posts} title="Writing" />;
+  return <List posts={posts} title="Writing" type="writing" />;
 }

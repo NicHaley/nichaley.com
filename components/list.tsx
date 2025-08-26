@@ -4,9 +4,10 @@ import Link from "next/link";
 interface ListProps {
   posts: Omit<PostData, "component">[];
   title: string;
+  type: "writing" | "projects";
 }
 
-export default function List({ posts, title }: ListProps) {
+export default function List({ posts, title, type }: ListProps) {
   return (
     <div>
       <h1 className="mb-6 text-2xl font-semibold">{title}</h1>
@@ -23,7 +24,7 @@ export default function List({ posts, title }: ListProps) {
             <li key={post.slug} className="py-4">
               <div className="flex flex-col gap-1">
                 <Link
-                  href={`/writing/${post.slug}`}
+                  href={`/${type}/${post.slug}`}
                   className="no-underline hover:underline"
                 >
                   <h2 className="m-0 text-xl font-semibold">
