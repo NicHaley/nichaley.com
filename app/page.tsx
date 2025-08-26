@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div>
-      <h1 className="text-3xl font-bold">Nic Haley</h1>
+      <h1 className="text-2xl font-semibold">Nic Haley</h1>
       <p>
         I&apos;m Nic — a product engineer based in Montreal 🥯 I&apos;m an
         urbanist, and love exploring the roles of technology and cycling in

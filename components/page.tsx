@@ -15,7 +15,7 @@ export default function Page({
     <article>
       {/* A title section using the markdown metadata */}
       <div>
-        <h1 className="mb-2 text-3xl font-bold">{title}</h1>
+        <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         <div className="flex items-center gap-2 py-2">
           <span className="text-sm">{formattedDate}</span>|
           <div className="flex gap-1">

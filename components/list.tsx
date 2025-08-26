@@ -9,7 +9,7 @@ interface ListProps {
 export default function List({ posts, title }: ListProps) {
   return (
     <div>
-      <h1 className="mb-6 text-3xl font-bold">{title}</h1>
+      <h1 className="mb-6 text-2xl font-semibold">{title}</h1>
       <ul className="not-prose divide-y">
         {posts.map((post) => {
           const date = new Date(post.metadata.date);

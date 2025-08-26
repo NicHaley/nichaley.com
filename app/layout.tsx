@@ -29,17 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
         <div className="min-h-dvh p-12">
           <div className="mb-8">
             <Link href="/">
-              <Image src="/glasses.webp" alt="logo" width={48} height={48} />
+              <Image src="/glasses.svg" alt="logo" width={48} height={48} />
             </Link>
           </div>
           <div className="md:grid md:grid-cols-[auto_1fr] gap-24">
             <nav className="">
-              <ul className="flex flex-col gap-4">
+              <ul className="flex flex-col gap-2">
                 <li>
                   <NavLink href="/" exact>
                     about
@@ -53,7 +53,7 @@ export default function RootLayout({
                 </li>
               </ul>
             </nav>
-            <main className="prose prose-lg">
+            <main className="prose prose-lg prose-stone">
               <ViewTransition default="blur-fade">{children}</ViewTransition>
             </main>
           </div>

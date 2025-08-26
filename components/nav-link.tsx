@@ -26,7 +26,7 @@ export default function NavLink({
       href={href}
       className={clsx(
         "hover:underline",
-        !isActive && "text-gray-400",
+        !isActive && "text-stone-500",
         className
       )}
     >
