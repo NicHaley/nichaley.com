@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
+import NavLink from "@/components/nav-link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import "./globals.css";
@@ -30,38 +31,32 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-dvh md:grid md:grid-cols-[240px_1fr]">
-          <nav className="p-8">
+        <div className="min-h-dvh p-12">
+          <div className="mb-8">
             <Link href="/">
-              <Image
-                className="mb-8"
-                src="/glasses.webp"
-                alt="logo"
-                width={48}
-                height={48}
-              />
+              <Image src="/glasses.webp" alt="logo" width={48} height={48} />
             </Link>
-            <ul className="flex flex-col gap-4">
-              <li>
-                <Link href="/" className="hover:underline">
-                  about
-                </Link>
-              </li>
-              <li>
-                <Link href="/projects" className="hover:underline">
-                  projects
-                </Link>
-              </li>
-              <li>
-                <Link href="/writing" className="hover:underline">
-                  writing
-                </Link>
-              </li>
-            </ul>
-          </nav>
-          <main className="prose prose-lg p- pt-28">
-            <ViewTransition default="blur-fade">{children}</ViewTransition>
-          </main>
+          </div>
+          <div className="md:grid md:grid-cols-[auto_1fr] gap-24">
+            <nav className="">
+              <ul className="flex flex-col gap-4">
+                <li>
+                  <NavLink href="/" exact>
+                    about
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink href="/projects">projects</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/writing">writing</NavLink>
+                </li>
+              </ul>
+            </nav>
+            <main className="prose prose-lg">
+              <ViewTransition default="blur-fade">{children}</ViewTransition>
+            </main>
+          </div>
         </div>
       </body>
     </html>
