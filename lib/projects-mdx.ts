@@ -6,7 +6,7 @@ export type ProjectMetadata = Metadata & {
   title: string;
   description: string;
   startDate: Date;
-  endDate?: Date | "present";
+  endDate: Date | "present";
 };
 
 export type ProjectData = {
@@ -41,7 +41,7 @@ export const listProjects = async (): Promise<
 > => {
   const files = await fs.readdir(path.join(process.cwd(), "projects"));
 
-  return Promise.all(
+  const projects = await Promise.all(
     files.map(async (file) => {
       const slug = file.replace(/\.mdx$/, "");
       const { metadata } = await getProject(slug);
@@ -51,4 +51,17 @@ export const listProjects = async (): Promise<
       };
     })
   );
+
+  return projects.sort((a, b) => {
+    return (
+      (b.metadata.endDate === "present"
+        ? new Date()
+        : b.metadata.endDate
+      ).getTime() -
+      (a.metadata.endDate === "present"
+        ? new Date()
+        : a.metadata.endDate
+      ).getTime()
+    );
+  });
 };

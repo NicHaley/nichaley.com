@@ -40,7 +40,7 @@ export const listPosts = async (): Promise<
 > => {
   const files = await fs.readdir(path.join(process.cwd(), "writing"));
 
-  return Promise.all(
+  const posts = await Promise.all(
     files.map(async (file) => {
       const slug = file.replace(/\.mdx$/, "");
       const { metadata } = await getPost(slug);
@@ -50,4 +50,8 @@ export const listPosts = async (): Promise<
       };
     })
   );
+
+  return posts.sort((a, b) => {
+    return b.metadata.date.getTime() - a.metadata.date.getTime();
+  });
 };
