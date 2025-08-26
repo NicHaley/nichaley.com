@@ -1,9 +1,6 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="prose prose-lg mx-auto px-4 py-16">
-      <Image src="/glasses.webp" alt="logo" width={100} height={100} />
+    <div>
       <h1 className="text-3xl font-bold">Nic Haley</h1>
       <p>
         I&apos;m Nic — a product engineer based in Montreal 🥯 I&apos;m an

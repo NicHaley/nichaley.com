@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -31,6 +32,15 @@ export default function RootLayout({
       >
         <div className="min-h-dvh md:grid md:grid-cols-[240px_1fr]">
           <nav className="p-8">
+            <Link href="/">
+              <Image
+                className="mb-8"
+                src="/glasses.webp"
+                alt="logo"
+                width={48}
+                height={48}
+              />
+            </Link>
             <ul className="flex flex-col gap-4">
               <li>
                 <Link href="/" className="hover:underline">
@@ -49,7 +59,7 @@ export default function RootLayout({
               </li>
             </ul>
           </nav>
-          <main>
+          <main className="prose prose-lg p- pt-28">
             <ViewTransition default="blur-fade">{children}</ViewTransition>
           </main>
         </div>

@@ -8,7 +8,7 @@ interface ListProps {
 
 export default function List({ posts, title }: ListProps) {
   return (
-    <div className="prose prose-lg mx-auto px-4 py-16">
+    <div>
       <h1 className="mb-6 text-3xl font-bold">{title}</h1>
       <ul className="not-prose divide-y">
         {posts.map((post) => {
