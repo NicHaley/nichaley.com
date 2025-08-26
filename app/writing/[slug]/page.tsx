@@ -1,4 +1,4 @@
-import { type PostMetadata, getPost, listPosts } from "@/lib/mdx";
+import { type WritingMetadata, getPost, listPosts } from "@/lib/writing-mdx";
 import { Metadata } from "next";
 import PageComponent from "@/components/page";
 
@@ -8,16 +8,15 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPost(slug, "writing");
+  const post = await getPost(slug);
 
   // Get the react component from processing the MDX file
   const MDXContent = post.component;
 
   // Process exported metadata to construct the title area of our blog post
-  const metadata: PostMetadata = post.metadata;
+  const metadata: WritingMetadata = post.metadata;
   const title = metadata.title;
   const date = new Date(metadata.date);
-  const tags = metadata.tags;
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -25,7 +24,7 @@ export default async function Page({ params }: PageProps) {
   }).format(date);
 
   return (
-    <PageComponent title={title} formattedDate={formattedDate} tags={tags}>
+    <PageComponent title={title} formattedDate={formattedDate}>
       <MDXContent />
     </PageComponent>
   );
@@ -35,18 +34,17 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { metadata } = await getPost(slug, "writing");
+  const { metadata } = await getPost(slug);
 
   return {
     title: metadata.title,
     description: metadata.description,
-    keywords: metadata.tags,
     // other...
   };
 }
 
 export async function generateStaticParams() {
-  const posts = await listPosts("writing");
+  const posts = await listPosts();
   const staticParams = posts.map((post) => ({
     slug: post.slug,
   }));
