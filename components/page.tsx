@@ -18,6 +18,7 @@ export default function Page({
 }: PageProps) {
   return (
     <article>
+      {images && <ImageCarousel images={images} className="mb-6" />}
       <header className="mb-6">
         <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         {description && (
@@ -36,7 +37,6 @@ export default function Page({
         )}
       </header>
       {children}
-      {images && <ImageCarousel images={images} />}
     </article>
   );
 }

@@ -26,7 +26,12 @@ export default function ImageCarousel({
   if (!images || images.length === 0) return null;
 
   return (
-    <Carousel className={cn("w-full", className)}>
+    <Carousel
+      className={cn("w-full", className)}
+      opts={{
+        active: images.length > 1,
+      }}
+    >
       <CarouselContent>
         {images.map((src, index) => (
           <CarouselItem key={`${src}-${index}`}>
