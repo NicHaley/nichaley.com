@@ -20,6 +20,8 @@ export default async function Page({ params }: PageProps) {
   // Process exported metadata to construct the title area of our blog post
   const metadata: ProjectMetadata = post.metadata;
   const title = metadata.title;
+  const url = metadata.url;
+  const images = metadata.images;
   const date = new Date(metadata.startDate);
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -29,9 +31,10 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <PageComponent
+      url={url}
       title={title}
+      images={images}
       formattedDate={formattedDate}
-      description={metadata.description}
     >
       <MDXContent />
     </PageComponent>

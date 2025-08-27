@@ -8,6 +8,7 @@ export type ProjectMetadata = Metadata & {
   url?: string;
   startDate: Date;
   endDate: Date | "present";
+  images?: string[];
 };
 
 export type ProjectData = {

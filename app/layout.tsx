@@ -4,6 +4,7 @@ import Link from "next/link";
 import NavLink from "@/components/nav-link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { unstable_ViewTransition as ViewTransition } from "react";
+import Glasses from "@/public/glasses.svg";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default function RootLayout({
       >
         <nav className="md:sticky md:top-12 flex md:flex-col max-md:items-center">
           <Link href="/">
-            <Image src="/glasses.svg" alt="logo" width={48} height={48} />
+            <Image src={Glasses} alt="logo" width={48} height={48} />
           </Link>
           <ul className="flex md:flex-col gap-2 md:mt-8 max-md:ml-auto">
             <li>
