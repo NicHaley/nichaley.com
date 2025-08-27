@@ -4,7 +4,6 @@ import fs from "node:fs/promises";
 
 export type ProjectMetadata = Metadata & {
   title: string;
-  description: string;
   url?: string;
   startDate: Date;
   endDate: Date | "present";

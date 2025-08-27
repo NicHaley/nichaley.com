@@ -1,6 +1,6 @@
 import { listProjects } from "@/lib/projects-mdx";
-import Link from "next/link";
 import Page from "@/components/page";
+import List from "@/components/list";
 
 export default async function ProjectsIndexPage() {
   const posts = await listProjects();
@@ -10,28 +10,13 @@ export default async function ProjectsIndexPage() {
       title="Projects"
       description="Notable things I've built for work and fun"
     >
-      <ul className="not-prose space-y-4">
-        {posts.map((post) => (
-          <li key={post.slug} className="py-4">
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between gap-2">
-                <Link
-                  href={`/projects/${post.slug}`}
-                  className="no-underline hover:underline"
-                >
-                  <h2 className="m-0 text-xl font-semibold">
-                    {post.metadata.title}
-                  </h2>
-                </Link>
-                <span className="text-stone-400 whitespace-nowrap">
-                  {post.metadata.dateString}
-                </span>
-              </div>
-              <p className="m-0 text-stone-500">{post.metadata.description}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <List
+        items={posts.map((post) => ({
+          slug: post.slug,
+          title: post.metadata.title,
+          dateString: post.metadata.dateString,
+        }))}
+      />
     </Page>
   );
 }
