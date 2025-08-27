@@ -6,7 +6,10 @@ export default async function ProjectsIndexPage() {
   const posts = await listProjects();
 
   return (
-    <Page title="Projects" description="Things I've worked on for work and fun">
+    <Page
+      title="Projects"
+      description="Notable things I've built for work and fun"
+    >
       <ul className="not-prose space-y-4">
         {posts.map((post) => {
           const startDateYear = new Date(post.metadata.startDate).getFullYear();
