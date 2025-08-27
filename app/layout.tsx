@@ -83,7 +83,7 @@ export default function RootLayout({
           </div>
           <div className="p-4 md:p-12">
             <Link
-              className="no-underline hover:underline text-stone-500"
+              className="no-underline hover:underline text-stone-500 dark:text-stone-400"
               href="https://github.com/NicHaley/nichaley.com"
               target="_blank"
             >
