@@ -59,7 +59,13 @@ export default function RootLayout({
           <div className="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative">
             <nav className="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)]">
               <Link href="/">
-                <Image src={Glasses} alt="logo" width={48} height={48} />
+                <Image
+                  className="dark:invert"
+                  src={Glasses}
+                  alt="logo"
+                  width={48}
+                  height={48}
+                />
               </Link>
               <ul className="flex md:flex-col gap-2 md:mt-8 max-md:ml-auto">
                 {sections.map((section) => (
@@ -71,7 +77,7 @@ export default function RootLayout({
                 ))}
               </ul>
             </nav>
-            <main className="prose prose-lg prose-stone md:mt-[78px]">
+            <main className="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
               <ViewTransition default="blur-fade">{children}</ViewTransition>
             </main>
           </div>
