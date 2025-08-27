@@ -4,7 +4,6 @@ import fs from "node:fs/promises";
 
 export type WritingMetadata = Metadata & {
   title: string;
-  description: string;
   date: Date;
 };
 
@@ -18,7 +17,7 @@ export const getPost = async (slug: string): Promise<WritingData> => {
   const post = await import(`@/content/writing/${slug}.mdx`);
   const data = post.metadata;
 
-  if (!data.title || !data.description) {
+  if (!data.title) {
     throw new Error(`Missing some required metadata fields in: ${slug}`);
   }
 

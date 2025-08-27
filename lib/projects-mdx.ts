@@ -21,7 +21,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
   const project = await import(`@/content/projects/${slug}.mdx`);
   const data = project.metadata as ProjectMetadata;
 
-  if (!data.title || !data.description) {
+  if (!data.title) {
     throw new Error(`Missing some required metadata fields in: ${slug}`);
   }
 
