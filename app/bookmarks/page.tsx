@@ -3,7 +3,9 @@ export default function BookmarksPage() {
     <div>
       <h1 className="mb-6 text-2xl font-semibold">Bookmarks</h1>
       <ul className="not-prose space-y-4">
-      <h2 className="m-0 text-xl font-semibold">
+        <h2 className="m-0 text-xl font-semibold">
+          {/* <Link href="/bookmarks/test">Test</Link> */}
+        </h2>
       </ul>
     </div>
   );
