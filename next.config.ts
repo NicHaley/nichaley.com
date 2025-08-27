@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
     mdxRs: true,
     viewTransition: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "www.google.com",
+      },
+    ],
+  },
 };
 
 const withMDX = createMDX({

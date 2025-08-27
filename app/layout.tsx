@@ -49,6 +49,9 @@ export default function RootLayout({
               <li>
                 <NavLink href="/writing">writing</NavLink>
               </li>
+              <li>
+                <NavLink href="/shelf">shelf</NavLink>
+              </li>
             </ul>
           </nav>
           <main className="prose prose-lg prose-stone md:mt-[78px]">
