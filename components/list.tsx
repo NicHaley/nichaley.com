@@ -22,7 +22,7 @@ export default function List({ type, items }: ListProps) {
               >
                 {item.title}
               </Link>
-              <span className="text-stone-400 whitespace-nowrap text-base">
+              <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap text-base">
                 {item.dateString}
               </span>
             </div>
