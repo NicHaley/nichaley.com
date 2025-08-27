@@ -5,7 +5,7 @@ interface PageProps {
   title: string;
   description?: string;
   url?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   images?: string[];
 }
 
