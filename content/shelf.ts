@@ -17,7 +17,7 @@ export const shelfSections = [
     ],
   },
   {
-    title: "Tools",
+    title: "Dev Tools",
     bookmarks: [
       {
         title: "Next.js",
