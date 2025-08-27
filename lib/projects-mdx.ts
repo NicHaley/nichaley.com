@@ -19,7 +19,7 @@ export type ProjectData = {
 };
 
 export const getProject = async (slug: string): Promise<ProjectData> => {
-  const project = await import(`@/projects/${slug}.mdx`);
+  const project = await import(`@/content/projects/${slug}.mdx`);
   const data = project.metadata as ProjectMetadata;
 
   if (!data.title || !data.description) {
@@ -53,7 +53,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
 export const listProjects = async (): Promise<
   Omit<ProjectData, "component">[]
 > => {
-  const files = await fs.readdir(path.join(process.cwd(), "projects"));
+  const files = await fs.readdir(path.join(process.cwd(), "content/projects"));
 
   const projects = await Promise.all(
     files.map(async (file) => {

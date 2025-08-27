@@ -1,4 +1,4 @@
-import { shelfSections } from "@/shelf";
+import { shelfSections } from "@/content/shelf";
 import Favicon from "@/components/favicon";
 import Link from "next/link";
 import Page from "@/components/page";

@@ -15,7 +15,7 @@ export type WritingData = {
 };
 
 export const getPost = async (slug: string): Promise<WritingData> => {
-  const post = await import(`@/writing/${slug}.mdx`);
+  const post = await import(`@/content/writing/${slug}.mdx`);
   const data = post.metadata;
 
   if (!data.title || !data.description) {
@@ -38,7 +38,7 @@ export const getPost = async (slug: string): Promise<WritingData> => {
 export const listPosts = async (): Promise<
   Omit<WritingData, "component">[]
 > => {
-  const files = await fs.readdir(path.join(process.cwd(), "writing"));
+  const files = await fs.readdir(path.join(process.cwd(), "content/writing"));
 
   const posts = await Promise.all(
     files.map(async (file) => {
