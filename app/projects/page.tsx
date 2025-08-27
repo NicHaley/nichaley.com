@@ -11,6 +11,7 @@ export default async function ProjectsIndexPage() {
       description="Notable things I've built for work and fun"
     >
       <List
+        type="projects"
         items={posts.map((post) => ({
           slug: post.slug,
           title: post.metadata.title,

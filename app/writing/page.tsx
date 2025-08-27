@@ -8,6 +8,7 @@ export default async function WritingIndexPage() {
   return (
     <Page title="Writing" description="Thoughts on work and life">
       <List
+        type="writing"
         items={posts.map((post) => ({
           slug: post.slug,
           title: post.metadata.title,

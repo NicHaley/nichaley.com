@@ -23,7 +23,7 @@ export default async function ShelfPage() {
       <ul className="space-y-4 list-none pl-0">
         {sections.map((section) => (
           <li className="pl-0" key={section.title}>
-            <h2 className="text-xl font-semibold">{section.title}</h2>
+            <h3 className="text-lg font-semibold">{section.title}</h3>
             <ul className="not-prose space-y-2 list-none pl-0">
               {section.bookmarks.map((bookmark) => (
                 <li key={bookmark.url}>
