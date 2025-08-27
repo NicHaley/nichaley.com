@@ -1,12 +1,12 @@
 import { listProjects } from "@/lib/projects-mdx";
 import Link from "next/link";
+import Page from "@/components/page";
 
 export default async function ProjectsIndexPage() {
   const posts = await listProjects();
 
   return (
-    <div>
-      <h1 className="mb-6 text-2xl font-semibold">Projects</h1>
+    <Page title="Projects" description="Things I've worked on for work and fun">
       <ul className="not-prose space-y-4">
         {posts.map((post) => {
           const startDateYear = new Date(post.metadata.startDate).getFullYear();
@@ -43,6 +43,6 @@ export default async function ProjectsIndexPage() {
           );
         })}
       </ul>
-    </div>
+    </Page>
   );
 }

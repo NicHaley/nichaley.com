@@ -22,6 +22,28 @@ export const metadata: Metadata = {
   description: "Nic Haley's personal website",
 };
 
+const sections = [
+  {
+    title: "about",
+    href: "/",
+    exact: true,
+  },
+  {
+    title: "projects",
+    href: "/projects",
+  },
+
+  {
+    title: "writing",
+    href: "/writing",
+  },
+
+  {
+    title: "shelf",
+    href: "/shelf",
+  },
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,27 +60,20 @@ export default function RootLayout({
               <Image src={Glasses} alt="logo" width={48} height={48} />
             </Link>
             <ul className="flex md:flex-col gap-2 md:mt-8 max-md:ml-auto">
-              <li>
-                <NavLink href="/" exact>
-                  about
-                </NavLink>
-              </li>
-              <li>
-                <NavLink href="/projects">projects</NavLink>
-              </li>
-              <li>
-                <NavLink href="/writing">writing</NavLink>
-              </li>
-              <li>
-                <NavLink href="/shelf">shelf</NavLink>
-              </li>
+              {sections.map((section) => (
+                <li key={section.href}>
+                  <NavLink href={section.href} exact={section.exact}>
+                    {section.title}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </nav>
           <main className="prose prose-lg prose-stone md:mt-[78px]">
             <ViewTransition default="blur-fade">{children}</ViewTransition>
           </main>
         </div>
-        <div className="p-12">
+        <div className="p-4 md:p-12">
           <Link
             className="no-underline hover:underline text-stone-500"
             href="https://github.com/NicHaley/nichaley.com"
@@ -67,60 +82,6 @@ export default function RootLayout({
             ↗ source
           </Link>
         </div>
-        {/* <div className="min-h-dvh p-12 flex flex-col">
-          <div className="mb-8 hidden md:block">
-            <Link href="/">
-              <Image src="/glasses.svg" alt="logo" width={48} height={48} />
-            </Link>
-          </div>
-          <div className="mb-8 flex items-center justify-between md:hidden">
-            <Link href="/">
-              <Image src="/glasses.svg" alt="logo" width={48} height={48} />
-            </Link>
-            <ul className="flex items-center gap-4">
-              <li>
-                <NavLink href="/" exact>
-                  about
-                </NavLink>
-              </li>
-              <li>
-                <NavLink href="/projects">projects</NavLink>
-              </li>
-              <li>
-                <NavLink href="/writing">writing</NavLink>
-              </li>
-            </ul>
-          </div>
-          <div className="md:grid md:grid-cols-[auto_1fr] gap-24 flex-1">
-            <nav className="hidden md:block">
-              <ul className="flex flex-col gap-2 h-full">
-                <li>
-                  <NavLink href="/" exact>
-                    about
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink href="/projects">projects</NavLink>
-                </li>
-                <li>
-                  <NavLink href="/writing">writing</NavLink>
-                </li>
-                <li className="mt-auto">
-                  <Link
-                    className="no-underline hover:underline text-stone-500"
-                    href="https://github.com/NicHaley/nichaley.com"
-                    target="_blank"
-                  >
-                    ↗ source
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-            <main className="prose prose-lg prose-stone">
-              <ViewTransition default="blur-fade">{children}</ViewTransition>
-            </main>
-          </div>
-        </div> */}
       </body>
     </html>
   );

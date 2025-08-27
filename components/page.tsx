@@ -3,7 +3,7 @@ import ImageCarousel from "./image-carousel";
 
 interface PageProps {
   title: string;
-  formattedDate: string;
+  description?: string;
   url?: string;
   children: React.ReactNode;
   images?: string[];
@@ -11,29 +11,30 @@ interface PageProps {
 
 export default function Page({
   title,
-  formattedDate,
+  description,
   url,
   children,
   images,
 }: PageProps) {
   return (
     <article>
-      <div>
+      <header className="mb-6">
         <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
-        <p className="mb-2 mt-0 text-stone-500 text-base flex items-center gap-4 font-medium">
-          <span>{formattedDate}</span>
-          {url && (
-            <Link
-              href={url}
-              className="text-stone-500 font-medium no-underline hover:underline"
-              target="_blank"
-            >
-              ↗ Visit
-            </Link>
-          )}
-        </p>
-      </div>
-      {/* The markdown content */}
+        {description && (
+          <p className="mb-2 mt-0 text-stone-500 text-base flex items-center gap-4 font-medium">
+            <span>{description}</span>
+            {url && (
+              <Link
+                href={url}
+                className="text-stone-500 font-medium no-underline hover:underline"
+                target="_blank"
+              >
+                ↗ Visit
+              </Link>
+            )}
+          </p>
+        )}
+      </header>
       {children}
       {images && <ImageCarousel images={images} />}
     </article>

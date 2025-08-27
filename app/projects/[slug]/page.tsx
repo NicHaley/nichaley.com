@@ -34,7 +34,7 @@ export default async function Page({ params }: PageProps) {
       url={url}
       title={title}
       images={images}
-      formattedDate={formattedDate}
+      description={formattedDate}
     >
       <MDXContent />
     </PageComponent>

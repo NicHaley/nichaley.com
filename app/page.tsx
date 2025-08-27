@@ -1,7 +1,8 @@
+import Page from "@/components/page";
+
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Nic Haley</h1>
+    <Page title="Nic Haley">
       <p>
         I&apos;m Nic — a product engineer based in Montreal 🥯 I&apos;m an
         urbanist, and love exploring the roles of technology and cycling in
@@ -13,6 +14,6 @@ export default function Home() {
         , or reach out to me at{" "}
         <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
       </p>
-    </div>
+    </Page>
   );
 }

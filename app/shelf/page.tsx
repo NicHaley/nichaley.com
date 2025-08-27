@@ -1,6 +1,7 @@
 import { shelfSections } from "@/shelf";
 import Favicon from "@/components/favicon";
 import Link from "next/link";
+import Page from "@/components/page";
 
 async function sectionsWithFavicons() {
   return shelfSections.map((section) => ({
@@ -18,8 +19,7 @@ export default async function ShelfPage() {
   const sections = await sectionsWithFavicons();
 
   return (
-    <div>
-      <h1 className="mb-6 text-2xl font-semibold">Shelf</h1>
+    <Page title="Shelf" description="Articles and tools I come back to">
       <ul className="space-y-4 list-none pl-0">
         {sections.map((section) => (
           <li className="pl-0" key={section.title}>
@@ -47,6 +47,6 @@ export default async function ShelfPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </Page>
   );
 }

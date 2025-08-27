@@ -1,12 +1,12 @@
 import { listPosts } from "@/lib/writing-mdx";
+import Page from "@/components/page";
 import Link from "next/link";
 
 export default async function WritingIndexPage() {
   const posts = await listPosts();
 
   return (
-    <div>
-      <h1 className="mb-6 text-2xl font-semibold">Writing</h1>
+    <Page title="Writing" description="Thoughts on work and life">
       <ul className="not-prose">
         {posts.map((post) => {
           const date = new Date(post.metadata.date);
@@ -40,6 +40,6 @@ export default async function WritingIndexPage() {
           );
         })}
       </ul>
-    </div>
+    </Page>
   );
 }
