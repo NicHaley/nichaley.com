@@ -22,20 +22,10 @@ export default async function Page({ params }: PageProps) {
   const title = metadata.title;
   const url = metadata.url;
   const images = metadata.images;
-  const date = new Date(metadata.startDate);
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
+  const date = metadata.dateString;
 
   return (
-    <PageComponent
-      url={url}
-      title={title}
-      images={images}
-      description={formattedDate}
-    >
+    <PageComponent url={url} title={title} images={images} description={date}>
       <MDXContent />
     </PageComponent>
   );

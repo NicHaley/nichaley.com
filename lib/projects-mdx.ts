@@ -9,6 +9,7 @@ export type ProjectMetadata = Metadata & {
   startDate: Date;
   endDate: Date | "present";
   images?: string[];
+  dateString: string;
 };
 
 export type ProjectData = {
@@ -25,10 +26,21 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
     throw new Error(`Missing some required metadata fields in: ${slug}`);
   }
 
+  const startDate = new Date(data.startDate);
+  const endDate =
+    data.endDate === "present" ? "present" : new Date(data.endDate);
+  const startDateYear = startDate.getFullYear();
+  const endDateYear = endDate === "present" ? "Present" : endDate.getFullYear();
+
+  const isSameYear = startDateYear === endDateYear;
+
   const metadata: ProjectMetadata = {
     ...data,
-    startDate: new Date(data.startDate),
-    endDate: data.endDate === "present" ? "present" : new Date(data.endDate),
+    startDate,
+    endDate,
+    dateString: isSameYear
+      ? startDateYear.toString()
+      : `${startDateYear} — ${endDateYear}`,
   };
 
   return {
