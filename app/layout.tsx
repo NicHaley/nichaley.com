@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import Glasses from "@/public/glasses.svg";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -53,6 +54,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
+        <Analytics />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative">
             <nav className="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)]">
