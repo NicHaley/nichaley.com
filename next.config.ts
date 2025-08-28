@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   experimental: {
     mdxRs: true,
+    viewTransition: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "www.google.com",
+      },
+    ],
   },
 };
 

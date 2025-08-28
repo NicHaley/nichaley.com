@@ -46,8 +46,8 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.13 0.028 261.692);
+  --background: oklch(0.985 0.001 106.423); /* Tailwind bg-stone-50 */
+  --foreground: oklch(0.216 0.006 56.043); /* Tailwind text-stone-900 */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
@@ -80,7 +80,7 @@
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
+  --background: oklch(19.6% 0.006 56.043);
   --foreground: oklch(0.985 0.002 247.839);
   --card: oklch(0.21 0.034 264.665);
   --card-foreground: oklch(0.985 0.002 247.839);
@@ -121,3 +121,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ViewTransition: blur + fade effect during transitions */
+@keyframes vt-blur-fade-out {
+  from {
+    filter: blur(0);
+    opacity: 1;
+  }
+  to {
+    filter: blur(10px);
+    opacity: 0;
+  }
+}
+
+@keyframes vt-blur-fade-in {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+::view-transition-old(.blur-fade) {
+  animation: vt-blur-fade-out 750ms ease both;
+}
+
+::view-transition-new(.blur-fade) {
+  animation: vt-blur-fade-in 750ms ease both;
+}
+
