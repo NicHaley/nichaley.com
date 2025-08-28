@@ -47,6 +47,10 @@ export const shelfSections = [
         title: "Neon",
         url: "https://neon.tech/",
       },
+      {
+        title: "Cursor",
+        url: "https://www.cursor.com/",
+      },
     ],
   },
   {
