@@ -22,16 +22,19 @@ export default function Page({
       <header className="mb-6">
         <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         {description && (
-          <p className="mb-2 mt-0 text-stone-500 dark:text-stone-400 text-base flex items-center gap-4 font-medium">
+          <p className="mb-2 mt-0 text-stone-500 dark:text-stone-400 text-base flex items-center gap-2 font-medium">
             <span>{description}</span>
             {url && (
-              <Link
-                href={url}
-                className="text-stone-500 dark:text-stone-400 font-medium no-underline hover:underline"
-                target="_blank"
-              >
-                ↗ Visit
-              </Link>
+              <>
+                <span>•</span>
+                <Link
+                  href={url}
+                  className="text-stone-500 dark:text-stone-400 font-medium no-underline hover:underline"
+                  target="_blank"
+                >
+                  ↗ Visit
+                </Link>
+              </>
             )}
           </p>
         )}
