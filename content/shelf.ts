@@ -7,12 +7,16 @@ export const shelfSections = [
         url: "https://brutalist-web.design/",
       },
       {
+        title: "This is a web page",
+        url: "https://justinjackson.ca/words.html",
+      },
+      {
         title: "The Grug Brained Developer",
         url: "https://grugbrain.dev/",
       },
       {
-        title: "This is a web page",
-        url: "https://justinjackson.ca/words.html",
+        title: "Hackers and Painters",
+        url: "https://www.paulgraham.com/hp.html",
       },
     ],
   },
