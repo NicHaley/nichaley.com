@@ -45,4 +45,33 @@ export const shelfSections = [
       },
     ],
   },
+  {
+    title: "Hardware",
+    bookmarks: [
+      {
+        title: "M4 MacBook Pro",
+        url: "https://www.apple.com/macbook-pro-14-and-16/",
+      },
+      {
+        title: "Apple Studio Display",
+        url: "https://www.apple.com/studio-display/",
+      },
+      {
+        title: "Technivorm Moccamaster",
+        url: "https://moccamaster.com/",
+      },
+      {
+        title: "Omnium Minimax",
+        url: "https://omniumcargo.com/mini-max/",
+      },
+      {
+        title: "Brompton",
+        url: "https://global.brompton.com",
+      },
+      {
+        title: "Fujifilm X100V",
+        url: "https://www.fujifilm-x.com/products/cameras/x100v/",
+      },
+    ],
+  },
 ];
