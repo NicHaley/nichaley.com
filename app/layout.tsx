@@ -33,12 +33,10 @@ const sections = [
     title: "projects",
     href: "/projects",
   },
-
-  {
-    title: "writing",
-    href: "/writing",
-  },
-
+  // {
+  //   title: "writing",
+  //   href: "/writing",
+  // },
   {
     title: "shelf",
     href: "/shelf",
