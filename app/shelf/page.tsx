@@ -8,14 +8,19 @@ function sectionsWithIcons() {
     subItems: section.bookmarks.map((bookmark) => ({
       title: bookmark.title,
       href: bookmark.url,
-      icon: {
-        kind: "favicon" as const,
-        src: `https://www.google.com/s2/favicons?domain=${
-          new URL(bookmark.url).hostname
-        }`,
-        alt: bookmark.title,
-        size: 16,
-      },
+      icon: bookmark.emoji
+        ? {
+            kind: "emoji" as const,
+            value: bookmark.emoji,
+          }
+        : {
+            kind: "favicon" as const,
+            src: `https://www.google.com/s2/favicons?domain=${
+              new URL(bookmark.url).hostname
+            }`,
+            alt: bookmark.title,
+            size: 16,
+          },
     })),
   }));
 }

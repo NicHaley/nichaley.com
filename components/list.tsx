@@ -105,30 +105,28 @@ function SubList({
 
         if (mode === "grid") {
           return (
-            <li
-              // Movie poster aspect ratio
-              className="!m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end"
-              key={key}
-            >
-              <div className="flex flex-col gap-1">
-                <div className="flex justify-between gap-2">
-                  <Link
-                    href={href}
-                    className="no-underline hover:underline font-medium"
-                    target={isExternal ? "_blank" : undefined}
-                  >
+            <li key={key}>
+              <Link
+                href={href}
+                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end" // Movie poster aspect ratio
+                target={isExternal ? "_blank" : undefined}
+              >
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between gap-2">
                     <span className="flex flex-col gap-2 text-foreground">
                       {renderIcon(item.icon)}
-                      {item.title}
+                      <span className="group-hover:underline font-medium leading-normal">
+                        {item.title}
+                      </span>
                     </span>
-                  </Link>
-                  {item.dateString ? (
-                    <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
-                      {item.dateString}
-                    </span>
-                  ) : null}
+                    {item.dateString ? (
+                      <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                        {item.dateString}
+                      </span>
+                    ) : null}
+                  </div>
                 </div>
-              </div>
+              </Link>
             </li>
           );
         }

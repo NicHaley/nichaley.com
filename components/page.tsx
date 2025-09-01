@@ -23,23 +23,20 @@ export default function Page({
         <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         {description && (
           <p className="mb-2 mt-0 text-stone-500 dark:text-stone-400 text-base flex items-center gap-2 font-medium">
-            <span>{description}</span>
-            {url && (
-              <>
-                <span>•</span>
-                <Link
-                  href={url}
-                  className="text-stone-500 dark:text-stone-400 font-medium no-underline hover:underline"
-                  target="_blank"
-                >
-                  ↗ Visit
-                </Link>
-              </>
-            )}
+            {description}
           </p>
         )}
       </header>
       {children}
+      {url && (
+        <Link
+          className="text-stone-500 dark:text-stone-400 font-medium no-underline hover:underline"
+          href={url}
+          target="_blank"
+        >
+          ↗ Visit
+        </Link>
+      )}
     </article>
   );
 }
