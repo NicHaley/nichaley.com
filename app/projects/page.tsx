@@ -12,11 +12,15 @@ export default async function ProjectsIndexPage() {
     >
       <List
         type="projects"
-        items={posts.map((post) => ({
-          slug: post.slug,
-          title: post.metadata.title,
-          dateString: post.metadata.dateString,
-        }))}
+        items={[
+          {
+            subItems: posts.map((post) => ({
+              slug: post.slug,
+              title: post.metadata.title,
+              dateString: post.metadata.dateString,
+            })),
+          },
+        ]}
       />
     </Page>
   );

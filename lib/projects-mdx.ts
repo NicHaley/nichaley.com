@@ -39,7 +39,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
     endDate,
     dateString: isSameYear
       ? startDateYear.toString()
-      : `${startDateYear} — ${endDateYear}`,
+      : `${startDateYear} — ${endDateYear.toString()}`,
   };
 
   return {

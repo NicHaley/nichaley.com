@@ -1,52 +1,31 @@
 import { shelfSections } from "@/content/shelf";
-import Favicon from "@/components/favicon";
-import Link from "next/link";
 import Page from "@/components/page";
+import List from "@/components/list";
 
-async function sectionsWithFavicons() {
+function sectionsWithIcons() {
   return shelfSections.map((section) => ({
-    ...section,
-    bookmarks: section.bookmarks.map((bookmark) => ({
-      ...bookmark,
-      favicon: `https://www.google.com/s2/favicons?domain=${
-        new URL(bookmark.url).hostname
-      }`,
+    title: section.title,
+    subItems: section.bookmarks.map((bookmark) => ({
+      title: bookmark.title,
+      href: bookmark.url,
+      icon: {
+        kind: "favicon" as const,
+        src: `https://www.google.com/s2/favicons?domain=${
+          new URL(bookmark.url).hostname
+        }`,
+        alt: bookmark.title,
+        size: 16,
+      },
     })),
   }));
 }
 
 export default async function ShelfPage() {
-  const sections = await sectionsWithFavicons();
+  const sections = sectionsWithIcons();
 
   return (
     <Page title="Shelf" description="Articles and tools I come back to">
-      <ul className="space-y-4 list-none pl-0">
-        {sections.map((section) => (
-          <li className="pl-0" key={section.title}>
-            <h3 className="text-lg font-semibold">{section.title}</h3>
-            <ul className="not-prose space-y-2 list-none pl-0">
-              {section.bookmarks.map((bookmark) => (
-                <li key={bookmark.url}>
-                  <Link
-                    className="flex items-center gap-2 group text-base"
-                    href={bookmark.url}
-                    target="_blank"
-                  >
-                    <Favicon
-                      src={bookmark.favicon}
-                      alt={bookmark.title}
-                      size={16}
-                    />
-                    <span className="group-hover:underline">
-                      {bookmark.title}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      <List type="shelf" items={sections} />
     </Page>
   );
 }
