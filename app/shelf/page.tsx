@@ -25,7 +25,7 @@ export default async function ShelfPage() {
 
   return (
     <Page title="Shelf" description="Articles and tools I come back to">
-      <List type="shelf" items={sections} />
+      <List type="shelf" mode="grid" items={sections} />
     </Page>
   );
 }

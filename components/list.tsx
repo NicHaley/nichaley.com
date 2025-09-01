@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Favicon from "@/components/favicon";
+import { cn } from "@/lib/utils";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -47,6 +48,7 @@ type ListSection = {
 
 interface ListProps {
   type: "projects" | "writing" | "shelf";
+  mode?: "list" | "grid";
   items: ListSection[];
 }
 
@@ -80,12 +82,18 @@ function renderIcon(icon?: ListIcon) {
 function SubList({
   type,
   items,
+  mode,
 }: {
   type: ListProps["type"];
   items: ListItem[];
+  mode: ListProps["mode"];
 }) {
   return (
-    <ul className="!space-y-0 list-none pl-0">
+    <ul
+      className={cn("!space-y-0 list-none pl-0", {
+        "grid grid-cols-2 md:grid-cols-4 gap-4": mode === "grid",
+      })}
+    >
       {items.map((item) => {
         const isExternal = "href" in item;
         const key = isExternal
@@ -94,6 +102,36 @@ function SubList({
         const href = isExternal
           ? (item as ExternalItem).href
           : `/${type}/${(item as InternalItem).slug}`;
+
+        if (mode === "grid") {
+          return (
+            <li
+              // Movie poster aspect ratio
+              className="!m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end"
+              key={key}
+            >
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between gap-2">
+                  <Link
+                    href={href}
+                    className="no-underline hover:underline font-medium"
+                    target={isExternal ? "_blank" : undefined}
+                  >
+                    <span className="flex flex-col gap-2 text-foreground">
+                      {renderIcon(item.icon)}
+                      {item.title}
+                    </span>
+                  </Link>
+                  {item.dateString ? (
+                    <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                      {item.dateString}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            </li>
+          );
+        }
 
         return (
           <li className="pl-0 !m-0" key={key}>
@@ -123,7 +161,7 @@ function SubList({
   );
 }
 
-export default function List({ type, items }: ListProps) {
+export default function List({ type, mode = "list", items }: ListProps) {
   return (
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
@@ -135,7 +173,7 @@ export default function List({ type, items }: ListProps) {
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
             <div className="not-prose">
-              <SubList type={type} items={section.subItems} />
+              <SubList type={type} mode={mode} items={section.subItems} />
             </div>
           ) : null}
         </li>
