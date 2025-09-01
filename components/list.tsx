@@ -91,7 +91,7 @@ function SubList({
   return (
     <ul
       className={cn("!space-y-0 list-none pl-0", {
-        "grid grid-cols-2 md:grid-cols-4 gap-4": mode === "grid",
+        "grid grid-cols-2 sm:grid-cols-4 gap-4": mode === "grid",
       })}
     >
       {items.map((item) => {

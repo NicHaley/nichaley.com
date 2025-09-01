@@ -24,7 +24,10 @@ export default async function ShelfPage() {
   const sections = sectionsWithIcons();
 
   return (
-    <Page title="Shelf" description="Articles and tools I come back to">
+    <Page
+      title="Shelf"
+      description="Inspired by Letterboxd top 4s, these are the things I come back to"
+    >
       <List type="shelf" mode="grid" items={sections} />
     </Page>
   );

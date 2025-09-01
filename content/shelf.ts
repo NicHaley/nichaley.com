@@ -24,6 +24,10 @@ export const shelfSections = [
     title: "Dev Tools",
     bookmarks: [
       {
+        title: "TypeScript",
+        url: "https://www.typescriptlang.org/",
+      },
+      {
         title: "Next.js",
         url: "https://nextjs.org/",
       },
@@ -32,24 +36,8 @@ export const shelfSections = [
         url: "https://ui.shadcn.com/",
       },
       {
-        title: "Tailwind CSS",
-        url: "https://tailwindcss.com/",
-      },
-      {
         title: "Drizzle",
         url: "https://orm.drizzle.team/",
-      },
-      {
-        title: "Turborepo",
-        url: "https://turborepo.com/",
-      },
-      {
-        title: "Neon",
-        url: "https://neon.tech/",
-      },
-      {
-        title: "Cursor",
-        url: "https://www.cursor.com/",
       },
     ],
   },
@@ -61,20 +49,12 @@ export const shelfSections = [
         url: "https://www.apple.com/macbook-pro-14-and-16/",
       },
       {
-        title: "Apple Studio Display",
-        url: "https://www.apple.com/studio-display/",
-      },
-      {
         title: "Technivorm Moccamaster",
         url: "https://moccamaster.com/",
       },
       {
         title: "Omnium Minimax",
         url: "https://omniumcargo.com/mini-max/",
-      },
-      {
-        title: "Brompton",
-        url: "https://global.brompton.com",
       },
       {
         title: "Fujifilm X100V",
