@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Favicon from "@/components/favicon";
 import { cn } from "@/lib/utils";
+import { ListIcon, LayoutGridIcon } from "lucide-react";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -161,21 +162,29 @@ function SubList({
 
 export default function List({ type, mode = "list", items }: ListProps) {
   return (
-    <ul className="space-y-4 list-none pl-0">
-      {items.map((section, index) => (
-        <li className="pl-0" key={section.title ?? index}>
-          {section.title ? (
-            <h3 className="text-base font-semibold text-stone-700">
-              {section.title}
-            </h3>
-          ) : null}
-          {section.subItems && section.subItems.length > 0 ? (
-            <div className="not-prose">
-              <SubList type={type} mode={mode} items={section.subItems} />
-            </div>
-          ) : null}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <button>
+        <ListIcon />
+      </button>
+      <button>
+        <LayoutGridIcon />
+      </button>
+      <ul className="space-y-4 list-none pl-0">
+        {items.map((section, index) => (
+          <li className="pl-0" key={section.title ?? index}>
+            {section.title ? (
+              <h3 className="text-base font-semibold text-stone-700">
+                {section.title}
+              </h3>
+            ) : null}
+            {section.subItems && section.subItems.length > 0 ? (
+              <div className="not-prose">
+                <SubList type={type} mode={mode} items={section.subItems} />
+              </div>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
