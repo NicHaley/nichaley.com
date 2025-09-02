@@ -51,16 +51,16 @@ export const shelfSections: ShelfSection[] = [
         url: "https://www.notion.com/",
       },
       {
-        title: "This is a web page",
-        url: "https://justinjackson.ca/words.html",
+        title: "Linear",
+        url: "https://linear.app/",
       },
       {
-        title: "The Grug Brained Developer",
-        url: "https://grugbrain.dev/",
+        title: "Cursor",
+        url: "https://www.cursor.com/",
       },
       {
-        title: "Hackers and Painters",
-        url: "https://www.paulgraham.com/hp.html",
+        title: "Figma",
+        url: "https://www.figma.com/",
       },
     ],
   },
@@ -157,19 +157,19 @@ export const shelfSections: ShelfSection[] = [
     bookmarks: [
       {
         title: "Breaking Bad",
-        url: "https://letterboxd.com/nichaley/film/perfect-days-2023/",
+        url: "https://www.imdb.com/title/tt0903747/",
       },
       {
         title: "Twin Peaks",
-        url: "https://letterboxd.com/film/terminator-2-judgment-day/",
+        url: "https://www.imdb.com/title/tt0098936/",
       },
       {
         title: "Tim and Eric Awesome Show, Great Job!",
-        url: "https://letterboxd.com/film/do-the-right-thing/",
+        url: "https://www.imdb.com/title/tt0912343/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_tim%2520and%2520eri",
       },
       {
-        title: "Eternal Sunshine of the Spotless Mind",
-        url: "https://letterboxd.com/film/eternal-sunshine-of-the-spotless-mind/",
+        title: "The Wire",
+        url: "https://www.imdb.com/title/tt0306414/?ref_=nv_sr_srsg_1_tt_6_nm_1_in_0_q_the%2520wire",
       },
     ],
   },
