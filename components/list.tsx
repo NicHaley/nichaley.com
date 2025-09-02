@@ -105,7 +105,9 @@ function SubList({
                   target={isExternal ? "_blank" : undefined}
                 >
                   <span className="flex items-center gap-2 text-foreground">
-                    <span className="shrink-0">{renderIcon(item.icon)}</span>
+                    <span className="shrink-0 empty:hidden">
+                      {renderIcon(item.icon)}
+                    </span>
                     <span className="truncate">{item.title}</span>
                   </span>
                 </Link>
