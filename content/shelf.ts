@@ -76,7 +76,7 @@ export const shelfSections: ShelfSection[] = [
         url: "https://www.goodreads.com/book/show/163921.Full_Tilt",
       },
       {
-        title: "South",
+        title: "South: The Endurance Expedition",
         url: "https://www.goodreads.com/book/show/494503.South?ac=1&from_search=true&qid=72YxnsV2Dt&rank=2",
       },
       {

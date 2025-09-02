@@ -47,17 +47,24 @@ async function sectionsWithIcons() {
   return sections;
 }
 
-export default async function ShelfPage() {
+export default async function ShelfPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const sections = await sectionsWithIcons();
 
   console.log(1111, sections);
+
+  const viewParam = (searchParams?.view as string | undefined)?.toLowerCase();
+  const mode = viewParam === "grid" ? "grid" : "list";
 
   return (
     <Page
       title="Shelf"
       description="Inspired by Letterboxd top 4s, these are the things I come back to"
     >
-      <List type="shelf" mode="grid" items={sections} />
+      <List type="shelf" mode={mode} items={sections} />
     </Page>
   );
 }

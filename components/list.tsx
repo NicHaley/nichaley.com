@@ -1,9 +1,9 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import Favicon from "@/components/favicon";
 import { cn } from "@/lib/utils";
 import { ListIcon, LayoutGridIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -126,8 +126,8 @@ function SubList({
                     priority={false}
                   />
                 ) : null}
-                {/* <div className="flex flex-col gap-1 relative z-10 bg-white/70 p-2 backdrop-blur-sm"> */}
-                {/* <div className="flex justify-between gap-2">
+                <div className="flex flex-col gap-1 relative z-10 bg-white/70 p-3 backdrop-blur-sm">
+                  <div className="flex justify-between gap-2">
                     <span className="flex flex-col gap-2 text-foreground">
                       <span className="group-hover:underline font-medium leading-normal">
                         {item.title}
@@ -138,12 +138,12 @@ function SubList({
                         {item.dateString}
                       </span>
                     ) : null}
-                  </div> */}
-                {/* </div> */}
+                  </div>
+                </div>
               </Link>
-              <div className="text-sm text-stone-500 dark:text-stone-400 !leading-normal mt-1.5">
+              {/* <div className="text-sm text-stone-500 dark:text-stone-400 !leading-normal mt-1.5">
                 {item.title}
-              </div>
+              </div> */}
             </li>
           );
         }
@@ -179,12 +179,30 @@ function SubList({
 export default function List({ type, mode = "list", items }: ListProps) {
   return (
     <div>
-      <button>
-        <ListIcon />
-      </button>
-      <button>
-        <LayoutGridIcon />
-      </button>
+      <div className="mb-4 flex items-center gap-2">
+        <Button
+          asChild
+          variant={mode === "list" ? "default" : "outline"}
+          size="sm"
+          aria-pressed={mode === "list"}
+        >
+          <Link href="?view=list" scroll={false} prefetch={false}>
+            <ListIcon />
+            List
+          </Link>
+        </Button>
+        <Button
+          asChild
+          variant={mode === "grid" ? "default" : "outline"}
+          size="sm"
+          aria-pressed={mode === "grid"}
+        >
+          <Link href="?view=grid" scroll={false} prefetch={false}>
+            <LayoutGridIcon />
+            Grid
+          </Link>
+        </Button>
+      </div>
       <ul className="space-y-4 list-none pl-0">
         {items.map((section, index) => (
           <li className="pl-0" key={section.title ?? index}>
