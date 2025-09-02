@@ -30,6 +30,7 @@ type BaseItem = {
   title: string;
   dateString?: string;
   icon?: ListIcon;
+  ogImage?: string | null;
 };
 
 type InternalItem = BaseItem & {
@@ -109,10 +110,20 @@ function SubList({
             <li key={key}>
               <Link
                 href={href}
-                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end" // Movie poster aspect ratio
+                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end relative overflow-hidden" // Movie poster aspect ratio
                 target={isExternal ? "_blank" : undefined}
               >
-                <div className="flex flex-col gap-1">
+                {item.ogImage ? (
+                  <Image
+                    src={item.ogImage}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover"
+                    priority={false}
+                  />
+                ) : null}
+                <div className="flex flex-col gap-1 relative z-10">
                   <div className="flex justify-between gap-2">
                     <span className="flex flex-col gap-2 text-foreground">
                       {renderIcon(item.icon)}
@@ -173,7 +184,7 @@ export default function List({ type, mode = "list", items }: ListProps) {
         {items.map((section, index) => (
           <li className="pl-0" key={section.title ?? index}>
             {section.title ? (
-              <h3 className="text-base font-semibold text-stone-700">
+              <h3 className="text-base font-semibold text-stone-700 dark:text-stone-300">
                 {section.title}
               </h3>
             ) : null}

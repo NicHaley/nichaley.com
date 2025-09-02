@@ -117,7 +117,7 @@ export const shelfSections: ShelfSection[] = [
       {
         emoji: "☕️",
         title: "Technivorm Moccamaster",
-        url: "https://moccamaster.com/",
+        url: "https://omniumcargo.com/mini-max/",
       },
       {
         emoji: "🚴",
