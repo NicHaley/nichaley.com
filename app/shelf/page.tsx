@@ -54,8 +54,6 @@ export default async function ShelfPage({
 }) {
   const sections = await sectionsWithIcons();
 
-  console.log(1111, sections);
-
   const viewParam = (searchParams?.view as string | undefined)?.toLowerCase();
   const mode = viewParam === "grid" ? "grid" : "list";
 

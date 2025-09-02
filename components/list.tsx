@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Favicon from "@/components/favicon";
 import { cn } from "@/lib/utils";
-import { ListIcon, LayoutGridIcon } from "lucide-react";
+import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type EmojiIcon = {
@@ -186,9 +186,9 @@ export default function List({ type, mode = "list", items }: ListProps) {
           size="sm"
           aria-pressed={mode === "list"}
         >
-          <Link href="?view=list" scroll={false} prefetch={false}>
-            <ListIcon />
-            List
+          <Link className="no-underline" href="?view=list">
+            <LayoutListIcon />
+            <span>List</span>
           </Link>
         </Button>
         <Button
@@ -197,9 +197,9 @@ export default function List({ type, mode = "list", items }: ListProps) {
           size="sm"
           aria-pressed={mode === "grid"}
         >
-          <Link href="?view=grid" scroll={false} prefetch={false}>
+          <Link className="no-underline" href="?view=grid">
             <LayoutGridIcon />
-            Grid
+            <span>Grid</span>
           </Link>
         </Button>
       </div>
