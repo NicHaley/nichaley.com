@@ -6,19 +6,19 @@ export const shelfSections: ShelfSection[] = [
     bookmarks: [
       {
         title: "You Forgot It In People",
-        url: "https://brutalist-web.design/",
+        url: "https://open.spotify.com/album/6nL0U84JsEJ0cRsGCnsDnJ",
       },
       {
         title: "The Queen is Dead",
-        url: "https://justinjackson.ca/words.html",
+        url: "https://open.spotify.com/track/03ZwNF6FTvazNuOXNQf8k8",
       },
       {
         title: "Forced Witness",
-        url: "https://grugbrain.dev/",
+        url: "https://open.spotify.com/album/3fjXYgK9vNOQaWCP01SLGt",
       },
       {
-        title: "Hackers and Painters",
-        url: "https://www.paulgraham.com/hp.html",
+        title: "Dragon New Warm Mountain I Believe In You",
+        url: "https://open.spotify.com/album/7Ln81p86r5cCsesd3KBWIY",
       },
     ],
   },
@@ -76,8 +76,8 @@ export const shelfSections: ShelfSection[] = [
         url: "https://www.goodreads.com/book/show/163921.Full_Tilt",
       },
       {
-        title: "Pastoral Song",
-        url: "https://www.goodreads.com/book/show/55004160-pastoral-song",
+        title: "South",
+        url: "https://www.goodreads.com/book/show/494503.South?ac=1&from_search=true&qid=72YxnsV2Dt&rank=2",
       },
       {
         title: "Steve Jobs",

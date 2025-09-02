@@ -110,9 +110,12 @@ function SubList({
             <li key={key}>
               <Link
                 href={href}
-                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border p-4 rounded-md aspect-[27/40] flex flex-col justify-end relative overflow-hidden" // Movie poster aspect ratio
+                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border rounded-md aspect-[27/40] flex flex-col justify-end relative overflow-hidden" // Movie poster aspect ratio
                 target={isExternal ? "_blank" : undefined}
               >
+                <span className="flex flex-col gap-2 text-foreground absolute z-10 top-2 left-2">
+                  {renderIcon(item.icon)}
+                </span>
                 {item.ogImage ? (
                   <Image
                     src={item.ogImage}
@@ -123,10 +126,9 @@ function SubList({
                     priority={false}
                   />
                 ) : null}
-                <div className="flex flex-col gap-1 relative z-10">
-                  <div className="flex justify-between gap-2">
+                {/* <div className="flex flex-col gap-1 relative z-10 bg-white/70 p-2 backdrop-blur-sm"> */}
+                {/* <div className="flex justify-between gap-2">
                     <span className="flex flex-col gap-2 text-foreground">
-                      {renderIcon(item.icon)}
                       <span className="group-hover:underline font-medium leading-normal">
                         {item.title}
                       </span>
@@ -136,9 +138,12 @@ function SubList({
                         {item.dateString}
                       </span>
                     ) : null}
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div> */}
               </Link>
+              <div className="text-sm text-stone-500 dark:text-stone-400 !leading-normal mt-1.5">
+                {item.title}
+              </div>
             </li>
           );
         }
