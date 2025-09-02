@@ -7,6 +7,10 @@ export const shelfSections = [
         url: "https://nextjs.org/",
       },
       {
+        title: "React",
+        url: "https://react.dev/",
+      },
+      {
         title: "shadcn",
         url: "https://ui.shadcn.com/",
       },
