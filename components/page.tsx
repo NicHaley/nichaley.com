@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ImageCarousel from "./image-carousel";
+import { Button } from "./ui/button";
 
 interface PageProps {
   title: string;
@@ -29,13 +30,11 @@ export default function Page({
       </header>
       {children}
       {url && (
-        <Link
-          className="text-stone-500 dark:text-stone-400 font-medium no-underline hover:underline"
-          href={url}
-          target="_blank"
-        >
-          ↗ Visit
-        </Link>
+        <Button asChild>
+          <Link className="no-underline" href={url} target="_blank">
+            ↗ Visit
+          </Link>
+        </Button>
       )}
     </article>
   );

@@ -179,7 +179,7 @@ function SubList({
 export default function List({ type, mode = "list", items }: ListProps) {
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4 flex items-center justify-end gap-1.5">
         <Button
           asChild
           variant={mode === "list" ? "default" : "outline"}
