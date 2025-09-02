@@ -127,7 +127,7 @@ function SubList({
                   />
                 ) : null}
                 <div className="flex flex-col gap-1 relative z-10 bg-white/70 p-3 backdrop-blur-sm">
-                  <div className="flex justify-between gap-2">
+                  <div className="flex flex-col">
                     <span className="flex flex-col gap-2 text-foreground">
                       <span className="group-hover:underline font-medium leading-normal">
                         {item.title}
@@ -179,7 +179,7 @@ function SubList({
 export default function List({ type, mode = "list", items }: ListProps) {
   return (
     <div>
-      <div className="mb-4 flex items-center justify-end gap-1.5">
+      <div className="mb-4 flex items-center gap-1.5">
         <Button
           asChild
           variant={mode === "list" ? "default" : "outline"}
