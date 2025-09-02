@@ -2,8 +2,14 @@ import { listProjects } from "@/lib/projects-mdx";
 import Page from "@/components/page";
 import List from "@/components/list";
 
-export default async function ProjectsIndexPage() {
+export default async function ProjectsIndexPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const posts = await listProjects();
+  const viewParam = (searchParams?.view as string | undefined)?.toLowerCase();
+  const mode = viewParam === "grid" ? "grid" : "list";
 
   return (
     <Page
@@ -12,6 +18,7 @@ export default async function ProjectsIndexPage() {
     >
       <List
         type="projects"
+        mode={mode}
         items={[
           {
             subItems: posts.map((post) => ({

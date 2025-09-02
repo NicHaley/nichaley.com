@@ -1,7 +1,9 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import Favicon from "@/components/favicon";
+import { cn } from "@/lib/utils";
+import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -28,6 +30,7 @@ type BaseItem = {
   title: string;
   dateString?: string;
   icon?: ListIcon;
+  ogImage?: string | null;
 };
 
 type InternalItem = BaseItem & {
@@ -47,6 +50,7 @@ type ListSection = {
 
 interface ListProps {
   type: "projects" | "writing" | "shelf";
+  mode?: "list" | "grid";
   items: ListSection[];
 }
 
@@ -80,12 +84,18 @@ function renderIcon(icon?: ListIcon) {
 function SubList({
   type,
   items,
+  mode,
 }: {
   type: ListProps["type"];
   items: ListItem[];
+  mode: ListProps["mode"];
 }) {
   return (
-    <ul className="!space-y-0 list-none pl-0">
+    <ul
+      className={cn("!space-y-0 list-none pl-0", {
+        "grid grid-cols-2 sm:grid-cols-4 gap-4": mode === "grid",
+      })}
+    >
       {items.map((item) => {
         const isExternal = "href" in item;
         const key = isExternal
@@ -94,6 +104,49 @@ function SubList({
         const href = isExternal
           ? (item as ExternalItem).href
           : `/${type}/${(item as InternalItem).slug}`;
+
+        if (mode === "grid") {
+          return (
+            <li key={key}>
+              <Link
+                href={href}
+                className="no-underline group cursor-pointer !m-0 bg-white dark:bg-stone-950 border rounded-md aspect-[27/40] flex flex-col justify-end relative overflow-hidden" // Movie poster aspect ratio
+                target={isExternal ? "_blank" : undefined}
+              >
+                <span className="flex flex-col gap-2 text-foreground absolute z-10 top-2 left-2">
+                  {renderIcon(item.icon)}
+                </span>
+                {item.ogImage ? (
+                  <Image
+                    src={item.ogImage}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover"
+                    priority={false}
+                  />
+                ) : null}
+                <div className="flex flex-col gap-1 relative z-10 bg-white/70 p-3 backdrop-blur-sm">
+                  <div className="flex flex-col">
+                    <span className="flex flex-col gap-2 text-foreground">
+                      <span className="group-hover:underline font-medium leading-normal">
+                        {item.title}
+                      </span>
+                    </span>
+                    {item.dateString ? (
+                      <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                        {item.dateString}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              </Link>
+              {/* <div className="text-sm text-stone-500 dark:text-stone-400 !leading-normal mt-1.5">
+                {item.title}
+              </div> */}
+            </li>
+          );
+        }
 
         return (
           <li className="pl-0 !m-0" key={key}>
@@ -123,23 +176,49 @@ function SubList({
   );
 }
 
-export default function List({ type, items }: ListProps) {
+export default function List({ type, mode = "list", items }: ListProps) {
   return (
-    <ul className="space-y-4 list-none pl-0">
-      {items.map((section, index) => (
-        <li className="pl-0" key={section.title ?? index}>
-          {section.title ? (
-            <h3 className="text-base font-semibold text-stone-700">
-              {section.title}
-            </h3>
-          ) : null}
-          {section.subItems && section.subItems.length > 0 ? (
-            <div className="not-prose">
-              <SubList type={type} items={section.subItems} />
-            </div>
-          ) : null}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <div className="mb-4 flex items-center gap-1.5">
+        <Button
+          asChild
+          variant={mode === "list" ? "default" : "outline"}
+          size="sm"
+          aria-pressed={mode === "list"}
+        >
+          <Link className="no-underline" href="?view=list">
+            <LayoutListIcon />
+            <span>List</span>
+          </Link>
+        </Button>
+        <Button
+          asChild
+          variant={mode === "grid" ? "default" : "outline"}
+          size="sm"
+          aria-pressed={mode === "grid"}
+        >
+          <Link className="no-underline" href="?view=grid">
+            <LayoutGridIcon />
+            <span>Grid</span>
+          </Link>
+        </Button>
+      </div>
+      <ul className="space-y-4 list-none pl-0">
+        {items.map((section, index) => (
+          <li className="pl-0" key={section.title ?? index}>
+            {section.title ? (
+              <h3 className="text-base font-semibold text-stone-700 dark:text-stone-300">
+                {section.title}
+              </h3>
+            ) : null}
+            {section.subItems && section.subItems.length > 0 ? (
+              <div className="not-prose">
+                <SubList type={type} mode={mode} items={section.subItems} />
+              </div>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
