@@ -21,11 +21,10 @@ export default async function Page({ params }: PageProps) {
   const metadata: ProjectMetadata = post.metadata;
   const title = metadata.title;
   const url = metadata.url;
-  const images = metadata.images;
   const date = metadata.dateString;
 
   return (
-    <PageComponent url={url} title={title} images={images} description={date}>
+    <PageComponent url={url} title={title} description={date}>
       <MDXContent />
     </PageComponent>
   );

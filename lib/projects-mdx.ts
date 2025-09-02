@@ -7,7 +7,6 @@ export type ProjectMetadata = Metadata & {
   url?: string;
   startDate: Date;
   endDate: Date | "present";
-  images?: string[];
   dateString: string;
 };
 
@@ -39,7 +38,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
     endDate,
     dateString: isSameYear
       ? startDateYear.toString()
-      : `${startDateYear} — ${endDateYear.toString()}`,
+      : `${startDateYear} - ${endDateYear.toString()}`,
   };
 
   return {

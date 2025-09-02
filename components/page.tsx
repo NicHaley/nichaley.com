@@ -1,5 +1,4 @@
 import Link from "next/link";
-import ImageCarousel from "./image-carousel";
 import { Button } from "./ui/button";
 
 interface PageProps {
@@ -7,19 +6,11 @@ interface PageProps {
   description?: string;
   url?: string;
   children?: React.ReactNode;
-  images?: string[];
 }
 
-export default function Page({
-  title,
-  description,
-  url,
-  children,
-  images,
-}: PageProps) {
+export default function Page({ title, description, url, children }: PageProps) {
   return (
     <article>
-      {images && <ImageCarousel images={images} className="mb-6" />}
       <header className="mb-8">
         <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         {description && (
