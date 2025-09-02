@@ -101,12 +101,12 @@ function SubList({
               <div className="flex justify-between gap-2">
                 <Link
                   href={href}
-                  className="no-underline hover:underline font-medium"
+                  className="no-underline hover:underline font-medium overflow-hidden"
                   target={isExternal ? "_blank" : undefined}
                 >
                   <span className="flex items-center gap-2 text-foreground">
-                    {renderIcon(item.icon)}
-                    {item.title}
+                    <span className="shrink-0">{renderIcon(item.icon)}</span>
+                    <span className="truncate">{item.title}</span>
                   </span>
                 </Link>
                 {item.dateString ? (

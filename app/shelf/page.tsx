@@ -24,7 +24,7 @@ export default async function ShelfPage() {
   const sections = sectionsWithIcons();
 
   return (
-    <Page title="Shelf" description="Articles and tools I come back to">
+    <Page title="Shelf" description="Reads and tools I come back to">
       <List type="shelf" items={sections} />
     </Page>
   );
