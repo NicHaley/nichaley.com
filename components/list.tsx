@@ -131,9 +131,7 @@ export default function List({ type, items }: ListProps) {
       {items.map((section, index) => (
         <li className="pl-0" key={section.title ?? index}>
           {section.title ? (
-            <h3 className="text-base font-semibold text-stone-700">
-              {section.title}
-            </h3>
+            <h3 className="font-semibold text-base">{section.title}</h3>
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
             <div className="not-prose">
