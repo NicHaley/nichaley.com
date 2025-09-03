@@ -18,7 +18,7 @@ export default function BlogImage({
   height,
 }: BlogImageProps) {
   return (
-    <div className="flex flex-col gap-2 my-4">
+    <div className="flex flex-col gap-2 my-4 max-h-[500px] rounded overflow-hidden bg-white">
       <Image
         src={src}
         alt={alt}
@@ -26,7 +26,7 @@ export default function BlogImage({
         height={height}
         layout={layout}
         placeholder="blur"
-        className="!my-0 rounded"
+        className="!my-0 h-full"
       />
       {caption && <p className="text-sm text-gray-500 !my-0">{caption}</p>}
     </div>
