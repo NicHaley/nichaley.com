@@ -90,20 +90,12 @@ export const shelfSections = [
         url: "https://www.goodreads.com/book/show/37638098-creative-selection",
       },
       {
-        title: "Full Tilt: Ireland to India with a Bicycle",
-        url: "https://www.goodreads.com/book/show/163921.Full_Tilt?ref=nav_sb_ss_5_9",
-      },
-      {
         title: "Hackers and Painters",
         url: "https://www.paulgraham.com/hp.html",
       },
       {
         title: "Refactoring UI",
         url: "https://www.goodreads.com/book/show/43190966-refactoring-ui",
-      },
-      {
-        title: "South: The ENDURANCE Expedition",
-        url: "https://www.goodreads.com/book/show/494503.South?ref=nav_sb_ss_2_15",
       },
       {
         title: "Steve Jobs",
