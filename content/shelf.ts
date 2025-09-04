@@ -74,7 +74,7 @@ export const shelfSections = [
     ],
   },
   {
-    title: "Reads",
+    title: "Resources & Reads",
     bookmarks: [
       {
         title: "Brutalist Web Design",
@@ -88,6 +88,10 @@ export const shelfSections = [
         title:
           "Creative Selection: Inside Apple's Design Process During the Golden Age of Steve Jobs",
         url: "https://www.goodreads.com/book/show/37638098-creative-selection",
+      },
+      {
+        title: "Gradient Generator",
+        url: "https://www.joshwcomeau.com/gradient-generator/",
       },
       {
         title: "Hackers and Painters",
