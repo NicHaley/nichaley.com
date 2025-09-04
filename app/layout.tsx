@@ -34,10 +34,10 @@ const sections = [
     title: "projects",
     href: "/projects",
   },
-  // {
-  //   title: "writing",
-  //   href: "/writing",
-  // },
+  {
+    title: "writing",
+    href: "/writing",
+  },
   {
     title: "shelf",
     href: "/shelf",
@@ -67,7 +67,7 @@ export default function RootLayout({
                   height={48}
                 />
               </Link>
-              <ul className="flex md:flex-col gap-2 md:mt-8 max-md:ml-auto">
+              <ul className="flex md:flex-col gap-3 md:gap-2 md:mt-8 max-md:ml-auto">
                 {sections.map((section) => (
                   <li key={section.href}>
                     <NavLink href={section.href} exact={section.exact}>

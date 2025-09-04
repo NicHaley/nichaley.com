@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { clsx } from "clsx";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 type NavLinkProps = {
@@ -24,11 +24,9 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      className={clsx(
-        "hover:underline font-medium",
-        !isActive && "text-stone-500 dark:text-stone-400 font-normal",
-        className
-      )}
+      className={cn("text-stone-500 dark:text-stone-400", className, {
+        "text-foreground dark:text-white font-semibold": isActive,
+      })}
     >
       {children}
     </Link>

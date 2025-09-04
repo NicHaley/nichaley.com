@@ -15,9 +15,9 @@ export default async function WritingIndexPage() {
               slug: post.slug,
               title: post.metadata.title,
               dateString: post.metadata.date.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
+                year: "numeric",
               }),
             })),
           },

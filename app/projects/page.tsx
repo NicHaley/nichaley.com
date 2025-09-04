@@ -17,6 +17,7 @@ export default async function ProjectsIndexPage() {
             subItems: posts.map((post) => ({
               slug: post.slug,
               title: post.metadata.title,
+              image: post.metadata.image,
               dateString: post.metadata.dateString,
             })),
           },

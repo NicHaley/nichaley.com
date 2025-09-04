@@ -4,6 +4,10 @@ import fs from "node:fs/promises";
 
 export type WritingMetadata = Metadata & {
   title: string;
+  image?: {
+    src: string;
+    alt?: string;
+  };
   date: Date;
 };
 
@@ -14,7 +18,7 @@ export type WritingData = {
 };
 
 export const getPost = async (slug: string): Promise<WritingData> => {
-  const post = await import(`@/content/writing/${slug}.mdx`);
+  const post = await import(`@/content/writing/${slug}/index.mdx`);
   const data = post.metadata;
 
   if (!data.title) {
@@ -37,11 +41,15 @@ export const getPost = async (slug: string): Promise<WritingData> => {
 export const listPosts = async (): Promise<
   Omit<WritingData, "component">[]
 > => {
-  const files = await fs.readdir(path.join(process.cwd(), "content/writing"));
+  const writingDir = path.join(process.cwd(), "content/writing");
+  const entries = await fs.readdir(writingDir, { withFileTypes: true });
+
+  const dirSlugs = entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
 
   const posts = await Promise.all(
-    files.map(async (file) => {
-      const slug = file.replace(/\.mdx$/, "");
+    dirSlugs.map(async (slug) => {
       const { metadata } = await getPost(slug);
       return {
         slug,
