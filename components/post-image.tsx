@@ -8,7 +8,7 @@ export default function PostImage({ src, alt }: InlineImageProps) {
       <Image
         src={src}
         alt={alt ?? ""}
-        className="!my-0 rounded w-auto h-auto max-w-full max-h-full object-contain drop-shadow-md"
+        className="!my-0 rounded w-auto h-auto max-w-full max-h-full object-contain drop-shadow-xl"
       />
     </div>
   );
