@@ -1,12 +1,11 @@
 import type { Metadata } from "next/types";
 import path from "node:path";
 import fs from "node:fs/promises";
-import { ImageProps } from "next/image";
 
 export type ProjectMetadata = Metadata & {
   title: string;
   url?: string;
-  image?: ImageProps;
+  image?: React.ReactNode;
   startDate: Date;
   endDate: Date | "present";
   dateString: string;

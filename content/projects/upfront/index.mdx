@@ -1,11 +1,12 @@
-import Graph from "./graph.jpg"
+import PostImage from "@/components/post-image"
+import Graph from "./brompton.jpg"
 
 export const metadata = {
   title: 'Upfront',
   startDate: '2024-02-01T12:00:00Z',
   endDate: '2025-09-01T12:00:00Z',
   url: 'https://www.myupfront.com/',
-  image: Graph
+  image: <PostImage blur src={Graph} alt="Upfront" />
 }
 
 Upfront is a real estate agent finance platform, giving agents early commission
