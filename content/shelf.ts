@@ -1,10 +1,30 @@
 export const shelfSections = [
   {
-    title: "Dev Tools",
+    title: "Software",
     bookmarks: [
+      {
+        title: "Cursor",
+        url: "https://www.cursor.com/",
+      },
+      {
+        title: "Drizzle",
+        url: "https://orm.drizzle.team/",
+      },
+      {
+        title: "Linear",
+        url: "https://www.linear.app/",
+      },
+      {
+        title: "Neon",
+        url: "https://neon.tech/",
+      },
       {
         title: "Next.js",
         url: "https://nextjs.org/",
+      },
+      {
+        title: "Notion",
+        url: "https://www.notion.com/",
       },
       {
         title: "React",
@@ -19,20 +39,8 @@ export const shelfSections = [
         url: "https://tailwindcss.com/",
       },
       {
-        title: "Drizzle",
-        url: "https://orm.drizzle.team/",
-      },
-      {
         title: "Turborepo",
         url: "https://turborepo.com/",
-      },
-      {
-        title: "Neon",
-        url: "https://neon.tech/",
-      },
-      {
-        title: "Cursor",
-        url: "https://www.cursor.com/",
       },
     ],
   },
@@ -40,28 +48,28 @@ export const shelfSections = [
     title: "Hardware",
     bookmarks: [
       {
-        title: "M4 MacBook Pro",
-        url: "https://www.apple.com/macbook-pro-14-and-16/",
-      },
-      {
-        title: "Apple Studio Display",
-        url: "https://www.apple.com/studio-display/",
-      },
-      {
-        title: "Technivorm Moccamaster",
-        url: "https://moccamaster.com/",
-      },
-      {
-        title: "Omnium Minimax",
-        url: "https://omniumcargo.com/mini-max/",
-      },
-      {
         title: "Brompton",
         url: "https://global.brompton.com",
       },
       {
         title: "Fujifilm X100V",
         url: "https://www.fujifilm-x.com/products/cameras/x100v/",
+      },
+      {
+        title: "M4 MacBook Pro",
+        url: "https://www.apple.com/macbook-pro-14-and-16/",
+      },
+      {
+        title: "Omnium Minimax",
+        url: "https://omniumcargo.com/mini-max/",
+      },
+      {
+        title: "Studio Display",
+        url: "https://www.apple.com/studio-display/",
+      },
+      {
+        title: "Technivorm Moccamaster",
+        url: "https://moccamaster.com/",
       },
     ],
   },
@@ -82,12 +90,20 @@ export const shelfSections = [
         url: "https://www.goodreads.com/book/show/37638098-creative-selection",
       },
       {
+        title: "Full Tilt: Ireland to India with a Bicycle",
+        url: "https://www.goodreads.com/book/show/163921.Full_Tilt?ref=nav_sb_ss_5_9",
+      },
+      {
         title: "Hackers and Painters",
         url: "https://www.paulgraham.com/hp.html",
       },
       {
         title: "Refactoring UI",
         url: "https://www.goodreads.com/book/show/43190966-refactoring-ui",
+      },
+      {
+        title: "South: The ENDURANCE Expedition",
+        url: "https://www.goodreads.com/book/show/494503.South?ref=nav_sb_ss_2_15",
       },
       {
         title: "Steve Jobs",
