@@ -4,45 +4,20 @@ interface BlogImageProps {
   src: string;
   alt: string;
   caption: string;
-  layout?: "fixed" | "fill" | "intrinsic" | "responsive";
-  width?: number;
-  height?: number;
 }
 
-export default function BlogImage({
-  src,
-  alt,
-  caption,
-  layout,
-  width,
-  height,
-}: BlogImageProps) {
+export default function BlogImage({ src, alt, caption }: BlogImageProps) {
   return (
-    <div className="flex flex-col gap-2 my-4 rounded">
+    <div className="flex flex-col gap-2 my-4 max-md:-mx-4">
       <Image
         src={src}
         alt={alt}
-        width={width}
-        height={height}
-        layout={layout}
         placeholder="blur"
-        className="!my-0 object-contain aspect-video rounded overflow-hidden"
+        className="!my-0 object-cover max-h-[500px] md:rounded"
       />
-      {caption && <p className="text-sm text-gray-500 !my-0">{caption}</p>}
+      {caption && (
+        <p className="text-sm text-gray-500 !my-0 max-md:mx-4">{caption}</p>
+      )}
     </div>
-    // <div className="flex flex-col gap-2 my-4 rounded">
-    //   <div className="bg-stone-100 rounded p-4 ">
-    //     <Image
-    //       src={src}
-    //       alt={alt}
-    //       width={width}
-    //       height={height}
-    //       layout={layout}
-    //       placeholder="blur"
-    //       className="!my-0 h-full object-contain aspect-video rounded overflow-hidden"
-    //     />
-    //   </div>
-    //   {caption && <p className="text-sm text-gray-500 !my-0">{caption}</p>}
-    // </div>
   );
 }
