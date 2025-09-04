@@ -77,7 +77,7 @@ export default function RootLayout({
                 ))}
               </ul>
             </nav>
-            <main className="prose prose-stone dark:prose-invert md:mt-[78px]">
+            <main className="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
               <ViewTransition default="blur-fade">{children}</ViewTransition>
             </main>
           </div>

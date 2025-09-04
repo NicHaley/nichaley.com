@@ -18,7 +18,7 @@ export default function BlogImage({
   height,
 }: BlogImageProps) {
   return (
-    <div className="flex flex-col gap-2 my-4 max-h-[500px] rounded overflow-hidden bg-white">
+    <div className="flex flex-col gap-2 my-4 rounded">
       <Image
         src={src}
         alt={alt}
@@ -26,9 +26,23 @@ export default function BlogImage({
         height={height}
         layout={layout}
         placeholder="blur"
-        className="!my-0 h-full"
+        className="!my-0 object-contain aspect-video rounded overflow-hidden"
       />
       {caption && <p className="text-sm text-gray-500 !my-0">{caption}</p>}
     </div>
+    // <div className="flex flex-col gap-2 my-4 rounded">
+    //   <div className="bg-stone-100 rounded p-4 ">
+    //     <Image
+    //       src={src}
+    //       alt={alt}
+    //       width={width}
+    //       height={height}
+    //       layout={layout}
+    //       placeholder="blur"
+    //       className="!my-0 h-full object-contain aspect-video rounded overflow-hidden"
+    //     />
+    //   </div>
+    //   {caption && <p className="text-sm text-gray-500 !my-0">{caption}</p>}
+    // </div>
   );
 }

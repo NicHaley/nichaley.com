@@ -12,7 +12,7 @@ export default function Page({ title, description, url, children }: PageProps) {
   return (
     <article>
       <header className="mb-6">
-        <h1 className="mb-2 text-xl font-semibold">{title}</h1>
+        <h1 className="mb-2 text-2xl font-semibold">{title}</h1>
         {description && (
           <p className="mb-2 mt-0 text-stone-500 dark:text-stone-400 text-base flex items-center gap-2 font-medium">
             {description}
