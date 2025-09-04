@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-interface BlogImageProps {
+interface InlineImageProps {
   src: string;
   alt: string;
   caption: string;
 }
 
-export default function BlogImage({ src, alt, caption }: BlogImageProps) {
+export default function InlineImage({ src, alt, caption }: InlineImageProps) {
   return (
     <div className="flex flex-col gap-2 my-4 max-md:-mx-4">
       <Image

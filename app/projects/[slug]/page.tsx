@@ -22,9 +22,10 @@ export default async function Page({ params }: PageProps) {
   const title = metadata.title;
   const url = metadata.url;
   const date = metadata.dateString;
+  const image = metadata.image;
 
   return (
-    <PageComponent url={url} title={title} description={date}>
+    <PageComponent url={url} title={title} description={date} image={image}>
       <MDXContent />
     </PageComponent>
   );
