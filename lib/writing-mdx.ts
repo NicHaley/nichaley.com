@@ -4,10 +4,7 @@ import fs from "node:fs/promises";
 
 export type WritingMetadata = Metadata & {
   title: string;
-  image?: {
-    src: string;
-    alt?: string;
-  };
+  image?: React.ReactNode;
   date: Date;
 };
 

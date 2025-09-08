@@ -98,6 +98,10 @@ export const shelfSections = [
         url: "https://www.paulgraham.com/hp.html",
       },
       {
+        title: "Motherfucking website",
+        url: "https://motherfuckingwebsite.com/",
+      },
+      {
         title: "Refactoring UI",
         url: "https://www.goodreads.com/book/show/43190966-refactoring-ui",
       },
