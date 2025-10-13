@@ -11,6 +11,10 @@ export const shelfSections = [
         url: "https://orm.drizzle.team/",
       },
       {
+        title: "Figma",
+        url: "https://www.figma.com/",
+      },
+      {
         title: "Linear",
         url: "https://www.linear.app/",
       },
