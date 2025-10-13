@@ -1,12 +1,13 @@
-import Image from "next/image";
-import type { Metadata } from "next";
-import Link from "next/link";
-import NavLink from "@/components/nav-link";
-import { Geist, Geist_Mono } from "next/font/google";
-import { unstable_ViewTransition as ViewTransition } from "react";
-import Glasses from "@/public/glasses.svg";
-import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
+import { ThemeProvider } from "next-themes";
+import { unstable_ViewTransition as ViewTransition } from "react";
+import NavLink from "@/components/nav-link";
+import Glasses from "@/public/glasses.svg";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,6 +56,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
         <Analytics />
+        <SpeedInsights />
+
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative">
             <nav className="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)]">
