@@ -3,54 +3,54 @@ import PageComponent from "@/components/page";
 import { getPost, listPosts, type WritingMetadata } from "@/lib/writing-mdx";
 
 type PageProps = {
-	params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 export default async function Page({ params }: PageProps) {
-	const { slug } = await params;
-	const post = await getPost(slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
 
-	// Get the react component from processing the MDX file
-	const MDXContent = post.component;
+  // Get the react component from processing the MDX file
+  const MDXContent = post.component;
 
-	// Process exported metadata to construct the title area of our blog post
-	const metadata: WritingMetadata = post.metadata;
-	const title = metadata.title;
-	const image = metadata.image;
-	const date = new Date(metadata.date);
-	const formattedDate = new Intl.DateTimeFormat("en-US", {
-		month: "short",
-		day: "numeric",
-		year: "numeric",
-	}).format(date);
+  // Process exported metadata to construct the title area of our blog post
+  const metadata: WritingMetadata = post.metadata;
+  const title = metadata.title;
+  const image = metadata.image;
+  const date = new Date(metadata.date);
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
 
-	return (
-		<PageComponent title={title} description={formattedDate} image={image}>
-			<MDXContent />
-		</PageComponent>
-	);
+  return (
+    <PageComponent title={title} description={formattedDate} image={image}>
+      <MDXContent />
+    </PageComponent>
+  );
 }
 
 export async function generateMetadata({
-	params,
+  params,
 }: PageProps): Promise<Metadata> {
-	const { slug } = await params;
-	const { metadata } = await getPost(slug);
+  const { slug } = await params;
+  const { metadata } = await getPost(slug);
 
-	return {
-		title: metadata.title,
-		description: metadata.description,
-		// other...
-	};
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    // other...
+  };
 }
 
 export async function generateStaticParams() {
-	const posts = await listPosts();
-	const staticParams = posts.map((post) => ({
-		slug: post.slug,
-	}));
+  const posts = await listPosts();
+  const staticParams = posts.map((post) => ({
+    slug: post.slug,
+  }));
 
-	return staticParams;
+  return staticParams;
 }
 
 // By marking as false, accessing a route not defined in generateStaticParams will 404.

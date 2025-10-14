@@ -3,29 +3,29 @@ import Page from "@/components/page";
 import { shelfSections } from "@/content/shelf";
 
 function sectionsWithIcons() {
-	return shelfSections.map((section) => ({
-		title: section.title,
-		subItems: section.bookmarks.map((bookmark) => ({
-			title: bookmark.title,
-			href: bookmark.url,
-			icon: {
-				kind: "favicon" as const,
-				src: `https://www.google.com/s2/favicons?domain=${
-					new URL(bookmark.url).hostname
-				}`,
-				alt: bookmark.title,
-				size: 16,
-			},
-		})),
-	}));
+  return shelfSections.map((section) => ({
+    title: section.title,
+    subItems: section.bookmarks.map((bookmark) => ({
+      title: bookmark.title,
+      href: bookmark.url,
+      icon: {
+        kind: "favicon" as const,
+        src: `https://www.google.com/s2/favicons?domain=${
+          new URL(bookmark.url).hostname
+        }`,
+        alt: bookmark.title,
+        size: 16,
+      },
+    })),
+  }));
 }
 
 export default async function ShelfPage() {
-	const sections = sectionsWithIcons();
+  const sections = sectionsWithIcons();
 
-	return (
-		<Page title="Shelf" description="Tools and resources I keep on hand">
-			<List type="shelf" items={sections} />
-		</Page>
-	);
+  return (
+    <Page title="Shelf" description="Tools and resources I keep on hand">
+      <List type="shelf" items={sections} />
+    </Page>
+  );
 }
