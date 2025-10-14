@@ -15,6 +15,10 @@ export const shelfSections = [
         url: "https://www.figma.com/",
       },
       {
+        title: "Inngest",
+        url: "https://www.inngest.com/",
+      },
+      {
         title: "Linear",
         url: "https://www.linear.app/",
       },
