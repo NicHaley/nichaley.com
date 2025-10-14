@@ -110,10 +110,6 @@ export const shelfSections = [
         url: "https://www.goodreads.com/book/show/43190966-refactoring-ui",
       },
       {
-        title: "shadcn",
-        url: "https://ui.shadcn.com/",
-      },
-      {
         title: "Steve Jobs",
         url: "https://www.goodreads.com/book/show/11084145-steve-jobs",
       },
