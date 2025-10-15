@@ -2,7 +2,11 @@ import Page from "@/components/page";
 
 export default function Home() {
   return (
-    <Page title="Nic Haley" description="0 → 1 Product Engineer">
+    <Page
+      title="Nic Haley"
+      // description="0 → 1 Product Engineer"
+      // description="Developer and Designer"
+    >
       <p>
         I&apos;m Nic — a product engineer based in Montreal 🥯 As an urbanist, I
         love exploring the roles of technology and cycling in making our cities
