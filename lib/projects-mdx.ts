@@ -29,7 +29,7 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
   const endDate =
     data.endDate === "present" ? "present" : new Date(data.endDate);
   const startDateYear = startDate.getFullYear();
-  const endDateYear = endDate === "present" ? "Present" : endDate.getFullYear();
+  const endDateYear = endDate === "present" ? "Now" : endDate.getFullYear();
 
   const isSameYear = startDateYear === endDateYear;
 
@@ -67,7 +67,7 @@ export const listProjects = async (): Promise<
         slug,
         metadata,
       };
-    }),
+    })
   );
 
   return projects.sort((a, b) => {
