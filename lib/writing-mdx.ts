@@ -1,6 +1,6 @@
-import type { Metadata } from "next/types";
-import path from "node:path";
 import fs from "node:fs/promises";
+import path from "node:path";
+import type { Metadata } from "next/types";
 
 export type WritingMetadata = Metadata & {
   title: string;
@@ -52,7 +52,7 @@ export const listPosts = async (): Promise<
         slug,
         metadata,
       };
-    })
+    }),
   );
 
   return posts.sort((a, b) => {

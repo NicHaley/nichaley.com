@@ -1,6 +1,6 @@
-import { listPosts } from "@/lib/writing-mdx";
-import Page from "@/components/page";
 import List from "@/components/list";
+import Page from "@/components/page";
+import { listPosts } from "@/lib/writing-mdx";
 
 export default async function WritingIndexPage() {
   const posts = await listPosts();

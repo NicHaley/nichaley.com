@@ -1,6 +1,6 @@
-import { type WritingMetadata, getPost, listPosts } from "@/lib/writing-mdx";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import PageComponent from "@/components/page";
+import { getPost, listPosts, type WritingMetadata } from "@/lib/writing-mdx";
 
 type PageProps = {
   params: Promise<{ slug: string }>;

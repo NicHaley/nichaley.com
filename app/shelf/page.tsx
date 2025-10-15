@@ -1,6 +1,6 @@
-import { shelfSections } from "@/content/shelf";
-import Page from "@/components/page";
 import List from "@/components/list";
+import Page from "@/components/page";
+import { shelfSections } from "@/content/shelf";
 
 function sectionsWithIcons() {
   return shelfSections.map((section) => ({

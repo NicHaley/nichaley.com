@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type React from "react";
 import { cn } from "@/lib/utils";
-import React from "react";
 
 type NavLinkProps = {
   href: string;

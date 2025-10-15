@@ -1,10 +1,10 @@
+import type { Metadata } from "next";
+import PageComponent from "@/components/page";
 import {
-  type ProjectMetadata,
   getProject,
   listProjects,
+  type ProjectMetadata,
 } from "@/lib/projects-mdx";
-import { Metadata } from "next";
-import PageComponent from "@/components/page";
 
 type PageProps = {
   params: Promise<{ slug: string }>;

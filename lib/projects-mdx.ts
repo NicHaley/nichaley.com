@@ -1,6 +1,6 @@
-import type { Metadata } from "next/types";
-import path from "node:path";
 import fs from "node:fs/promises";
+import path from "node:path";
+import type { Metadata } from "next/types";
 
 export type ProjectMetadata = Metadata & {
   title: string;
@@ -67,7 +67,7 @@ export const listProjects = async (): Promise<
         slug,
         metadata,
       };
-    })
+    }),
   );
 
   return projects.sort((a, b) => {

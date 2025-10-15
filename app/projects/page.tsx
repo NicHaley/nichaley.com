@@ -1,6 +1,6 @@
-import { listProjects } from "@/lib/projects-mdx";
-import Page from "@/components/page";
 import List from "@/components/list";
+import Page from "@/components/page";
+import { listProjects } from "@/lib/projects-mdx";
 
 export default async function ProjectsIndexPage() {
   const posts = await listProjects();
