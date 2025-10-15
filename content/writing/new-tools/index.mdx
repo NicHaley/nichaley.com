@@ -1,0 +1,53 @@
+export const metadata = { 
+  title: "New Tools / Why I Love Biome", 
+  date:"2025-10-14T12:00:00Z"
+};
+
+While it seems there's a new JS framework or AI toolchain every week, I've
+become slower in recent years in my adoption of new tech.
+
+For me, this boils down to three reasons.
+
+First, I no longer care as much about the shiny new thing. Usually, I see the
+tool as a means to an end.
+
+Second, there are so many advantages to using tried-and-true tech. Hiring for
+that tool and community support are just a couple of reasons.
+
+Third, there's a mental cost in switching, which I find most tools don't
+justify.
+
+I'd estimate I introduce a new major tool every year or so. In recent years,
+I've started using Inngest and have switched from Prisma ORM to Drizzle.
+Otherwise, things have remained pretty consistent: I've been using Next.js and
+Tailwind for years and have been using React since I first worked with it at Ada
+in 2016.
+
+So, it always comes as a pleasant surprise when I do find something so good that
+I make a switch. This week, I discovered Biome, a linter and formatter for JS,
+and was pretty much sold within five minutes. For years, I've relied on ESLint
+and Prettier for this—since, well, that's just what we had. But put them beside
+Biome, and the flaws become glaringly obvious.
+
+First of all, they can be a pain to configure. By default, the linter rules
+conflict with Prettier, so rules that overlap need to be turned off—usually by
+using eslint-config-prettier (even more packages!). The config files themselves
+can also be frustrating to work with. ESLint version 9 brought major breaking
+changes which, while improvements overall, aren't compatible with much of the
+existing ESLint ecosystem.
+
+Secondly, these tools are slowww. In big projects, it can take a long time for
+the linter to run, and in monorepos, you need to create separate run scripts per
+package to improve caching behavior and run in parallel.
+
+Biome handily outmanoeuvres ESLint and Prettier. Installation was super easy,
+with a single config file, biome.json, which ships with reasonable defaults.
+
+My favorite part, though, is how fast it is. Biome is built with Rust and runs
+laps around ESLint. It's so fast that in monorepo projects, you can easily run
+it from the root across the entire project and still finish substantially faster
+than ESLint. This also means you end up adding way less configuration
+boilerplate across your packages. It's just awesome.
+
+At the end of the day, Biome won my support because it's simple, it's fast, and
+it works. 'Nough said.
