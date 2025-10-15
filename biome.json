@@ -8,12 +8,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "app/**/*.tsx",
-      "content/**/*.mdx",
-      "lib/**/*.ts",
-      "components/**/*.tsx"
-    ]
+    "includes": ["**", "!node_modules", "!.next"]
   },
   "formatter": {
     "enabled": true,
