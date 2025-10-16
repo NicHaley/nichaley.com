@@ -60,13 +60,13 @@ export async function Stats() {
     getWeather(45.5017, -73.5673),
     getFirstDiaryEntry(),
   ]);
-  const [weatherResponse, diaryEntry] = weather;
+  const [weatherData, diaryEntry] = weather;
 
   const localTime = new Intl.DateTimeFormat("en-CA", {
     hour: "numeric",
     minute: "2-digit",
     hour12: false,
-    timeZone: weatherResponse.data.timezone,
+    timeZone: weatherData.timezone,
   }).format(new Date());
 
   return (
@@ -76,12 +76,12 @@ export async function Stats() {
       <EarthIcon className="size-4 inline-block" /> <span>Montreal, QC</span>
       <WeatherIcon
         iconCode={
-          weatherResponse.data.current.weather[0]
+          weatherData.current.weather[0]
             .icon as keyof typeof openWeatherToLucideIcons
         }
       />
       <span>
-        {Math.round(weatherResponse.data.current.temp)}°C • {localTime}
+        {Math.round(weatherData.current.temp)}°C • {localTime}
       </span>
       <MusicIcon className="size-4 inline-block" /> <span>Music</span>
       <PopcornIcon className="size-4 inline-block" />{" "}

@@ -1,20 +1,33 @@
-import axios from "axios";
+const OPEN_WEATHER_BASE_URL =
+  "https://api.openweathermap.org/data/3.0/onecall" as const;
 
-export const openWeather = axios.create({
-  baseURL: "https://api.openweathermap.org/data/3.0/onecall",
-  params: {
-    appid: process.env.OPEN_WEATHER_API_KEY,
-  },
-});
+export async function getWeather(
+  lat: number,
+  lon: number
+): Promise<OneCallResponse> {
+  const apiKey = process.env.OPEN_WEATHER_API_KEY;
+  if (!apiKey) {
+    throw new Error("Missing OPEN_WEATHER_API_KEY environment variable");
+  }
 
-export function getWeather(lat: number, lon: number) {
-  return openWeather.get<OneCallResponse>("", {
-    params: {
-      lat,
-      lon,
-      units: "metric",
-    },
+  const url = new URL(OPEN_WEATHER_BASE_URL);
+  url.searchParams.set("appid", apiKey);
+  url.searchParams.set("lat", String(lat));
+  url.searchParams.set("lon", String(lon));
+  url.searchParams.set("units", "metric");
+
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    next: { revalidate: 3600 },
   });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`OpenWeather request failed: ${res.status} ${text}`);
+  }
+
+  const data = (await res.json()) as OneCallResponse;
+  return data;
 }
 
 export type OneCallResponse = {
