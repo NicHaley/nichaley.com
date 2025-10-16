@@ -3,7 +3,6 @@ import {
   Cloud,
   CloudDrizzle,
   CloudFog,
-  CloudIcon,
   CloudLightning,
   CloudMoon,
   CloudRain,
@@ -16,6 +15,8 @@ import {
   PopcornIcon,
   Sun,
 } from "lucide-react";
+import Link from "next/link";
+import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
 
 const openWeatherToLucideIcons = {
@@ -55,12 +56,17 @@ const WeatherIcon = ({
 };
 
 export async function Stats() {
-  const weather = await getWeather(45.5017, -73.5673);
+  const weather = await Promise.all([
+    getWeather(45.5017, -73.5673),
+    getFirstDiaryEntry(),
+  ]);
+  const [weatherResponse, diaryEntry] = weather;
+
   const localTime = new Intl.DateTimeFormat("en-CA", {
     hour: "numeric",
     minute: "2-digit",
     hour12: false,
-    timeZone: weather.data.timezone,
+    timeZone: weatherResponse.data.timezone,
   }).format(new Date());
 
   return (
@@ -70,15 +76,21 @@ export async function Stats() {
       <EarthIcon className="size-4 inline-block" /> <span>Montreal, QC</span>
       <WeatherIcon
         iconCode={
-          weather.data.current.weather[0]
+          weatherResponse.data.current.weather[0]
             .icon as keyof typeof openWeatherToLucideIcons
         }
       />
       <span>
-        {Math.round(weather.data.current.temp)}°C • {localTime}
+        {Math.round(weatherResponse.data.current.temp)}°C • {localTime}
       </span>
       <MusicIcon className="size-4 inline-block" /> <span>Music</span>
-      <PopcornIcon className="size-4 inline-block" /> <span>Popcorn</span>
+      <PopcornIcon className="size-4 inline-block" />{" "}
+      <span>
+        <Link className="hover:underline no-underline" href={diaryEntry.link}>
+          {diaryEntry.title}
+        </Link>{" "}
+        • {diaryEntry.rating}
+      </span>
     </div>
   );
 }
