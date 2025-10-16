@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import Page from "@/components/page";
+import { Stats } from "./stats";
 
 export default function Home() {
   return (
@@ -18,6 +20,9 @@ export default function Home() {
         , or reach out to me at{" "}
         <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
       </p>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Stats />
+      </Suspense>
     </Page>
   );
 }
