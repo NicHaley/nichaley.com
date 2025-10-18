@@ -9,7 +9,6 @@ export async function getFirstDiaryEntry() {
     headers: {
       "User-Agent": "Mozilla/5.0 (compatible; DiaryScraper/1.0)",
     },
-    cache: "no-store",
     next: { revalidate: 3600 },
   });
   if (!res.ok) {
