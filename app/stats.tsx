@@ -1,3 +1,4 @@
+import { Redis } from "@upstash/redis";
 import {
   BabyIcon,
   Cloud,
@@ -16,6 +17,7 @@ import {
   Sun,
 } from "lucide-react";
 import Link from "next/link";
+import tzLookup from "tz-lookup";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
 
@@ -55,25 +57,59 @@ const WeatherIcon = ({
   return <IconComponent className="size-4 inline-block" />;
 };
 
-export async function Stats() {
-  const weather = await Promise.all([
-    getWeather(45.5017, -73.5673),
-    getFirstDiaryEntry(),
-  ]);
-  const [weatherData, diaryEntry] = weather;
+const redisUrl = process.env.UPSTASH_REDIS_KV_REST_API_URL;
+const redisToken = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
 
-  const localTime = new Intl.DateTimeFormat("en-CA", {
+const redis = new Redis({
+  url: redisUrl,
+  token: redisToken,
+});
+
+const fallbackLocation = {
+  lat: 45.5017,
+  lon: -73.5673,
+  city: "Montréal",
+  state: "QC",
+  region: "Canada",
+  updatedAt: new Date().toISOString(),
+};
+
+export async function Stats() {
+  const [diaryEntry, _currentLocation] = await Promise.all([
+    getFirstDiaryEntry(),
+    redis.get("current_location") as Promise<{
+      lat: number;
+      lon: number;
+      city: string;
+      state: string;
+      region: string;
+      updatedAt: string;
+    } | null>,
+  ]);
+
+  const currentLocation = _currentLocation ?? fallbackLocation;
+  const timeZone = tzLookup(currentLocation.lat, currentLocation.lon);
+
+  const weatherData = await getWeather(
+    currentLocation.lat,
+    currentLocation.lon
+  );
+
+  const locationTime = new Intl.DateTimeFormat("en-CA", {
     hour: "numeric",
     minute: "2-digit",
     hour12: false,
-    timeZone: weatherData.timezone,
+    timeZone,
   }).format(new Date());
 
   return (
     <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
       <BabyIcon className="size-4 inline-block" />{" "}
       <span>On parental leave</span>
-      <EarthIcon className="size-4 inline-block" /> <span>Montreal, QC</span>
+      <EarthIcon className="size-4 inline-block" />{" "}
+      <span>
+        {currentLocation.city}, {currentLocation.state}
+      </span>
       <WeatherIcon
         iconCode={
           weatherData.current.weather[0]
@@ -81,7 +117,7 @@ export async function Stats() {
         }
       />
       <span>
-        {Math.round(weatherData.current.temp)}°C • {localTime}
+        {Math.round(weatherData.current.temp)}°C • {locationTime}
       </span>
       <MusicIcon className="size-4 inline-block" /> <span>Music</span>
       <PopcornIcon className="size-4 inline-block" />{" "}

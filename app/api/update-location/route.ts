@@ -4,6 +4,12 @@ import { NextResponse } from "next/server";
 type UpdateLocationBody = {
   lat: number;
   lon: number;
+  city: string;
+  country: string;
+  state: string;
+  label: string;
+  region: string;
+  updatedAt: string;
 };
 
 const redisUrl = process.env.UPSTASH_REDIS_KV_REST_API_URL;
@@ -33,7 +39,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { lat, lon } = (body ?? {}) as Partial<UpdateLocationBody>;
+  const { lat, lon, city, country, state, label, region } = (body ??
+    {}) as Partial<UpdateLocationBody>;
 
   if (
     typeof lat !== "number" ||
@@ -51,6 +58,11 @@ export async function POST(req: Request) {
   const value = JSON.stringify({
     lat,
     lon,
+    city,
+    country,
+    state,
+    label,
+    region,
     updatedAt: new Date().toISOString(),
   });
 
