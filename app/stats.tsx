@@ -103,12 +103,16 @@ export async function Stats() {
   }).format(new Date());
 
   return (
-    <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
-      <BabyIcon className="size-4 inline-block" />{" "}
+    <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center mt-10">
+      {/* <BabyIcon className="size-4 inline-block" />{" "} */}
+      <span className="relative flex size-3 m-0.5">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-400 opacity-75"></span>
+        <span className="relative inline-flex size-3 rounded-full bg-yellow-500"></span>
+      </span>
       <span>On parental leave</span>
       <EarthIcon className="size-4 inline-block" />{" "}
       <span>
-        {currentLocation.city}, {currentLocation.state}
+        Now in {currentLocation.city}, {currentLocation.state}
       </span>
       <WeatherIcon
         iconCode={
@@ -119,10 +123,13 @@ export async function Stats() {
       <span>
         {Math.round(weatherData.current.temp)}°C • {locationTime}
       </span>
-      <MusicIcon className="size-4 inline-block" /> <span>Music</span>
+      {/* <MusicIcon className="size-4 inline-block" /> <span>Music</span> */}
       <PopcornIcon className="size-4 inline-block" />{" "}
       <span>
-        <Link className="hover:underline no-underline" href={diaryEntry.link}>
+        <Link
+          className="hover:underline no-underline text-inherit font-normal"
+          href={diaryEntry.link}
+        >
           {diaryEntry.title}
         </Link>{" "}
         • {diaryEntry.rating}
