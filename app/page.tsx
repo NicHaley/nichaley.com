@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Page from "@/components/page";
 import { Stats } from "./stats";
 
@@ -9,7 +8,7 @@ export default function Home() {
       // description="0 → 1 Product Engineer"
       // description="Developer and Designer"
     >
-      <p>
+      <p className="mb-10">
         I&apos;m Nic — a product engineer based in Montreal 🥯 As an urbanist, I
         love exploring the roles of technology and cycling in making our cities
         greener and better places to live. Find me on{" "}
@@ -20,9 +19,7 @@ export default function Home() {
         , or reach out to me at{" "}
         <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
       </p>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Stats />
-      </Suspense>
+      <Stats />
     </Page>
   );
 }
