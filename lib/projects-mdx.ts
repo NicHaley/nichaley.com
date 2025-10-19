@@ -66,7 +66,7 @@ export const listProjects = async (): Promise<
         slug,
         metadata,
       };
-    })
+    }),
   );
 
   return projects.sort((a, b) => {

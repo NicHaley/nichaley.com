@@ -22,7 +22,7 @@ export async function getFirstDiaryEntry() {
   // Each diary entry is wrapped in a `.diary-entry-row`
   const firstEntry = $(".diary-entry-row").first();
   const firstEntryLink = firstEntry.find(
-    "header.inline-production-masthead span > h2 > a"
+    "header.inline-production-masthead span > h2 > a",
   );
 
   const title = firstEntryLink.text().trim();

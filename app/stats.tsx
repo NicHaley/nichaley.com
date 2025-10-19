@@ -43,7 +43,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud; // Default to a generic cloud icon
 };
@@ -137,7 +137,7 @@ async function WeatherRow() {
   const timeZone = tzLookup(currentLocation.lat, currentLocation.lon);
   const weatherData = await getWeather(
     currentLocation.lat,
-    currentLocation.lon
+    currentLocation.lon,
   );
   const locationTime = new Intl.DateTimeFormat("en-CA", {
     hour: "numeric",

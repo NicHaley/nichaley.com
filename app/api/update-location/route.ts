@@ -50,7 +50,7 @@ export async function POST(req: Request) {
   ) {
     return NextResponse.json(
       { error: "lat and lon must be numbers" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

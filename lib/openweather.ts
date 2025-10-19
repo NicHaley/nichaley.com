@@ -3,7 +3,7 @@ const OPEN_WEATHER_BASE_URL =
 
 export async function getWeather(
   lat: number,
-  lon: number
+  lon: number,
 ): Promise<OneCallResponse> {
   const apiKey = process.env.OPEN_WEATHER_API_KEY;
   if (!apiKey) {
