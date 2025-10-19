@@ -6,8 +6,8 @@ export type ProjectMetadata = Metadata & {
   title: string;
   url?: string;
   image?: React.ReactNode;
-  startDate: Date;
-  endDate: Date | "present";
+  startDate: Date | "now";
+  endDate: Date | "now";
   dateString: string;
 };
 
@@ -25,11 +25,10 @@ export const getProject = async (slug: string): Promise<ProjectData> => {
     throw new Error(`Missing some required metadata fields in: ${slug}`);
   }
 
-  const startDate = new Date(data.startDate);
-  const endDate =
-    data.endDate === "present" ? "present" : new Date(data.endDate);
-  const startDateYear = startDate.getFullYear();
-  const endDateYear = endDate === "present" ? "Present" : endDate.getFullYear();
+  const startDate = data.startDate === "now" ? "now" : new Date(data.startDate);
+  const endDate = data.endDate === "now" ? "now" : new Date(data.endDate);
+  const startDateYear = startDate === "now" ? "Now" : startDate.getFullYear();
+  const endDateYear = endDate === "now" ? "Now" : endDate.getFullYear();
 
   const isSameYear = startDateYear === endDateYear;
 
@@ -72,14 +71,11 @@ export const listProjects = async (): Promise<
 
   return projects.sort((a, b) => {
     return (
-      (b.metadata.endDate === "present"
+      (b.metadata.endDate === "now"
         ? new Date()
         : b.metadata.endDate
       ).getTime() -
-      (a.metadata.endDate === "present"
-        ? new Date()
-        : a.metadata.endDate
-      ).getTime()
+      (a.metadata.endDate === "now" ? new Date() : a.metadata.endDate).getTime()
     );
   });
 };

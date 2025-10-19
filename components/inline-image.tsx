@@ -16,7 +16,7 @@ export default function InlineImage({ src, alt, caption }: InlineImageProps) {
         className="!my-0 object-cover max-h-[500px] md:rounded"
       />
       {caption && (
-        <p className="text-sm text-gray-500 !my-0 max-md:mx-4">{caption}</p>
+        <p className="text-sm text-stone-500 !my-0 max-md:mx-4">{caption}</p>
       )}
     </div>
   );
