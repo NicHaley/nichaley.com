@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Page from "@/components/page";
 import {
   Tooltip,
@@ -42,10 +43,12 @@ export default async function Home() {
         last watched{" "}
         <Tooltip>
           <TooltipTrigger>
-            <span>film</span>
+            <Link href={diaryEntry?.link} target="_blank" rel="noopener">
+              {diaryEntry?.title}
+            </Link>
           </TooltipTrigger>
           <TooltipContent>
-            <p>film</p>
+            <p>{diaryEntry?.rating}</p>
           </TooltipContent>
         </Tooltip>
         .
