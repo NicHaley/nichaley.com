@@ -43,7 +43,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud; // Default to a generic cloud icon
 };
@@ -134,17 +134,13 @@ function LocationFallback() {
 
 async function WeatherRow() {
   const currentLocation = await getCurrentLocation();
-  const timeZone = tzLookup(currentLocation.lat, currentLocation.lon);
   const weatherData = await getWeather(
     currentLocation.lat,
-    currentLocation.lon,
+    currentLocation.lon
   );
-  const locationTime = new Intl.DateTimeFormat("en-CA", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: false,
-    timeZone,
-  }).format(new Date());
+
+  const description = weatherData.current.weather[0].description;
+
   return (
     <>
       <WeatherIcon
@@ -154,7 +150,8 @@ async function WeatherRow() {
         }
       />
       <span className="leading-5 align-middle">
-        {Math.round(weatherData.current.temp)}°C • {locationTime}
+        {Math.round(weatherData.current.temp)}°C •{" "}
+        <span className="capitalize">{description}</span>
       </span>
     </>
   );
