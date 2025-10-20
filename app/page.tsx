@@ -38,7 +38,8 @@ export default async function Home() {
       <p>
         In my work, I explore how design and technology can shape better ways of
         living, especially in our built environment. I also volunteer as a bike
-        mechanic and enjoy film and music. I last watched{" "}
+        mechanic and enjoy film and music. I am listening to <span>x</span>, and
+        last watched{" "}
         <Tooltip>
           <TooltipTrigger>
             <span>film</span>
