@@ -1,6 +1,9 @@
 import Page from "@/components/page";
 import { Stats } from "./stats";
 
+export const dynamic = "force-static";
+export const revalidate = 3600; // 1 hour
+
 export default function Home() {
   return (
     <Page
