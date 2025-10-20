@@ -153,3 +153,12 @@
 ::view-transition-new(.blur-fade) {
   animation: vt-blur-fade-in 750ms ease both;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}

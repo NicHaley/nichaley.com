@@ -24,13 +24,9 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      className={cn(
-        "text-stone-500 dark:text-stone-400 hover:underline",
-        className,
-        {
-          "text-foreground dark:text-white font-semibold": isActive,
-        },
-      )}
+      className={cn("text-stone-500 dark:text-stone-400", className, {
+        "text-foreground dark:text-white font-semibold": isActive,
+      })}
     >
       {children}
     </Link>

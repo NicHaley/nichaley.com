@@ -1,6 +1,9 @@
 import Page from "@/components/page";
 import { Stats } from "./stats";
 
+export const dynamic = "force-static";
+export const revalidate = 3600; // 1 hour
+
 export default function Home() {
   return (
     <Page
@@ -11,8 +14,19 @@ export default function Home() {
       <p>
         I'm a developer and designer based in Montreal [and currently visiting
         X]. I'm currently on paternity leave. Previously, I was a founding
-        engineer at Ada and Upfront, and led frontend development at Local
-        Logic.
+        engineer at{" "}
+        <a href="https://ada.cx" target="_blank" rel="noopener">
+          Ada
+        </a>{" "}
+        and{" "}
+        <a href="https://myupfront.com" target="_blank" rel="noopener">
+          Upfront
+        </a>
+        , and led frontend development at{" "}
+        <a href="https://locallogic.co" target="_blank" rel="noopener">
+          Local Logic
+        </a>
+        .
       </p>
       <p>
         In my work, I explore how design and technology can shape better ways of
