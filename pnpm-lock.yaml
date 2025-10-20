@@ -56,9 +56,6 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
-      tz-lookup:
-        specifier: ^6.1.25
-        version: 6.1.25
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -1152,9 +1149,6 @@ packages:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
     hasBin: true
-
-  tz-lookup@6.1.25:
-    resolution: {integrity: sha512-fFewT9o1uDzsW1QnUU1ValqaihFnwiUiiHr1S79/fxOzKXYYvX+EHeRnpvQJ9B3Qg67wPXT6QF2Esc4pFOrvLg==}
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
@@ -2448,8 +2442,6 @@ snapshots:
   tw-animate-css@1.3.4: {}
 
   typescript@5.8.3: {}
-
-  tz-lookup@6.1.25: {}
 
   uncrypto@0.1.3: {}
 
