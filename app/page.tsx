@@ -99,9 +99,9 @@ export default async function Home() {
   return (
     <Page title="Nic Haley">
       <p className="mb-10">
-        I&apos;m Nic — a product engineer based in Montreal 🥯 As an urbanist, I
-        love exploring the roles of technology and cycling in making our cities
-        greener and better places to live. Find me on{" "}
+        I&apos;m Nic — a product engineer based in Montreal 🥯 In my work I
+        enjoy exploring how design and technology can shape better ways of
+        living, especially in our built environment. Find me on{" "}
         <a href="https://github.com/nichaley">GitHub</a> or{" "}
         <a href="https://www.linkedin.com/in/nicholas-haley-22757389/">
           LinkedIn
