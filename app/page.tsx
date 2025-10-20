@@ -112,8 +112,8 @@ export default async function Home() {
       <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
         {/* <BabyIcon className="size-4 inline-block" />{" "} */}
         <span className="relative flex size-3 m-0.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-400 opacity-75"></span>
-          <span className="relative inline-flex size-3 rounded-full bg-yellow-500"></span>
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+          <span className="relative inline-flex size-3 rounded-full bg-green-500"></span>
         </span>
         <span>On parental leave</span>
         <EarthIcon className="size-4 inline-block align-middle" />{" "}
@@ -131,15 +131,12 @@ export default async function Home() {
           <span className="capitalize">{description}</span>
         </span>
         <PopcornIcon className="size-4 inline-block align-middle" />{" "}
-        <span className="leading-5 align-middle">
-          <Link
-            className="hover:underline no-underline text-inherit font-normal"
-            href={diaryEntry.link}
-          >
-            {diaryEntry.title}
-          </Link>{" "}
-          • {diaryEntry.rating}
-        </span>
+        <Link
+          className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
+          href={diaryEntry.link}
+        >
+          Last watched {diaryEntry.title} • {diaryEntry.rating}
+        </Link>
       </div>
     </Page>
   );
