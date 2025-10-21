@@ -11,11 +11,13 @@ import {
   Cloudy,
   EarthIcon,
   Moon,
+  MusicIcon,
   PopcornIcon,
   Sun,
 } from "lucide-react";
 import Link from "next/link";
 import Page from "@/components/page";
+import { getHeavyRotation } from "@/lib/apple-music";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
 
@@ -89,10 +91,13 @@ async function getCurrentLocation() {
 
 export default async function Home() {
   const currentLocation = await getCurrentLocation();
-  const [weatherData, diaryEntry] = await Promise.all([
+  const [weatherData, diaryEntry, heavyRotation] = await Promise.all([
     getWeather(currentLocation.lat, currentLocation.lon),
     getFirstDiaryEntry(),
+    getHeavyRotation(),
   ]);
+
+  console.log(111, heavyRotation);
 
   const description = weatherData.current.weather[0].description;
 
@@ -110,7 +115,6 @@ export default async function Home() {
         <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
       </p>
       <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
-        {/* <BabyIcon className="size-4 inline-block" />{" "} */}
         <span className="relative flex size-3 m-0.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex size-3 rounded-full bg-green-500"></span>
@@ -134,8 +138,18 @@ export default async function Home() {
         <Link
           className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
           href={diaryEntry.link}
+          target="_blank"
         >
           Last watched {diaryEntry.title} • {diaryEntry.rating}
+        </Link>
+        <MusicIcon className="size-4 inline-block align-middle" />
+        <Link
+          href={heavyRotation?.data?.[0]?.attributes?.url}
+          className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
+          target="_blank"
+        >
+          {heavyRotation?.data?.[0]?.attributes?.name} •{" "}
+          {heavyRotation?.data?.[0]?.attributes?.artistName}
         </Link>
       </div>
     </Page>
