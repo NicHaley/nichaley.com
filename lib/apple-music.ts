@@ -23,34 +23,50 @@ export async function generateAppleMusicDeveloperToken(): Promise<string> {
   return jwt;
 }
 
-export async function getHeavyRotation() {
-  const token = process.env.APPLE_MUSIC_USER_TOKEN;
-  if (!token) {
-    throw new Error(
-      "Missing Music-User-Token (provide param or APPLE_MUSIC_USER_TOKEN env var)"
-    );
+export async function getRecentPlayedTracks(): Promise<{
+  data: {
+    attributes: {
+      name: string;
+      artistName: string;
+      url: string;
+    };
+  }[];
+} | null> {
+  try {
+    const token = process.env.APPLE_MUSIC_USER_TOKEN;
+    if (!token) {
+      return null;
+    }
+
+    const developerToken = await generateAppleMusicDeveloperToken();
+
+    const url = new URL(`${APPLE_MUSIC_API_BASE_URL}/me/recent/played/tracks`);
+    url.searchParams.set("limit", "1");
+
+    const res = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${developerToken}`,
+        "Music-User-Token": token,
+      },
+      next: { revalidate: 300 },
+    });
+
+    if (!res.ok) {
+      return null;
+    }
+
+    return (await res.json()) as {
+      data: {
+        attributes: {
+          name: string;
+          artistName: string;
+          url: string;
+        };
+      }[];
+    };
+  } catch (err) {
+    console.error("Apple Music request failed", err);
+    return null;
   }
-
-  const developerToken = await generateAppleMusicDeveloperToken();
-
-  const url = new URL(`${APPLE_MUSIC_API_BASE_URL}/me/recent/played/tracks`);
-  url.searchParams.set("limit", "1");
-
-  const res = await fetch(url.toString(), {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${developerToken}`,
-      "Music-User-Token": token,
-    },
-    next: { revalidate: 300 },
-  });
-
-  console.log(222, res);
-
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Apple Music request failed: ${res.status} ${text}`);
-  }
-
-  return (await res.json()) as unknown;
 }

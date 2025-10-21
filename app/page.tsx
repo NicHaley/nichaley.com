@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Page from "@/components/page";
-import { getHeavyRotation } from "@/lib/apple-music";
+import { getRecentPlayedTracks } from "@/lib/apple-music";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
 
@@ -91,14 +91,12 @@ async function getCurrentLocation() {
 
 export default async function Home() {
   const currentLocation = await getCurrentLocation();
-  const [weatherData, diaryEntry, heavyRotation] = await Promise.all([
+  const [weatherData, diaryEntry, recentPlayedTracks] = await Promise.all([
     getWeather(currentLocation.lat, currentLocation.lon),
     getFirstDiaryEntry(),
-    getHeavyRotation(),
+    getRecentPlayedTracks(),
   ]);
-
-  console.log(111, heavyRotation);
-
+  const recentPlayedTrack = recentPlayedTracks?.data?.[0];
   const description = weatherData.current.weather[0].description;
 
   return (
@@ -142,15 +140,19 @@ export default async function Home() {
         >
           Last watched {diaryEntry.title} • {diaryEntry.rating}
         </Link>
-        <MusicIcon className="size-4 inline-block align-middle" />
-        <Link
-          href={heavyRotation?.data?.[0]?.attributes?.url}
-          className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
-          target="_blank"
-        >
-          {heavyRotation?.data?.[0]?.attributes?.name} •{" "}
-          {heavyRotation?.data?.[0]?.attributes?.artistName}
-        </Link>
+        {recentPlayedTrack ? (
+          <>
+            <MusicIcon className="size-4 inline-block align-middle" />
+            <Link
+              href={recentPlayedTrack.attributes.url}
+              className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
+              target="_blank"
+            >
+              Last played {recentPlayedTrack.attributes.name} •{" "}
+              {recentPlayedTrack.attributes.artistName}
+            </Link>
+          </>
+        ) : null}
       </div>
     </Page>
   );
