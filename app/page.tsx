@@ -21,6 +21,7 @@ import Page from "@/components/page";
 import { getRecentPlayedTracks } from "@/lib/apple-music";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
+import Carousel from "./carousel";
 
 export const dynamic = "force-static";
 export const revalidate = 3600; // 1 hour
@@ -99,6 +100,10 @@ export default async function Home() {
   ]);
   const recentPlayedTrack = recentPlayedTracks?.data?.[0];
   const description = weatherData.current.weather[0].description;
+  const rainMmPerHr = weatherData.current.rain?.["1h"] ?? 0;
+  const isRaining = rainMmPerHr > 0 || /rain|drizzle/i.test(description);
+  // Normalize 0-1 intensity roughly from mm/hr (cap at 10mm/hr)
+  const rainIntensity = Math.min(1, rainMmPerHr / 10);
 
   return (
     <Page title="Nic Haley">
@@ -107,31 +112,38 @@ export default async function Home() {
           {
             title: "Now",
             content: (
-              <p className="mb-10">
-                I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy
-                building tools that help connect people and places. Find me on{" "}
-                <Link
-                  className="font-medium underline"
-                  href="https://github.com/nichaley"
-                >
-                  GitHub
-                </Link>{" "}
-                or{" "}
-                <Link
-                  className="font-medium underline"
-                  href="https://www.linkedin.com/in/nicholas-haley-22757389/"
-                >
-                  LinkedIn
-                </Link>
-                , or reach out at{" "}
-                <Link
-                  className="font-medium underline"
-                  href="mailto:hello@nichaley.com"
-                >
-                  hello@nichaley.com
-                </Link>
-                .
-              </p>
+              <div className="flex flex-col gap-4">
+                <p>
+                  I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy
+                  building tools that help connect people and places. Find me on{" "}
+                  <Link
+                    className="font-medium underline"
+                    href="https://github.com/nichaley"
+                  >
+                    GitHub
+                  </Link>{" "}
+                  or{" "}
+                  <Link
+                    className="font-medium underline"
+                    href="https://www.linkedin.com/in/nicholas-haley-22757389/"
+                  >
+                    LinkedIn
+                  </Link>
+                  , or reach out at{" "}
+                  <Link
+                    className="font-medium underline"
+                    href="mailto:hello@nichaley.com"
+                  >
+                    hello@nichaley.com
+                  </Link>
+                  .
+                </p>
+                <Carousel
+                  longitude={currentLocation.lon}
+                  latitude={currentLocation.lat}
+                  isRaining={isRaining}
+                />
+              </div>
             ),
           },
           {
