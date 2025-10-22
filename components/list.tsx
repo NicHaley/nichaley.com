@@ -37,6 +37,7 @@ type ListItem = BaseItem & {
 type ListSection = {
   title?: string;
   subItems?: ListItem[];
+  content?: React.ReactNode;
 };
 
 interface ListProps {
@@ -134,6 +135,9 @@ export default function List({ items }: ListProps) {
             <div className="not-prose">
               <SubList items={section.subItems} />
             </div>
+          ) : null}
+          {section.content && !section.subItems ? (
+            <div className="not-prose">{section.content}</div>
           ) : null}
         </li>
       ))}

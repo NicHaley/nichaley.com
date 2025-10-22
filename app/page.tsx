@@ -16,6 +16,7 @@ import {
   Sun,
 } from "lucide-react";
 import Link from "next/link";
+import List from "@/components/list";
 import Page from "@/components/page";
 import { getRecentPlayedTracks } from "@/lib/apple-music";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
@@ -101,16 +102,91 @@ export default async function Home() {
 
   return (
     <Page title="Nic Haley">
-      <p className="mb-10">
-        I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy building
-        tools that help connect people and places. Find me on{" "}
-        <a href="https://github.com/nichaley">GitHub</a> or{" "}
-        <a href="https://www.linkedin.com/in/nicholas-haley-22757389/">
-          LinkedIn
-        </a>
-        , or reach out at{" "}
-        <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
-      </p>
+      <List
+        items={[
+          {
+            title: "Now",
+            content: (
+              <p className="mb-10">
+                I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy
+                building tools that help connect people and places. Find me on{" "}
+                <Link
+                  className="font-medium underline"
+                  href="https://github.com/nichaley"
+                >
+                  GitHub
+                </Link>{" "}
+                or{" "}
+                <Link
+                  className="font-medium underline"
+                  href="https://www.linkedin.com/in/nicholas-haley-22757389/"
+                >
+                  LinkedIn
+                </Link>
+                , or reach out at{" "}
+                <Link
+                  className="font-medium underline"
+                  href="mailto:hello@nichaley.com"
+                >
+                  hello@nichaley.com
+                </Link>
+                .
+              </p>
+            ),
+          },
+          {
+            title: "Work",
+            subItems: [
+              {
+                title: "Upfront",
+              },
+              {
+                title: "Floe",
+              },
+              {
+                title: "Local Logic",
+              },
+              {
+                title: "Memberstack",
+              },
+              {
+                title: "Ada",
+              },
+              {
+                title: "Trip Elephant",
+              },
+            ],
+          },
+          {
+            title: "Volunteer",
+            subItems: [
+              {
+                title: "Santrovélo",
+              },
+              {
+                title: "Bike Sauce",
+              },
+              {
+                title: "Cycle Toronto",
+              },
+              {
+                title: "TIFF",
+              },
+            ],
+          },
+          {
+            title: "Education",
+            subItems: [
+              {
+                title: "Bitmaker",
+              },
+              {
+                title: "Queen's University",
+              },
+            ],
+          },
+        ]}
+      />
       <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
         <span className="relative flex size-3 m-0.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
