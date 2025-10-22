@@ -102,14 +102,13 @@ export default async function Home() {
   return (
     <Page title="Nic Haley">
       <p className="mb-10">
-        I&apos;m Nic — a product engineer based in Montreal 🥯 In my work I
-        enjoy exploring how design and technology can shape better ways of
-        living, especially in our built environment. Find me on{" "}
+        I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy building
+        tools that help connect people and places. Find me on{" "}
         <a href="https://github.com/nichaley">GitHub</a> or{" "}
         <a href="https://www.linkedin.com/in/nicholas-haley-22757389/">
           LinkedIn
         </a>
-        , or reach out to me at{" "}
+        , or reach out at{" "}
         <a href="mailto:hello@nichaley.com">hello@nichaley.com</a>.
       </p>
       <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
