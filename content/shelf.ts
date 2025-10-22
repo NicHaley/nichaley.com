@@ -82,7 +82,7 @@ export const shelfSections = [
     ],
   },
   {
-    title: "Resources & Reads",
+    title: "Resources",
     bookmarks: [
       {
         title: "Brutalist Web Design",

@@ -121,9 +121,14 @@ export default function List({ items }: ListProps) {
   return (
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
-        <li className="pl-0" key={section.title ?? index}>
+        <li
+          className="pl-0 grid grid-cols-[100px_1fr] gap-8"
+          key={section.title ?? index}
+        >
           {section.title ? (
-            <h3 className="font-semibold text-lg">{section.title}</h3>
+            <h3 className="font-normal leading-[32px] text-stone-400 dark:text-stone-500 text-lg !my-0">
+              {section.title}
+            </h3>
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
             <div className="not-prose">
