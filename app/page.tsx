@@ -184,9 +184,13 @@ export default async function Home() {
               },
               {
                 title: "Cycle Toronto",
+                text: "Volunteer",
+                dateString: "Various",
               },
               {
                 title: "TIFF",
+                text: "Volunteer",
+                dateString: "Various",
               },
             ],
           },
@@ -212,7 +216,7 @@ export default async function Home() {
           },
         ]}
       />
-      <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
+      {/* <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
         <span className="relative flex size-3 m-0.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
           <span className="relative inline-flex size-3 rounded-full bg-green-500"></span>
@@ -253,7 +257,7 @@ export default async function Home() {
             </Link>
           </>
         ) : null}
-      </div>
+      </div> */}
     </Page>
   );
 }
