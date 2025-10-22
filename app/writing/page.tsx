@@ -8,11 +8,10 @@ export default async function WritingIndexPage() {
   return (
     <Page title="Writing" description="Thoughts on work and life">
       <List
-        type="writing"
         items={[
           {
             subItems: posts.map((post) => ({
-              slug: post.slug,
+              href: `/writing/${post.slug}`,
               title: post.metadata.title,
               dateString: post.metadata.date.toLocaleDateString("en-US", {
                 month: "short",

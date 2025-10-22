@@ -11,11 +11,10 @@ export default async function ProjectsIndexPage() {
       description="Notable things I've built for work and fun"
     >
       <List
-        type="projects"
         items={[
           {
             subItems: posts.map((post) => ({
-              slug: post.slug,
+              href: `/projects/${post.slug}`,
               title: post.metadata.title,
               image: post.metadata.image,
               dateString: post.metadata.dateString,

@@ -30,15 +30,9 @@ type BaseItem = {
   icon?: ListIcon;
 };
 
-type InternalItem = BaseItem & {
-  slug: string;
+type ListItem = BaseItem & {
+  href?: string;
 };
-
-type ExternalItem = BaseItem & {
-  href: string;
-};
-
-type ListItem = InternalItem | ExternalItem;
 
 type ListSection = {
   title?: string;
@@ -46,7 +40,6 @@ type ListSection = {
 };
 
 interface ListProps {
-  type: "projects" | "writing" | "shelf";
   items: ListSection[];
 }
 
@@ -77,40 +70,39 @@ function renderIcon(icon?: ListIcon) {
   );
 }
 
-function SubList({
-  type,
-  items,
-}: {
-  type: ListProps["type"];
-  items: ListItem[];
-}) {
+function SubList({ items }: { items: ListItem[] }) {
   return (
     <ul className="!space-y-0 list-none pl-0">
-      {items.map((item) => {
-        const isExternal = "href" in item;
-        const key = isExternal
-          ? (item as ExternalItem).href
-          : (item as InternalItem).slug;
-        const href = isExternal
-          ? (item as ExternalItem).href
-          : `/${type}/${(item as InternalItem).slug}`;
+      {items.map((item, index) => {
+        const href = item.href;
+        const isExternal = !!href && /^https?:\/\//.test(href);
+        const key = href ?? `${item.title}-${index}`;
 
         return (
           <li className="pl-0 !m-0" key={key}>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between gap-2">
-                <Link
-                  href={href}
-                  className="no-underline hover:underline font-medium overflow-hidden"
-                  target={isExternal ? "_blank" : undefined}
-                >
-                  <span className="flex items-center gap-2 text-foreground">
+                {href ? (
+                  <Link
+                    href={href}
+                    className="no-underline hover:underline font-medium overflow-hidden"
+                    target={isExternal ? "_blank" : undefined}
+                  >
+                    <span className="flex items-center gap-2 text-foreground">
+                      <span className="shrink-0 empty:hidden">
+                        {renderIcon(item.icon)}
+                      </span>
+                      <span className="truncate">{item.title}</span>
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="flex items-center gap-2 text-foreground font-medium">
                     <span className="shrink-0 empty:hidden">
                       {renderIcon(item.icon)}
                     </span>
                     <span className="truncate">{item.title}</span>
                   </span>
-                </Link>
+                )}
                 {item.dateString ? (
                   <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
                     {item.dateString}
@@ -125,7 +117,7 @@ function SubList({
   );
 }
 
-export default function List({ type, items }: ListProps) {
+export default function List({ items }: ListProps) {
   return (
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
@@ -135,7 +127,7 @@ export default function List({ type, items }: ListProps) {
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
             <div className="not-prose">
-              <SubList type={type} items={section.subItems} />
+              <SubList items={section.subItems} />
             </div>
           ) : null}
         </li>
