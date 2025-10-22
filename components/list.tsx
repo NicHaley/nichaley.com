@@ -26,6 +26,7 @@ type ListIcon = EmojiIcon | FaviconIcon | ImageIcon;
 
 type BaseItem = {
   title: string;
+  text?: string;
   dateString?: string;
   icon?: ListIcon;
 };
@@ -104,11 +105,18 @@ function SubList({ items }: { items: ListItem[] }) {
                     <span className="truncate">{item.title}</span>
                   </span>
                 )}
-                {item.dateString ? (
-                  <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
-                    {item.dateString}
-                  </span>
-                ) : null}
+                <div className="flex gap-4">
+                  {item.text ? (
+                    <span className="text-stone-500 dark:text-stone-400 whitespace-nowrap">
+                      {item.text}
+                    </span>
+                  ) : null}
+                  {item.dateString ? (
+                    <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                      {item.dateString}
+                    </span>
+                  ) : null}
+                </div>
               </div>
             </div>
           </li>

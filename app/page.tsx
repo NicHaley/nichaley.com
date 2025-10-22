@@ -139,21 +139,33 @@ export default async function Home() {
             subItems: [
               {
                 title: "Upfront",
+                text: "Founding Engineer",
+                dateString: "2024 - 2025",
               },
               {
                 title: "Floe",
+                text: "Founder",
+                dateString: "2023 - 2024",
               },
               {
                 title: "Local Logic",
+                text: "Lead Frontend Developer",
+                dateString: "2021 - 2023",
               },
               {
                 title: "Memberstack",
+                text: "Software Engineer",
+                dateString: "2020 - 2021",
               },
               {
                 title: "Ada",
+                text: "Founding Engineer",
+                dateString: "2016 - 2020",
               },
               {
                 title: "Trip Elephant",
+                text: "Developer",
+                dateString: "2015 - 2016",
               },
             ],
           },
@@ -162,9 +174,13 @@ export default async function Home() {
             subItems: [
               {
                 title: "Santrovélo",
+                text: "Bike Mechanic",
+                dateString: "2022 - Now",
               },
               {
                 title: "Bike Sauce",
+                text: "Bike Mechanic",
+                dateString: "2021 - 2022",
               },
               {
                 title: "Cycle Toronto",
@@ -178,10 +194,19 @@ export default async function Home() {
             title: "Education",
             subItems: [
               {
+                title: "OCAD",
+                text: "Principles of Design",
+                dateString: "2015",
+              },
+              {
                 title: "Bitmaker",
+                text: "Web Development",
+                dateString: "2014",
               },
               {
                 title: "Queen's University",
+                text: "B.Sc. Geological Engineering",
+                dateString: "2009 - 2013",
               },
             ],
           },
