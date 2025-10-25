@@ -1,9 +1,25 @@
 "use client";
 
+import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  Carousel as UICarousel,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+
+type Slide = {
+  id: string;
+  text: string;
+  tag: string;
+  children: React.ReactNode;
+  url?: string;
+};
 
 interface CarouselProps {
   longitude: number;
@@ -11,28 +27,37 @@ interface CarouselProps {
   isRaining?: boolean;
 }
 
-export default function Carousel({
-  longitude,
-  latitude,
-  isRaining = false,
-}: CarouselProps) {
+function MapPane({
+  center,
+  zoom,
+  isRaining,
+}: {
+  center: [number, number];
+  zoom: number;
+  isRaining: boolean;
+}) {
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <only run once>
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoibmljaGFsZXkiLCJhIjoiY2xzbmRrMTVyMDMwaDJqb2d4Z2NlOXVjYyJ9.QeENRU4-2oC2PnN8VlCHlA";
-    mapRef.current = new mapboxgl.Map({
-      container: mapContainerRef.current as HTMLElement,
+    const map = new mapboxgl.Map({
+      container: containerRef.current as HTMLElement,
       style: "mapbox://styles/mapbox/streets-v9",
-      center: [longitude, latitude],
-      zoom: 14,
+      center,
+      zoom,
     });
 
-    mapRef.current.on("load", () => {
+    mapRef.current = map;
+
+    map.on("load", () => {
       if (isRaining) {
-        mapRef.current?.setRain({
+        (
+          map as unknown as {
+            setRain?: (options: Record<string, unknown>) => void;
+          }
+        ).setRain?.({
           density: 1,
           intensity: 1,
           color: "#d9d9d9",
@@ -48,9 +73,177 @@ export default function Carousel({
     });
 
     return () => {
-      mapRef.current?.remove();
+      map.remove();
     };
-  }, []);
+  }, [center, zoom, isRaining]);
 
-  return <div className="w-full aspect-video" ref={mapContainerRef} />;
+  return (
+    <div
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 h-full w-full rounded-t-xl"
+      style={{ contain: "layout paint" }}
+    />
+  );
+}
+
+export default function Carousel({
+  longitude,
+  latitude,
+  isRaining = false,
+}: CarouselProps) {
+  const [api, setApi] = useState<CarouselApi | undefined>(undefined);
+  const [current, setCurrent] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  const slides: Slide[] = useMemo(
+    () => [
+      {
+        id: "current",
+        text: "Where I am now",
+        tag: "Location",
+        children: (
+          <MapPane
+            center={[longitude, latitude]}
+            zoom={13}
+            isRaining={isRaining}
+          />
+        ),
+      },
+      // {
+      //   id: "zoom-in",
+      //   text: "A closer look",
+      //   tag: "Zoom",
+      // },
+      // {
+      //   id: "zoom-out",
+      //   text: "Wider context",
+      //   tag: "Explore",
+      // },
+    ],
+    [isRaining, longitude, latitude]
+  );
+
+  useEffect(() => {
+    if (!api) return;
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          const nextIndex = (current + 1) % slides.length;
+          api.scrollTo(nextIndex);
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [api, current, slides.length]);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+      setProgress(0);
+    };
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  const onPillClick = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+      setProgress(0);
+    },
+    [api]
+  );
+
+  return (
+    <section className="pb-6">
+      <div className="relative mt-2 lg:mt-6">
+        <UICarousel
+          opts={{ loop: true, align: "center" }}
+          setApi={setApi}
+          className="w-full"
+        >
+          <CarouselContent>
+            {slides.map((slide, i) => (
+              <CarouselItem
+                key={slide.id}
+                className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
+                onClick={() => {
+                  if (i === current && slide.url) {
+                    window.open(slide.url, "_blank");
+                  } else {
+                    api?.scrollTo(i);
+                    setProgress(0);
+                  }
+                }}
+              >
+                <div className="group relative h-full w-full cursor-pointer overflow-hidden rounded-lg bg-gray-100 transition-colors duration-300 hover:bg-gray-200">
+                  <div
+                    className={cn(
+                      "p-4 transition-all delay-200 duration-500 ease-in-out md:p-6",
+                      i === current
+                        ? "translate-x-0 opacity-100"
+                        : "-translate-x-[50px] opacity-0"
+                    )}
+                  >
+                    <span className="mb-1 inline-flex rounded-md bg-gray-800 px-2 py-0.5 text-xs font-medium text-white">
+                      {slide.tag}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <div className="text-lg font-medium text-gray-800 md:text-2xl">
+                        {slide.text}
+                      </div>
+                      <ArrowUpRightIcon className="size-6" />
+                    </div>
+                  </div>
+                  <div
+                    className={cn(
+                      "absolute bottom-0 left-1/2 h-[300px] w-[calc(100%-2rem)] max-w-[900px] -translate-x-1/2 translate-y-4 overflow-hidden rounded-t-xl shadow-xl transition-all delay-200 duration-500 ease-in-out md:h-[340px] md:w-[calc(100%-8rem)]",
+                      {
+                        "translate-y-1/3 opacity-0": i !== current,
+                        "delay-0 group-hover:translate-y-0": i === current,
+                      }
+                    )}
+                  >
+                    {slide.children}
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </UICarousel>
+
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 justify-center gap-3 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md">
+          {slides.map((slide, i) => (
+            <button
+              key={slide.id}
+              onClick={() => onPillClick(i)}
+              className={cn(
+                "relative h-2 rounded-full bg-gray-400 transition-all",
+                current === i ? "w-12" : "w-2"
+              )}
+              type="button"
+            >
+              {current === i ? (
+                <div className="absolute inset-0 overflow-hidden rounded-full">
+                  <div
+                    className="h-full w-full rounded-full bg-gray-900"
+                    style={{
+                      width: `${progress}%`,
+                      transition: "width 50ms linear",
+                    }}
+                  />
+                </div>
+              ) : null}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
