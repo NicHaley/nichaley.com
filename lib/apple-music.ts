@@ -23,14 +23,19 @@ export async function generateAppleMusicDeveloperToken(): Promise<string> {
   return jwt;
 }
 
-export async function getRecentPlayedTracks(): Promise<{
-  data: {
-    attributes: {
-      name: string;
-      artistName: string;
+export type RecentPlayedTrack = {
+  attributes: {
+    name: string;
+    artistName: string;
+    url: string;
+    artwork: {
       url: string;
     };
-  }[];
+  };
+};
+
+export async function getRecentPlayedTracks(): Promise<{
+  data: RecentPlayedTrack[];
 } | null> {
   try {
     const token = process.env.APPLE_MUSIC_USER_TOKEN;
@@ -57,13 +62,7 @@ export async function getRecentPlayedTracks(): Promise<{
     }
 
     return (await res.json()) as {
-      data: {
-        attributes: {
-          name: string;
-          artistName: string;
-          url: string;
-        };
-      }[];
+      data: RecentPlayedTrack[];
     };
   } catch (err) {
     console.error("Apple Music request failed", err);

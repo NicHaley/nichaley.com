@@ -2,6 +2,7 @@
 
 import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type CarouselApi,
@@ -12,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import "mapbox-gl/dist/mapbox-gl.css";
+import type { RecentPlayedTrack } from "@/lib/apple-music";
 
 type Slide = {
   id: string;
@@ -25,6 +27,7 @@ interface CarouselProps {
   longitude: number;
   latitude: number;
   isRaining?: boolean;
+  recentPlayedTrack?: RecentPlayedTrack;
 }
 
 function MapPane({
@@ -90,6 +93,7 @@ export default function Carousel({
   longitude,
   latitude,
   isRaining = false,
+  recentPlayedTrack,
 }: CarouselProps) {
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
@@ -107,6 +111,23 @@ export default function Carousel({
             zoom={13}
             isRaining={isRaining}
           />
+        ),
+      },
+      {
+        id: "music",
+        text: "Where I am now",
+        tag: "Listening to",
+        children: (
+          <div>
+            <Image
+              src={recentPlayedTrack?.attributes.artwork.url
+                .replace("{w}", "500")
+                .replace("{h}", "500")}
+              alt={recentPlayedTrack?.attributes.name}
+              width={200}
+              height={200}
+            />
+          </div>
         ),
       },
       // {

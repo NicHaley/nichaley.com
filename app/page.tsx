@@ -142,6 +142,7 @@ export default async function Home() {
                   longitude={currentLocation.lon}
                   latitude={currentLocation.lat}
                   isRaining={isRaining}
+                  recentPlayedTrack={recentPlayedTrack}
                 />
               </div>
             ),
