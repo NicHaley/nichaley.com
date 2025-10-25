@@ -26,6 +26,8 @@ type Slide = {
 interface CarouselProps {
   longitude: number;
   latitude: number;
+  city: string;
+  state: string;
   isRaining?: boolean;
   recentPlayedTrack?: RecentPlayedTrack;
 }
@@ -92,6 +94,8 @@ function MapPane({
 export default function Carousel({
   longitude,
   latitude,
+  city,
+  state,
   isRaining = false,
   recentPlayedTrack,
 }: CarouselProps) {
@@ -103,8 +107,8 @@ export default function Carousel({
     () => [
       {
         id: "current",
-        text: "Where I am now",
-        tag: "Location",
+        text: `${city}, ${state}`,
+        tag: "Now in",
         children: (
           <MapPane
             center={[longitude, latitude]}
@@ -115,7 +119,10 @@ export default function Carousel({
       },
       {
         id: "music",
-        text: "Where I am now",
+        text:
+          recentPlayedTrack?.attributes.name +
+          " • " +
+          recentPlayedTrack?.attributes.artistName,
         tag: "Listening to",
         children: (
           <div>
@@ -141,7 +148,7 @@ export default function Carousel({
       //   tag: "Explore",
       // },
     ],
-    [isRaining, longitude, latitude]
+    [isRaining, longitude, latitude, city, state, recentPlayedTrack]
   );
 
   useEffect(() => {

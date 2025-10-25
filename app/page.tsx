@@ -141,6 +141,8 @@ export default async function Home() {
                 <Carousel
                   longitude={currentLocation.lon}
                   latitude={currentLocation.lat}
+                  city={currentLocation.city}
+                  state={currentLocation.state}
                   isRaining={isRaining}
                   recentPlayedTrack={recentPlayedTrack}
                 />
