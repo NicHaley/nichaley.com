@@ -145,6 +145,7 @@ export default async function Home() {
                   state={currentLocation.state}
                   isRaining={isRaining}
                   recentPlayedTrack={recentPlayedTrack}
+                  diaryEntry={diaryEntry}
                 />
               </div>
             ),

@@ -30,6 +30,12 @@ interface CarouselProps {
   state: string;
   isRaining?: boolean;
   recentPlayedTrack?: RecentPlayedTrack;
+  diaryEntry?: {
+    title: string;
+    link: string;
+    rating: string;
+    image: string;
+  };
 }
 
 function MapPane({
@@ -98,10 +104,13 @@ export default function Carousel({
   state,
   isRaining = false,
   recentPlayedTrack,
+  diaryEntry,
 }: CarouselProps) {
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
+
+  console.log(diaryEntry);
 
   const slides: Slide[] = useMemo(
     () => [
@@ -137,6 +146,21 @@ export default function Carousel({
           </div>
         ),
       },
+      {
+        id: "diary",
+        text: `Last watched ${diaryEntry?.title} • ${diaryEntry?.rating}`,
+        tag: "Last watched",
+        children: (
+          <div>
+            <Image
+              src={diaryEntry?.image}
+              alt={diaryEntry?.title}
+              width={200}
+              height={200}
+            />
+          </div>
+        ),
+      },
       // {
       //   id: "zoom-in",
       //   text: "A closer look",
@@ -148,7 +172,7 @@ export default function Carousel({
       //   tag: "Explore",
       // },
     ],
-    [isRaining, longitude, latitude, city, state, recentPlayedTrack]
+    [isRaining, longitude, latitude, city, state, recentPlayedTrack, diaryEntry]
   );
 
   useEffect(() => {

@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
       {
         hostname: "is5-ssl.mzstatic.com",
       },
+      {
+        hostname: "s.ltrbxd.com",
+      },
+      {
+        hostname: "a.ltrbxd.com",
+      },
     ],
   },
 };

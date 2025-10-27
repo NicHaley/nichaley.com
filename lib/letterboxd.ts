@@ -1,37 +1,61 @@
-import * as cheerio from "cheerio";
-
 const letterboxdUrl = "https://letterboxd.com";
 const url = `${letterboxdUrl}/nichaley/diary/`;
 
 export async function getFirstDiaryEntry() {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; DiaryScraper/1.0)",
-    },
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Letterboxd request failed: ${res.status} ${text}`);
+  async function scrapeWithPlaywright() {
+    const { chromium } = await import("playwright");
+    const browser = await chromium.launch({ headless: true });
+    const context = await browser.newContext({
+      userAgent:
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      viewport: { width: 1280, height: 800 },
+    });
+    const page = await context.newPage();
+    await page.goto(url, { waitUntil: "load", timeout: 30000 });
+    await page.waitForSelector(".diary-entry-row", { timeout: 20000 });
+
+    const data = await page.evaluate(() => {
+      const firstEntry = document.querySelector(
+        ".diary-entry-row"
+      ) as HTMLElement | null;
+      if (!firstEntry) return null;
+
+      const linkEl = firstEntry.querySelector(
+        "header.inline-production-masthead span > h2 > a"
+      ) as HTMLAnchorElement | null;
+      const title = linkEl?.textContent?.trim() ?? "";
+      const href = linkEl?.getAttribute("href") ?? "";
+      const rating = (
+        firstEntry.querySelector(".rating")?.textContent ?? ""
+      ).trim();
+
+      const imgEl = firstEntry.querySelector(
+        ".poster.film-poster img.image"
+      ) as HTMLImageElement | null;
+      let src =
+        imgEl?.getAttribute("srcset") ??
+        imgEl?.getAttribute("data-srcset") ??
+        imgEl?.getAttribute("src") ??
+        imgEl?.getAttribute("data-src") ??
+        "";
+      if (src.includes(",")) {
+        const last = src
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .pop();
+        if (last) src = last.split(/\s+/)[0];
+      }
+      return { title, href, rating, image: src };
+    });
+
+    await browser.close();
+    if (!data) throw new Error("Failed to extract diary entry");
+
+    const image = data.image.replace("70-0-105", "460-0-690");
+    const link = `${letterboxdUrl}${data.href}`;
+    return { title: data.title, link, rating: data.rating, image };
   }
-  const html = await res.text();
 
-  const $ = cheerio.load(html);
-
-  // Each diary entry is wrapped in a `.diary-entry-row`
-  const firstEntry = $(".diary-entry-row").first();
-  const firstEntryLink = firstEntry.find(
-    "header.inline-production-masthead span > h2 > a",
-  );
-
-  const title = firstEntryLink.text().trim();
-  const href = firstEntryLink.attr("href");
-  if (!href) {
-    throw new Error("Letterboxd diary entry link not found");
-  }
-  const link = `${letterboxdUrl}${href}`;
-  const rating = firstEntry.find(".rating").text().trim();
-
-  return { title, link, rating };
+  return await scrapeWithPlaywright();
 }
