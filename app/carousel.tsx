@@ -3,7 +3,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type CarouselApi,
   CarouselContent,
@@ -92,7 +92,13 @@ function MapPane({
     <div
       ref={containerRef}
       className="pointer-events-none absolute inset-0 h-full w-full rounded-t-xl"
-      style={{ contain: "layout paint" }}
+      style={{
+        contain: "layout paint",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%)",
+        maskImage:
+          "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%)",
+      }}
     />
   );
 }
@@ -115,7 +121,7 @@ export default function Carousel({
   const slides: Slide[] = useMemo(
     () => [
       {
-        id: "current",
+        id: "map",
         text: `${city}, ${state}`,
         tag: "Now in",
         children: (
@@ -134,43 +140,33 @@ export default function Carousel({
           recentPlayedTrack?.attributes.artistName,
         tag: "Listening to",
         children: (
-          <div>
-            <Image
-              src={recentPlayedTrack?.attributes.artwork.url
-                .replace("{w}", "500")
-                .replace("{h}", "500")}
-              alt={recentPlayedTrack?.attributes.name}
-              width={200}
-              height={200}
-            />
-          </div>
+          <Image
+            src={recentPlayedTrack?.attributes.artwork.url
+              .replace("{w}", "500")
+              .replace("{h}", "500")}
+            alt={recentPlayedTrack?.attributes.name}
+            className="rounded mt-8 drop-shadow-xl"
+            width={180}
+            height={180}
+          />
         ),
       },
       {
         id: "diary",
-        text: `Last watched ${diaryEntry?.title} • ${diaryEntry?.rating}`,
+        text: `${diaryEntry?.title} • ${diaryEntry?.rating}`,
         tag: "Last watched",
         children: (
           <div>
             <Image
               src={diaryEntry?.image}
               alt={diaryEntry?.title}
-              width={200}
-              height={200}
+              className="rounded mt-8 drop-shadow-xl"
+              width={180}
+              height={180}
             />
           </div>
         ),
       },
-      // {
-      //   id: "zoom-in",
-      //   text: "A closer look",
-      //   tag: "Zoom",
-      // },
-      // {
-      //   id: "zoom-out",
-      //   text: "Wider context",
-      //   tag: "Explore",
-      // },
     ],
     [isRaining, longitude, latitude, city, state, recentPlayedTrack, diaryEntry]
   );
@@ -221,7 +217,42 @@ export default function Carousel({
           className="w-full"
         >
           <CarouselContent>
-            {slides.map((slide, i) => (
+            {slides.map((slide, i) => {
+              return (
+                <CarouselItem
+                  key={slide.id}
+                  className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
+                >
+                  <div className="flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800">
+                    <div className="absolute inset-0 z-10 p-4">
+                      <span className="mb-1 inline-flex rounded-md bg-gray-800 px-2 py-0.5 text-xs font-medium text-white">
+                        {slide.tag}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <div className="text-lg font-medium text-gray-800 md:text-2xl">
+                          {slide.text}
+                        </div>
+                        <ArrowUpRightIcon className="size-6" />
+                      </div>
+                    </div>
+                    {slide.children}
+                  </div>
+                </CarouselItem>
+              );
+            })}
+            {/* <CarouselItem
+              key="map"
+              className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
+            >
+              <div className="group relative size-full cursor-pointer overflow-hidden rounded-lg bg-gray-100 transition-colors duration-300 hover:bg-gray-200">
+                <MemoizedMapPane
+                  center={[longitude, latitude]}
+                  zoom={13}
+                  isRaining={isRaining}
+                />
+              </div>
+            </CarouselItem> */}
+            {/* {slides.map((slide, i) => (
               <CarouselItem
                 key={slide.id}
                 className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
@@ -266,7 +297,7 @@ export default function Carousel({
                   </div>
                 </div>
               </CarouselItem>
-            ))}
+            ))} */}
           </CarouselContent>
         </UICarousel>
 
