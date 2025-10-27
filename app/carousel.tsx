@@ -3,7 +3,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type CarouselApi,
   CarouselContent,
@@ -83,6 +83,8 @@ function MapPane({
       }
     });
 
+    new mapboxgl.Marker().setLngLat(center).addTo(map);
+
     return () => {
       map.remove();
     };
@@ -146,8 +148,8 @@ export default function Carousel({
               .replace("{h}", "500")}
             alt={recentPlayedTrack?.attributes.name}
             className="rounded mt-8 drop-shadow-xl"
-            width={180}
-            height={180}
+            width={220}
+            height={220}
           />
         ),
       },
