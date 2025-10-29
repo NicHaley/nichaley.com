@@ -3,6 +3,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -82,6 +83,7 @@ function MapPane({
   center: [number, number];
   isRaining: boolean;
 }) {
+  const { resolvedTheme } = useTheme();
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
@@ -92,8 +94,15 @@ function MapPane({
       "pk.eyJ1IjoibmljaGFsZXkiLCJhIjoiY2xzbmRrMTVyMDMwaDJqb2d4Z2NlOXVjYyJ9.QeENRU4-2oC2PnN8VlCHlA";
     const map = new mapboxgl.Map({
       container: containerRef.current as HTMLElement,
-      style: "mapbox://styles/mapbox/streets-v9",
+      style: "mapbox://styles/mapbox/standard",
       center: center,
+      config: {
+        basemap: {
+          lightPreset: resolvedTheme === "dark" ? "night" : "day",
+          showPointOfInterestLabels: false,
+        },
+      },
+
       // Don't use bounds directly since we want to center the map around the
       // city center (but at the zoom level that would be used when fitting
       // bounds).
@@ -135,7 +144,7 @@ function MapPane({
     markerRef.current = new mapboxgl.Marker({
       element: el,
       anchor: "bottom",
-      offset: [0, 32],
+      offset: [0, 48],
     })
       .setLngLat(center)
       .addTo(map);
@@ -149,7 +158,7 @@ function MapPane({
       markerElementRef.current = null;
       map.remove();
     };
-  }, [center, isRaining]);
+  }, [center, isRaining, bbox, resolvedTheme]);
 
   return (
     <div
@@ -179,8 +188,8 @@ export default function Carousel({
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  const slides: Slide[] = useMemo(
-    () => [
+  const slides: Slide[] = useMemo(() => {
+    const result: Slide[] = [
       {
         id: "map",
         text: fullAddress,
@@ -193,45 +202,57 @@ export default function Carousel({
           />
         ),
       },
-      {
+    ];
+
+    if (recentPlayedTrack) {
+      const artworkUrl = recentPlayedTrack.attributes.artwork.url
+        .replace("{w}", "500")
+        .replace("{h}", "500");
+      result.push({
         id: "music",
-        text:
-          recentPlayedTrack?.attributes.name +
-          " • " +
-          recentPlayedTrack?.attributes.artistName,
+        text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
         tag: "Listening to",
         children: (
           <Image
-            src={recentPlayedTrack?.attributes.artwork.url
-              .replace("{w}", "500")
-              .replace("{h}", "500")}
-            alt={recentPlayedTrack?.attributes.name}
+            src={artworkUrl}
+            alt={recentPlayedTrack.attributes.name}
             className="rounded mt-8 drop-shadow-xl"
             width={220}
             height={220}
           />
         ),
-      },
-      {
+      });
+    }
+
+    if (diaryEntry) {
+      result.push({
         id: "diary",
-        text: `${diaryEntry?.title} • ${diaryEntry?.rating}`,
+        text: `${diaryEntry.title} • ${diaryEntry.rating}`,
         tag: "Last watched",
         children: (
           <div>
             <Image
-              src={diaryEntry?.image}
-              alt={diaryEntry?.title}
+              src={diaryEntry.image}
+              alt={diaryEntry.title}
               className="rounded mt-8 drop-shadow-xl"
               width={180}
               height={180}
             />
           </div>
         ),
-      },
-    ],
-    [isRaining, longitude, latitude, recentPlayedTrack, diaryEntry]
-  );
+      });
+    }
 
+    return result;
+  }, [
+    isRaining,
+    longitude,
+    latitude,
+    recentPlayedTrack,
+    diaryEntry,
+    bbox,
+    fullAddress,
+  ]);
   useEffect(() => {
     if (!api) return;
 
@@ -278,7 +299,7 @@ export default function Carousel({
           className="w-full"
         >
           <CarouselContent>
-            {slides.map((slide, i) => {
+            {slides.map((slide) => {
               return (
                 <CarouselItem
                   key={slide.id}
@@ -286,11 +307,11 @@ export default function Carousel({
                 >
                   <div className="flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800">
                     <div className="absolute inset-0 z-10 p-4">
-                      <span className="mb-1 inline-flex rounded-md bg-gray-800 px-2 py-0.5 text-xs font-medium text-white">
+                      <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
                         {slide.tag}
                       </span>
                       <div className="flex items-center gap-1">
-                        <div className="text-lg font-medium text-gray-800 md:text-2xl">
+                        <div className="text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl">
                           {slide.text}
                         </div>
                         <ArrowUpRightIcon className="size-6" />
