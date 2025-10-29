@@ -303,7 +303,7 @@ export default function Carousel({
               return (
                 <CarouselItem
                   key={slide.id}
-                  className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
+                  className="w-full rounded-lg pl-4 h-[460px]"
                 >
                   <div className="flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800">
                     <div className="absolute inset-0 z-10 p-4">

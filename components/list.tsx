@@ -131,7 +131,7 @@ export default function List({ items }: ListProps) {
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
         <li
-          className="pl-0 grid grid-cols-[100px_1fr] gap-8 mb-12"
+          className="pl-0 grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8 mb-12"
           key={section.title ?? index}
         >
           {section.title ? (
