@@ -3,6 +3,7 @@
 import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -212,6 +213,7 @@ export default function Carousel({
         id: "music",
         text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
         tag: "Listening to",
+        url: recentPlayedTrack.attributes.url,
         children: (
           <Image
             src={artworkUrl}
@@ -229,6 +231,7 @@ export default function Carousel({
         id: "diary",
         text: `${diaryEntry.title} • ${diaryEntry.rating}`,
         tag: "Last watched",
+        url: diaryEntry.link,
         children: (
           <div>
             <Image
@@ -300,25 +303,50 @@ export default function Carousel({
         >
           <CarouselContent>
             {slides.map((slide) => {
+              const containerClass =
+                "flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800";
+
+              const overlay = (
+                <div className="absolute inset-0 z-10 p-4">
+                  <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
+                    {slide.tag}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <div
+                      className={cn(
+                        "text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl",
+                        {
+                          "group-hover:underline": slide.url,
+                        }
+                      )}
+                    >
+                      {slide.text}
+                    </div>
+                    {slide.url && <ArrowUpRightIcon className="size-6" />}
+                  </div>
+                </div>
+              );
+
               return (
                 <CarouselItem
                   key={slide.id}
-                  className="w-full rounded-lg pl-4 h-[460px]"
+                  className="w-full rounded-lg pl-4 h-[460px] group"
                 >
-                  <div className="flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800">
-                    <div className="absolute inset-0 z-10 p-4">
-                      <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
-                        {slide.tag}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <div className="text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl">
-                          {slide.text}
-                        </div>
-                        <ArrowUpRightIcon className="size-6" />
-                      </div>
+                  {slide.url ? (
+                    <Link
+                      href={slide.url}
+                      className={containerClass}
+                      target="_blank"
+                    >
+                      {overlay}
+                      {slide.children}
+                    </Link>
+                  ) : (
+                    <div className={containerClass}>
+                      {overlay}
+                      {slide.children}
                     </div>
-                    {slide.children}
-                  </div>
+                  )}
                 </CarouselItem>
               );
             })}
