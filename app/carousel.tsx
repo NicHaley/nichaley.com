@@ -1,6 +1,19 @@
 "use client";
 
-import { ArrowUpRightIcon } from "lucide-react";
+import {
+  ArrowUpRightIcon,
+  Cloud,
+  CloudDrizzle,
+  CloudFog,
+  CloudLightning,
+  CloudMoon,
+  CloudRain,
+  CloudSnow,
+  CloudSun,
+  Cloudy,
+  Moon,
+  Sun,
+} from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +26,7 @@ import {
   CarouselItem,
   Carousel as UICarousel,
 } from "@/components/ui/carousel";
+import type { OneCallResponse } from "@/lib/openweather";
 import { cn } from "@/lib/utils";
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -20,7 +34,7 @@ import type { RecentPlayedTrack } from "@/lib/apple-music";
 
 type Slide = {
   id: string;
-  text: string;
+  text: React.ReactNode;
   tag: string;
   children: React.ReactNode;
   url?: string;
@@ -31,7 +45,7 @@ interface CarouselProps {
   latitude: number;
   longitude: number;
   bbox: [number, number, number, number];
-  isRaining?: boolean;
+  weatherData?: OneCallResponse;
   recentPlayedTrack?: RecentPlayedTrack;
   diaryEntry?: {
     title: string;
@@ -74,6 +88,42 @@ function AvatarPin() {
     </div>
   );
 }
+
+const openWeatherToLucideIcons = {
+  "01d": Sun,
+  "01n": Moon,
+  "02d": CloudSun,
+  "02n": CloudMoon,
+  "03d": Cloud,
+  "03n": Cloud,
+  "04d": Cloudy,
+  "04n": Cloudy,
+  "09d": CloudDrizzle,
+  "09n": CloudDrizzle,
+  "10d": CloudRain,
+  "10n": CloudRain,
+  "11d": CloudLightning,
+  "11n": CloudLightning,
+  "13d": CloudSnow,
+  "13n": CloudSnow,
+  "50d": CloudFog,
+  "50n": CloudFog,
+};
+
+const getLucideIcon = (
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
+) => {
+  return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
+};
+
+const WeatherIcon = ({
+  iconCode,
+}: {
+  iconCode: keyof typeof openWeatherToLucideIcons;
+}) => {
+  const IconComponent = getLucideIcon(iconCode);
+  return <IconComponent className="size-7 inline-block align-middle" />;
+};
 
 function MapPane({
   bbox,
@@ -181,10 +231,16 @@ export default function Carousel({
   latitude,
   fullAddress,
   bbox,
-  isRaining = false,
+  weatherData,
   recentPlayedTrack,
   diaryEntry,
 }: CarouselProps) {
+  const isRaining = useMemo(() => {
+    if (!weatherData) return false;
+    const description = weatherData.current.weather?.[0]?.description ?? "";
+    const rainMmPerHr = weatherData.current.rain?.["1h"] ?? 0;
+    return rainMmPerHr > 0 || /rain|drizzle/i.test(description);
+  }, [weatherData]);
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -193,7 +249,18 @@ export default function Carousel({
     const result: Slide[] = [
       {
         id: "map",
-        text: fullAddress,
+        text: (
+          <div className="flex items-center gap-1">
+            <span>{fullAddress}</span> •{" "}
+            <WeatherIcon
+              iconCode={
+                weatherData?.current.weather[0]
+                  .icon as keyof typeof openWeatherToLucideIcons
+              }
+            />
+            <span>{Math.round(weatherData?.current.temp ?? 0)}°C</span>
+          </div>
+        ),
         tag: "Now in",
         children: (
           <MapPane
@@ -255,6 +322,7 @@ export default function Carousel({
     diaryEntry,
     bbox,
     fullAddress,
+    weatherData,
   ]);
   useEffect(() => {
     if (!api) return;
@@ -350,64 +418,6 @@ export default function Carousel({
                 </CarouselItem>
               );
             })}
-            {/* <CarouselItem
-              key="map"
-              className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
-            >
-              <div className="group relative size-full cursor-pointer overflow-hidden rounded-lg bg-gray-100 transition-colors duration-300 hover:bg-gray-200">
-                <MemoizedMapPane
-                  center={[longitude, latitude]}
-                  zoom={13}
-                  isRaining={isRaining}
-                />
-              </div>
-            </CarouselItem> */}
-            {/* {slides.map((slide, i) => (
-              <CarouselItem
-                key={slide.id}
-                className="h-[420px] w-full rounded-lg pl-4 md:h-[460px]"
-                onClick={() => {
-                  if (i === current && slide.url) {
-                    window.open(slide.url, "_blank");
-                  } else {
-                    api?.scrollTo(i);
-                    setProgress(0);
-                  }
-                }}
-              >
-                <div className="group relative h-full w-full cursor-pointer overflow-hidden rounded-lg bg-gray-100 transition-colors duration-300 hover:bg-gray-200">
-                  <div
-                    className={cn(
-                      "p-4 transition-all delay-200 duration-500 ease-in-out md:p-6",
-                      i === current
-                        ? "translate-x-0 opacity-100"
-                        : "-translate-x-[50px] opacity-0"
-                    )}
-                  >
-                    <span className="mb-1 inline-flex rounded-md bg-gray-800 px-2 py-0.5 text-xs font-medium text-white">
-                      {slide.tag}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <div className="text-lg font-medium text-gray-800 md:text-2xl">
-                        {slide.text}
-                      </div>
-                      <ArrowUpRightIcon className="size-6" />
-                    </div>
-                  </div>
-                  <div
-                    className={cn(
-                      "absolute bottom-0 left-1/2 h-[300px] w-[calc(100%-2rem)] max-w-[900px] -translate-x-1/2 translate-y-4 overflow-hidden rounded-t-xl shadow-xl transition-all delay-200 duration-500 ease-in-out md:h-[340px] md:w-[calc(100%-8rem)]",
-                      {
-                        "translate-y-1/3 opacity-0": i !== current,
-                        "delay-0 group-hover:translate-y-0": i === current,
-                      }
-                    )}
-                  >
-                    {slide.children}
-                  </div>
-                </div>
-              </CarouselItem>
-            ))} */}
           </CarouselContent>
         </UICarousel>
 

@@ -95,11 +95,6 @@ export default async function Home() {
     getRecentPlayedTracks(),
   ]);
   const recentPlayedTrack = recentPlayedTracks?.data?.[0];
-  const description = weatherData.current.weather[0].description;
-  const rainMmPerHr = weatherData.current.rain?.["1h"] ?? 0;
-  const isRaining = rainMmPerHr > 0 || /rain|drizzle/i.test(description);
-  // Normalize 0-1 intensity roughly from mm/hr (cap at 10mm/hr)
-  const rainIntensity = Math.min(1, rainMmPerHr / 10);
 
   return (
     <Page title="Nic Haley">
@@ -139,7 +134,7 @@ export default async function Home() {
                   latitude={currentLocation.latitude}
                   fullAddress={currentLocation.fullAddress}
                   bbox={currentLocation.bbox}
-                  isRaining={isRaining}
+                  weatherData={weatherData}
                   recentPlayedTrack={recentPlayedTrack}
                   diaryEntry={diaryEntry}
                 />
