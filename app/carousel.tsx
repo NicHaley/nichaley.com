@@ -4,6 +4,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import mapboxgl from "mapbox-gl";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
 import {
   type CarouselApi,
   CarouselContent,
@@ -38,6 +39,14 @@ interface CarouselProps {
   };
 }
 
+function AvatarPin() {
+  return (
+    <div className="overflow-hidden border-4 border-white shadow-lg size-20 rounded-full relative">
+      <Image src="/me.jpeg" alt="Location" fill className="object-cover" />
+    </div>
+  );
+}
+
 function MapPane({
   center,
   zoom,
@@ -49,6 +58,8 @@ function MapPane({
 }) {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const markerRef = useRef<mapboxgl.Marker | null>(null);
+  const markerElementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -83,9 +94,26 @@ function MapPane({
       }
     });
 
-    new mapboxgl.Marker().setLngLat(center).addTo(map);
+    const el = document.createElement("div");
+    markerElementRef.current = el;
+    const root = createRoot(el);
+    root.render(<AvatarPin />);
+
+    markerRef.current = new mapboxgl.Marker({
+      element: el,
+      anchor: "bottom",
+      offset: [0, 32],
+    })
+      .setLngLat(center)
+      .addTo(map);
 
     return () => {
+      markerRef.current?.remove();
+      markerRef.current = null;
+      try {
+        root.unmount();
+      } catch {}
+      markerElementRef.current = null;
       map.remove();
     };
   }, [center, zoom, isRaining]);
