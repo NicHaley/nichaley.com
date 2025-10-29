@@ -25,10 +25,10 @@ type Slide = {
 };
 
 interface CarouselProps {
-  longitude: number;
+  fullAddress: string;
   latitude: number;
-  city: string;
-  state: string;
+  longitude: number;
+  bbox: [number, number, number, number];
   isRaining?: boolean;
   recentPlayedTrack?: RecentPlayedTrack;
   diaryEntry?: {
@@ -37,6 +37,32 @@ interface CarouselProps {
     rating: string;
     image: string;
   };
+}
+
+function lngLatToWorld(lng: number, lat: number) {
+  const sin = Math.sin((lat * Math.PI) / 180);
+  return {
+    x: (lng + 180) / 360,
+    y: 0.5 - Math.log((1 + sin) / (1 - sin)) / (4 * Math.PI),
+  };
+}
+
+function getZoomForBounds(
+  bbox: [number, number, number, number],
+  mapWidth: number,
+  mapHeight: number,
+  padding = 0
+) {
+  const nw = lngLatToWorld(bbox[0], bbox[3]);
+  const se = lngLatToWorld(bbox[2], bbox[1]);
+
+  const worldWidth = Math.abs(se.x - nw.x);
+  const worldHeight = Math.abs(se.y - nw.y);
+
+  const zoomX = Math.log2(mapWidth / (worldWidth * 512 + padding * 2));
+  const zoomY = Math.log2(mapHeight / (worldHeight * 512 + padding * 2));
+
+  return Math.min(zoomX, zoomY);
 }
 
 function AvatarPin() {
@@ -48,12 +74,12 @@ function AvatarPin() {
 }
 
 function MapPane({
+  bbox,
   center,
-  zoom,
   isRaining,
 }: {
+  bbox: [number, number, number, number];
   center: [number, number];
-  zoom: number;
   isRaining: boolean;
 }) {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -67,8 +93,15 @@ function MapPane({
     const map = new mapboxgl.Map({
       container: containerRef.current as HTMLElement,
       style: "mapbox://styles/mapbox/streets-v9",
-      center,
-      zoom,
+      center: center,
+      // Don't use bounds directly since we want to center the map around the
+      // city center (but at the zoom level that would be used when fitting
+      // bounds).
+      zoom: getZoomForBounds(
+        bbox,
+        containerRef.current?.clientWidth ?? 500,
+        containerRef.current?.clientHeight ?? 500
+      ),
     });
 
     mapRef.current = map;
@@ -116,7 +149,7 @@ function MapPane({
       markerElementRef.current = null;
       map.remove();
     };
-  }, [center, zoom, isRaining]);
+  }, [center, isRaining]);
 
   return (
     <div
@@ -136,8 +169,8 @@ function MapPane({
 export default function Carousel({
   longitude,
   latitude,
-  city,
-  state,
+  fullAddress,
+  bbox,
   isRaining = false,
   recentPlayedTrack,
   diaryEntry,
@@ -146,18 +179,16 @@ export default function Carousel({
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  console.log(diaryEntry);
-
   const slides: Slide[] = useMemo(
     () => [
       {
         id: "map",
-        text: `${city}, ${state}`,
+        text: fullAddress,
         tag: "Now in",
         children: (
           <MapPane
+            bbox={bbox}
             center={[longitude, latitude]}
-            zoom={13}
             isRaining={isRaining}
           />
         ),
@@ -198,7 +229,7 @@ export default function Carousel({
         ),
       },
     ],
-    [isRaining, longitude, latitude, city, state, recentPlayedTrack, diaryEntry]
+    [isRaining, longitude, latitude, recentPlayedTrack, diaryEntry]
   );
 
   useEffect(() => {

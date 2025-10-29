@@ -71,22 +71,18 @@ const redis = new Redis({
 });
 
 const fallbackLocation = {
-  lat: 45.5017,
-  lon: -73.5673,
-  city: "Montréal",
-  state: "QC",
-  region: "Canada",
-  updatedAt: new Date().toISOString(),
+  fullAddress: "Montréal, Québec, Canada",
+  latitude: 45.5017,
+  longitude: -73.5673,
+  bbox: [45.49, -73.58, 45.51, -73.55] as [number, number, number, number],
 };
 
 async function getCurrentLocation() {
   const _currentLocation = (await redis.get("current_location")) as {
-    lat: number;
-    lon: number;
-    city: string;
-    state: string;
-    region: string;
-    updatedAt: string;
+    fullAddress: string;
+    latitude: number;
+    longitude: number;
+    bbox: [number, number, number, number];
   } | null;
   return _currentLocation ?? fallbackLocation;
 }
@@ -94,7 +90,7 @@ async function getCurrentLocation() {
 export default async function Home() {
   const currentLocation = await getCurrentLocation();
   const [weatherData, diaryEntry, recentPlayedTracks] = await Promise.all([
-    getWeather(currentLocation.lat, currentLocation.lon),
+    getWeather(currentLocation.latitude, currentLocation.longitude),
     getFirstDiaryEntry(),
     getRecentPlayedTracks(),
   ]);
@@ -139,10 +135,10 @@ export default async function Home() {
                   .
                 </p>
                 <Carousel
-                  longitude={currentLocation.lon}
-                  latitude={currentLocation.lat}
-                  city={currentLocation.city}
-                  state={currentLocation.state}
+                  longitude={currentLocation.longitude}
+                  latitude={currentLocation.latitude}
+                  fullAddress={currentLocation.fullAddress}
+                  bbox={currentLocation.bbox}
                   isRaining={isRaining}
                   recentPlayedTrack={recentPlayedTrack}
                   diaryEntry={diaryEntry}
