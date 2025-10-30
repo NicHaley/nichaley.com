@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Favicon from "@/components/favicon";
+import { cn } from "@/lib/utils";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -130,11 +131,15 @@ function SubList({ items }: { items: ListItem[] }) {
 }
 
 export default function List({ items }: ListProps) {
+  const hasSectionTitles = items.some((section) => section.title);
+
   return (
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
         <li
-          className="pl-0 grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8 mb-12"
+          className={cn("pl-0 grid grid-cols-1  gap-4 md:gap-8 mb-12", {
+            "md:grid-cols-[100px_1fr]": hasSectionTitles,
+          })}
           key={section.title ?? index}
         >
           {section.title ? (
