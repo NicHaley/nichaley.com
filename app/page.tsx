@@ -1,20 +1,4 @@
 import { Redis } from "@upstash/redis";
-import {
-  Cloud,
-  CloudDrizzle,
-  CloudFog,
-  CloudLightning,
-  CloudMoon,
-  CloudRain,
-  CloudSnow,
-  CloudSun,
-  Cloudy,
-  EarthIcon,
-  Moon,
-  MusicIcon,
-  PopcornIcon,
-  Sun,
-} from "lucide-react";
 import Link from "next/link";
 import List from "@/components/list";
 import Page from "@/components/page";
@@ -25,42 +9,6 @@ import Carousel from "./carousel";
 
 export const dynamic = "force-static";
 export const revalidate = 3600; // 1 hour
-
-const openWeatherToLucideIcons = {
-  "01d": Sun,
-  "01n": Moon,
-  "02d": CloudSun,
-  "02n": CloudMoon,
-  "03d": Cloud,
-  "03n": Cloud,
-  "04d": Cloudy,
-  "04n": Cloudy,
-  "09d": CloudDrizzle,
-  "09n": CloudDrizzle,
-  "10d": CloudRain,
-  "10n": CloudRain,
-  "11d": CloudLightning,
-  "11n": CloudLightning,
-  "13d": CloudSnow,
-  "13n": CloudSnow,
-  "50d": CloudFog,
-  "50n": CloudFog,
-};
-
-const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
-) => {
-  return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
-};
-
-const WeatherIcon = ({
-  iconCode,
-}: {
-  iconCode: keyof typeof openWeatherToLucideIcons;
-}) => {
-  const IconComponent = getLucideIcon(iconCode);
-  return <IconComponent className="size-4 inline-block align-middle" />;
-};
 
 const redisUrl = process.env.UPSTASH_REDIS_KV_REST_API_URL;
 const redisToken = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
@@ -223,48 +171,6 @@ export default async function Home() {
           },
         ]}
       />
-      {/* <div className="grid grid-cols-[auto_1fr] gap-2 text-sm items-center">
-        <span className="relative flex size-3 m-0.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-          <span className="relative inline-flex size-3 rounded-full bg-green-500"></span>
-        </span>
-        <span>On parental leave</span>
-        <EarthIcon className="size-4 inline-block align-middle" />{" "}
-        <span className="leading-5 align-middle">
-          Now in {currentLocation.city}, {currentLocation.state}
-        </span>
-        <WeatherIcon
-          iconCode={
-            weatherData.current.weather[0]
-              .icon as keyof typeof openWeatherToLucideIcons
-          }
-        />
-        <span className="leading-5 align-middle">
-          {Math.round(weatherData.current.temp)}°C •{" "}
-          <span className="capitalize">{description}</span>
-        </span>
-        <PopcornIcon className="size-4 inline-block align-middle" />{" "}
-        <Link
-          className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
-          href={diaryEntry.link}
-          target="_blank"
-        >
-          Last watched {diaryEntry.title} • {diaryEntry.rating}
-        </Link>
-        {recentPlayedTrack ? (
-          <>
-            <MusicIcon className="size-4 inline-block align-middle" />
-            <Link
-              href={recentPlayedTrack.attributes.url}
-              className="leading-5 align-middle hover:underline no-underline text-inherit font-normal"
-              target="_blank"
-            >
-              Last played {recentPlayedTrack.attributes.name} •{" "}
-              {recentPlayedTrack.attributes.artistName}
-            </Link>
-          </>
-        ) : null}
-      </div> */}
     </Page>
   );
 }

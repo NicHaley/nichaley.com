@@ -129,10 +129,12 @@ function MapPane({
   bbox,
   center,
   isRaining,
+  isSnowing,
 }: {
   bbox: [number, number, number, number];
   center: [number, number];
   isRaining: boolean;
+  isSnowing: boolean;
 }) {
   const { resolvedTheme } = useTheme();
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -185,6 +187,24 @@ function MapPane({
           "vignette-color": "#6e6e6e",
         });
       }
+
+      if (isSnowing) {
+        (
+          map as unknown as {
+            setSnow?: (options: Record<string, unknown>) => void;
+          }
+        ).setSnow?.({
+          density: 1,
+          intensity: 1,
+          color: "#FFFFFF",
+          opacity: 1,
+          "center-thinning": 0.4,
+          direction: [0, 50],
+          "flake-size": 0.71,
+          vignette: 0.3,
+          vignetteColor: "#FFFFFF",
+        });
+      }
     });
 
     const el = document.createElement("div");
@@ -209,7 +229,7 @@ function MapPane({
       markerElementRef.current = null;
       map.remove();
     };
-  }, [center, isRaining, bbox, resolvedTheme]);
+  }, [center, isRaining, isSnowing, bbox, resolvedTheme]);
 
   return (
     <div
@@ -241,6 +261,15 @@ export default function Carousel({
     const rainMmPerHr = weatherData.current.rain?.["1h"] ?? 0;
     return rainMmPerHr > 0 || /rain|drizzle/i.test(description);
   }, [weatherData]);
+  const isSnowing = useMemo(() => {
+    if (!weatherData) return false;
+    const description = weatherData.current.weather?.[0]?.description ?? "";
+    const icon = weatherData.current.weather?.[0]?.icon ?? "";
+    const snowMmPerHr = weatherData.current.snow?.["1h"] ?? 0;
+    return (
+      snowMmPerHr > 0 || /snow/i.test(description) || /^13[dn]$/.test(icon)
+    );
+  }, [weatherData]);
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -267,6 +296,7 @@ export default function Carousel({
             bbox={bbox}
             center={[longitude, latitude]}
             isRaining={isRaining}
+            isSnowing={isSnowing}
           />
         ),
       },
@@ -316,6 +346,7 @@ export default function Carousel({
     return result;
   }, [
     isRaining,
+    isSnowing,
     longitude,
     latitude,
     recentPlayedTrack,
