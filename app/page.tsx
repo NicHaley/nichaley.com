@@ -78,8 +78,6 @@ export default async function Home() {
                   .
                 </p>
                 <Carousel
-                  longitude={currentLocation.longitude}
-                  latitude={currentLocation.latitude}
                   fullAddress={currentLocation.fullAddress}
                   bbox={currentLocation.bbox}
                   weatherData={weatherData}
