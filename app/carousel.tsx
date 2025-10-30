@@ -135,8 +135,8 @@ function MapPane({
         ).setRain?.({
           density: 1,
           intensity: 1,
-          color: "#d9d9d9",
-          opacity: 0.19,
+          color: "#B8B8B8",
+          opacity: resolvedTheme === "dark" ? 0.2 : 0.8,
           "center-thinning": 0,
           direction: [0, 50],
           "droplet-size": [1, 10],
