@@ -139,12 +139,10 @@ export default async function Home() {
               },
               {
                 title: "Cycle Toronto",
-                text: "Volunteer",
                 dateString: "Various",
               },
               {
                 title: "TIFF",
-                text: "Volunteer",
                 dateString: "Various",
               },
             ],

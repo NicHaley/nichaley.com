@@ -81,7 +81,7 @@ function SubList({ items }: { items: ListItem[] }) {
         const key = href ?? `${item.title}-${index}`;
 
         return (
-          <li className="pl-0 !m-0" key={key}>
+          <li className="pl-0 !m-0 flex flex-col" key={key}>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between gap-2">
                 {href ? (
@@ -107,7 +107,7 @@ function SubList({ items }: { items: ListItem[] }) {
                 )}
                 <div className="flex gap-4">
                   {item.text ? (
-                    <span className="text-stone-500 dark:text-stone-400 whitespace-nowrap">
+                    <span className="text-stone-500 dark:text-stone-400 whitespace-nowrap max-md:hidden">
                       {item.text}
                     </span>
                   ) : null}
@@ -118,6 +118,9 @@ function SubList({ items }: { items: ListItem[] }) {
                   ) : null}
                 </div>
               </div>
+            </div>
+            <div className="text-stone-500 dark:text-stone-400 whitespace-nowrap md:hidden text-base mb-4">
+              {item.text}
             </div>
           </li>
         );
