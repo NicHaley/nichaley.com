@@ -12,6 +12,7 @@ import {
   CloudSun,
   Cloudy,
   Moon,
+  PlayIcon,
   Sun,
 } from "lucide-react";
 import mapboxgl from "mapbox-gl";
@@ -429,30 +430,40 @@ export default function Carousel({
           </CarouselContent>
         </UICarousel>
 
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 justify-center gap-3 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md">
-          {slides.map((slide, i) => (
-            <button
-              key={slide.id}
-              onClick={() => onPillClick(i)}
-              className={cn(
-                "relative h-2 rounded-full bg-gray-400 transition-all",
-                current === i ? "w-12" : "w-2"
-              )}
-              type="button"
-            >
-              {current === i ? (
-                <div className="absolute inset-0 overflow-hidden rounded-full">
-                  <div
-                    className="h-full w-full rounded-full bg-gray-900"
-                    style={{
-                      width: `${progress}%`,
-                      transition: "width 50ms linear",
-                    }}
-                  />
-                </div>
-              ) : null}
-            </button>
-          ))}
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+          <div className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md gap-3 flex items-center justify-center">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.id}
+                onClick={() => onPillClick(i)}
+                className={cn(
+                  "relative h-2 rounded-full bg-gray-400 transition-all",
+                  current === i ? "w-12" : "w-2"
+                )}
+                type="button"
+              >
+                {current === i ? (
+                  <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <div
+                      className="h-full w-full rounded-full bg-gray-900"
+                      style={{
+                        width: `${progress}%`,
+                        transition: "width 50ms linear",
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md"
+          >
+            {/* <button type="button"> */}
+            <PlayIcon className="size-4" fill="currentColor" />
+            {/* </button> */}
+          </button>
         </div>
       </div>
     </section>

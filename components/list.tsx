@@ -148,12 +148,12 @@ export default function List({ items }: ListProps) {
             </h3>
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
-            <div className="not-prose">
+            <div className="not-prose overflow-hidden">
               <SubList items={section.subItems} />
             </div>
           ) : null}
           {section.content && !section.subItems ? (
-            <div className="not-prose">{section.content}</div>
+            <div className="not-prose overflow-hidden">{section.content}</div>
           ) : null}
         </li>
       ))}
