@@ -306,10 +306,7 @@ export default function Carousel({
         tag: "Contributions",
         url: "https://github.com/nichaley",
         children: (
-          <div
-            className="p-4 overflow-hidden no-scrollbar"
-            style={{ direction: "rtl" }}
-          >
+          <div style={{ direction: "rtl" }}>
             <Calendar
               data={contributions?.contributions as Activity[]}
               maxLevel={4}
@@ -333,7 +330,7 @@ export default function Carousel({
     bbox,
     fullAddress,
     weatherData,
-    contributions?.total.lastYear,
+    contributions,
   ]);
   useEffect(() => {
     if (!api) return;
