@@ -276,7 +276,7 @@ export default function Carousel({
                     .replace("{w}", "500")
                     .replace("{h}", "500")}
                   alt={recentPlayedTrack.attributes.name}
-                  className="rounded mt-8 drop-shadow-xl"
+                  className="rounded mt-6 drop-shadow-xl"
                   width={220}
                   height={220}
                 />
@@ -295,7 +295,7 @@ export default function Carousel({
                 <Image
                   src={diaryEntry.image}
                   alt={diaryEntry.title}
-                  className="rounded mt-8 drop-shadow-xl"
+                  className="rounded mt-6 drop-shadow-xl"
                   width={180}
                   height={180}
                 />
@@ -305,11 +305,14 @@ export default function Carousel({
         : []),
       {
         id: "contributions",
-        text: `${contributions?.total.lastYear} contributions in the last year`,
+        text: `${contributions?.total.lastYear} in the last year`,
         tag: "Contributions",
         url: "https://github.com/nichaley",
         children: (
-          <div style={{ direction: "rtl" }}>
+          <div
+            className="overflow-hidden flex justify-end pr-4 relative"
+            style={{ direction: "rtl" }}
+          >
             <Calendar
               data={contributions?.contributions as Activity[]}
               maxLevel={4}
@@ -387,9 +390,11 @@ export default function Carousel({
 
               const overlay = (
                 <div className="absolute inset-0 z-10 p-4">
-                  <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
-                    {slide.tag}
-                  </span>
+                  <div className="flex">
+                    <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
+                      {slide.tag}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-1">
                     <div
                       className={cn(
@@ -437,9 +442,11 @@ export default function Carousel({
             {slides.map((slide, i) => (
               <button
                 key={slide.id}
-                onClick={() => onPillClick(i)}
+                onClick={() => {
+                  onPillClick(i);
+                }}
                 className={cn(
-                  "relative h-2 rounded-full bg-gray-400 transition-all",
+                  "relative h-2 rounded-full bg-gray-400 transition-all cursor-pointer",
                   current === i ? "w-12" : "w-2"
                 )}
                 type="button"
@@ -461,7 +468,7 @@ export default function Carousel({
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md"
+            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
