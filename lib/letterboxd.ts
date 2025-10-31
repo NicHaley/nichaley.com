@@ -11,6 +11,7 @@ export async function getFirstDiaryEntry() {
 
     const browser = await (async () => {
       if (isServerlessLinux) {
+        console.log("Using serverless Linux");
         const { chromium } = await import("playwright-core");
         const executablePath = await chromiumBinary.executablePath();
         return chromium.launch({
@@ -20,6 +21,7 @@ export async function getFirstDiaryEntry() {
         });
       }
 
+      console.log("Using local browser");
       const { chromium } = await import("playwright");
       return chromium.launch({ headless: true });
     })();
