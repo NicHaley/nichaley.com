@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import GitHubCalendar from "react-github-calendar";
 import {
   type CarouselApi,
   CarouselContent,
@@ -83,7 +84,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
 };
@@ -209,6 +210,23 @@ function MapPane({
   );
 }
 
+const selectLastHalfYear = (contributions) => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const shownMonths = 6;
+
+  return contributions.filter((activity) => {
+    const date = new Date(activity.date);
+    const monthOfDay = date.getMonth();
+
+    return (
+      date.getFullYear() === currentYear &&
+      monthOfDay > currentMonth - shownMonths &&
+      monthOfDay <= currentMonth
+    );
+  });
+};
+
 export default function Carousel({
   fullAddress,
   bbox,
@@ -256,48 +274,66 @@ export default function Carousel({
           <MapPane bbox={bbox} isRaining={isRaining} isSnowing={isSnowing} />
         ),
       },
-    ];
-
-    if (recentPlayedTrack) {
-      const artworkUrl = recentPlayedTrack.attributes.artwork.url
-        .replace("{w}", "500")
-        .replace("{h}", "500");
-      result.push({
-        id: "music",
-        text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
-        tag: "Listening to",
-        url: recentPlayedTrack.attributes.url,
+      ...(recentPlayedTrack
+        ? [
+            {
+              id: "music",
+              text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
+              tag: "Listening to",
+              url: recentPlayedTrack.attributes.url,
+              children: (
+                <Image
+                  src={recentPlayedTrack.attributes.artwork.url
+                    .replace("{w}", "500")
+                    .replace("{h}", "500")}
+                  alt={recentPlayedTrack.attributes.name}
+                  className="rounded mt-8 drop-shadow-xl"
+                  width={220}
+                  height={220}
+                />
+              ),
+            },
+          ]
+        : []),
+      ...(diaryEntry
+        ? [
+            {
+              id: "diary",
+              text: `${diaryEntry.title} • ${diaryEntry.rating}`,
+              tag: "Last watched",
+              url: diaryEntry.link,
+              children: (
+                <Image
+                  src={diaryEntry.image}
+                  alt={diaryEntry.title}
+                  className="rounded mt-8 drop-shadow-xl"
+                  width={180}
+                  height={180}
+                />
+              ),
+            },
+          ]
+        : []),
+      {
+        id: "contributions",
+        text: "",
+        tag: "Contributions",
+        url: "https://github.com/nichaley",
         children: (
-          <Image
-            src={artworkUrl}
-            alt={recentPlayedTrack.attributes.name}
-            className="rounded mt-8 drop-shadow-xl"
-            width={220}
-            height={220}
-          />
-        ),
-      });
-    }
-
-    if (diaryEntry) {
-      result.push({
-        id: "diary",
-        text: `${diaryEntry.title} • ${diaryEntry.rating}`,
-        tag: "Last watched",
-        url: diaryEntry.link,
-        children: (
-          <div>
-            <Image
-              src={diaryEntry.image}
-              alt={diaryEntry.title}
-              className="rounded mt-8 drop-shadow-xl"
-              width={180}
-              height={180}
+          <div
+            className="p-4 overflow-hidden no-scrollbar"
+            style={{ direction: "rtl" }}
+          >
+            <GitHubCalendar
+              username="nichaley"
+              transformData={selectLastHalfYear}
+              hideColorLegend
+              hideTotalCount
             />
           </div>
         ),
-      });
-    }
+      },
+    ];
 
     return result;
   }, [
@@ -343,7 +379,7 @@ export default function Carousel({
       api?.scrollTo(index);
       setProgress(0);
     },
-    [api],
+    [api]
   );
 
   return (
@@ -370,7 +406,7 @@ export default function Carousel({
                         "text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl",
                         {
                           "group-hover:underline": slide.url,
-                        },
+                        }
                       )}
                     >
                       {slide.text}
@@ -413,7 +449,7 @@ export default function Carousel({
               onClick={() => onPillClick(i)}
               className={cn(
                 "relative h-2 rounded-full bg-gray-400 transition-all",
-                current === i ? "w-12" : "w-2",
+                current === i ? "w-12" : "w-2"
               )}
               type="button"
             >
