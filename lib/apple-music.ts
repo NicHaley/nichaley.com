@@ -9,7 +9,7 @@ export async function generateAppleMusicDeveloperToken(): Promise<string> {
 
   if (!teamId || !keyId || !privateKey) {
     throw new Error(
-      "Missing Apple Music env vars: APPLE_MUSIC_TEAM_ID, APPLE_MUSIC_KEY_ID, APPLE_MUSIC_PRIVATE_KEY"
+      "Missing Apple Music env vars: APPLE_MUSIC_TEAM_ID, APPLE_MUSIC_KEY_ID, APPLE_MUSIC_PRIVATE_KEY",
     );
   }
 

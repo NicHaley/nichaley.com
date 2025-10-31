@@ -49,20 +49,20 @@ export async function POST(req: Request) {
   ) {
     return NextResponse.json(
       { error: "lat and lon must be numbers" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const key = "current_location";
 
   const reverseGoeocodeResult = await fetch(
-    `https://api.mapbox.com/search/geocode/v6/reverse?access_token=${process.env.MAPBOX_ACCESS_TOKEN}&longitude=${lon}&latitude=${lat}&types=place`
+    `https://api.mapbox.com/search/geocode/v6/reverse?access_token=${process.env.MAPBOX_ACCESS_TOKEN}&longitude=${lon}&latitude=${lat}&types=place`,
   );
 
   if (!reverseGoeocodeResult.ok) {
     return NextResponse.json(
       { error: "Failed to get reverse geocoding data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 

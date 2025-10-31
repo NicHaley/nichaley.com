@@ -82,7 +82,7 @@ function SubList({ items }: { items: ListItem[] }) {
         const key = href ?? `${item.title}-${index}`;
 
         return (
-          <li className="pl-0 !m-0 flex flex-col" key={key}>
+          <li className="pl-0 !mb-2 flex flex-col" key={key}>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between gap-2">
                 {href ? (
@@ -120,7 +120,7 @@ function SubList({ items }: { items: ListItem[] }) {
                 </div>
               </div>
             </div>
-            <div className="text-stone-500 dark:text-stone-400 whitespace-nowrap md:hidden text-base mb-4">
+            <div className="text-stone-500 dark:text-stone-400 whitespace-nowrap md:hidden text-base">
               {item.text}
             </div>
           </li>
@@ -137,7 +137,7 @@ export default function List({ items }: ListProps) {
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
         <li
-          className={cn("pl-0 grid grid-cols-1  gap-4 md:gap-8 mb-12", {
+          className={cn("pl-0 grid grid-cols-1 gap-4 md:gap-8 mb-12", {
             "md:grid-cols-[100px_1fr]": hasSectionTitles,
           })}
           key={section.title ?? index}

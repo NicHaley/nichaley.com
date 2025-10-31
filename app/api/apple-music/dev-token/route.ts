@@ -5,6 +5,6 @@ export async function GET() {
   const token = await generateAppleMusicDeveloperToken();
   return NextResponse.json(
     { token },
-    { headers: { "Cache-Control": "private, no-store" } }
+    { headers: { "Cache-Control": "private, no-store" } },
   );
 }

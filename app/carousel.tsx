@@ -83,7 +83,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
 };
@@ -343,7 +343,7 @@ export default function Carousel({
       api?.scrollTo(index);
       setProgress(0);
     },
-    [api]
+    [api],
   );
 
   return (
@@ -370,7 +370,7 @@ export default function Carousel({
                         "text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl",
                         {
                           "group-hover:underline": slide.url,
-                        }
+                        },
                       )}
                     >
                       {slide.text}
@@ -413,7 +413,7 @@ export default function Carousel({
               onClick={() => onPillClick(i)}
               className={cn(
                 "relative h-2 rounded-full bg-gray-400 transition-all",
-                current === i ? "w-12" : "w-2"
+                current === i ? "w-12" : "w-2",
               )}
               type="button"
             >
