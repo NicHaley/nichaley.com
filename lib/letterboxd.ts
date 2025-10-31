@@ -1,10 +1,28 @@
+import chromiumBinary from "@sparticuz/chromium";
+
 const letterboxdUrl = "https://letterboxd.com";
 const url = `${letterboxdUrl}/nichaley/diary/`;
 
 export async function getFirstDiaryEntry() {
   async function scrapeWithPlaywright() {
-    const { chromium } = await import("playwright");
-    const browser = await chromium.launch({ headless: true });
+    const isServerlessLinux =
+      process.platform === "linux" &&
+      !!(process.env.AWS_REGION || process.env.VERCEL);
+
+    const browser = await (async () => {
+      if (isServerlessLinux) {
+        const { chromium } = await import("playwright-core");
+        const executablePath = await chromiumBinary.executablePath();
+        return chromium.launch({
+          args: chromiumBinary.args,
+          executablePath,
+          headless: true,
+        });
+      }
+
+      const { chromium } = await import("playwright");
+      return chromium.launch({ headless: true });
+    })();
     const context = await browser.newContext({
       userAgent:
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -46,6 +64,7 @@ export async function getFirstDiaryEntry() {
           .pop();
         if (last) src = last.split(/\s+/)[0];
       }
+
       return { title, href, rating, image: src };
     });
 
