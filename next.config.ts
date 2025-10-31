@@ -13,6 +13,18 @@ const nextConfig: NextConfig = {
       {
         hostname: "www.google.com",
       },
+      {
+        hostname: "is1-ssl.mzstatic.com",
+      },
+      {
+        hostname: "is5-ssl.mzstatic.com",
+      },
+      {
+        hostname: "s.ltrbxd.com",
+      },
+      {
+        hostname: "a.ltrbxd.com",
+      },
     ],
   },
 };

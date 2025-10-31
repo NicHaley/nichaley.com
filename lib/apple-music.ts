@@ -9,7 +9,7 @@ export async function generateAppleMusicDeveloperToken(): Promise<string> {
 
   if (!teamId || !keyId || !privateKey) {
     throw new Error(
-      "Missing Apple Music env vars: APPLE_MUSIC_TEAM_ID, APPLE_MUSIC_KEY_ID, APPLE_MUSIC_PRIVATE_KEY"
+      "Missing Apple Music env vars: APPLE_MUSIC_TEAM_ID, APPLE_MUSIC_KEY_ID, APPLE_MUSIC_PRIVATE_KEY",
     );
   }
 
@@ -23,14 +23,19 @@ export async function generateAppleMusicDeveloperToken(): Promise<string> {
   return jwt;
 }
 
-export async function getRecentPlayedTracks(): Promise<{
-  data: {
-    attributes: {
-      name: string;
-      artistName: string;
+export type RecentPlayedTrack = {
+  attributes: {
+    name: string;
+    artistName: string;
+    url: string;
+    artwork: {
       url: string;
     };
-  }[];
+  };
+};
+
+export async function getRecentPlayedTracks(): Promise<{
+  data: RecentPlayedTrack[];
 } | null> {
   try {
     const token = process.env.APPLE_MUSIC_USER_TOKEN;
@@ -57,13 +62,7 @@ export async function getRecentPlayedTracks(): Promise<{
     }
 
     return (await res.json()) as {
-      data: {
-        attributes: {
-          name: string;
-          artistName: string;
-          url: string;
-        };
-      }[];
+      data: RecentPlayedTrack[];
     };
   } catch (err) {
     console.error("Apple Music request failed", err);

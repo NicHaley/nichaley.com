@@ -39,8 +39,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { lat, lon, city, country, state, label, region } = (body ??
-    {}) as Partial<UpdateLocationBody>;
+  const { lat, lon } = (body ?? {}) as Partial<UpdateLocationBody>;
 
   if (
     typeof lat !== "number" ||
@@ -55,18 +54,37 @@ export async function POST(req: Request) {
   }
 
   const key = "current_location";
-  const value = JSON.stringify({
-    lat,
-    lon,
-    city,
-    country,
-    state,
-    label,
-    region,
-    updatedAt: new Date().toISOString(),
-  });
 
-  await redis.set(key, value);
+  const reverseGoeocodeResult = await fetch(
+    `https://api.mapbox.com/search/geocode/v6/reverse?access_token=${process.env.MAPBOX_ACCESS_TOKEN}&longitude=${lon}&latitude=${lat}&types=place`,
+  );
+
+  if (!reverseGoeocodeResult.ok) {
+    return NextResponse.json(
+      { error: "Failed to get reverse geocoding data" },
+      { status: 500 },
+    );
+  }
+
+  const reverseGoeocodeData = (await reverseGoeocodeResult.json()) as {
+    features: {
+      properties: {
+        full_address: string;
+        bbox: [number, number, number, number];
+        coordinates: {
+          latitude: number;
+          longitude: number;
+        };
+      };
+    }[];
+  };
+
+  await redis.set(key, {
+    fullAddress: reverseGoeocodeData.features[0].properties.full_address,
+    bbox: reverseGoeocodeData.features[0].properties.bbox,
+    latitude: reverseGoeocodeData.features[0].properties.coordinates.latitude,
+    longitude: reverseGoeocodeData.features[0].properties.coordinates.longitude,
+  });
 
   return NextResponse.json({
     message: "Location updated",

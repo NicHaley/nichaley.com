@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Favicon from "@/components/favicon";
+import { cn } from "@/lib/utils";
 
 type EmojiIcon = {
   kind: "emoji";
@@ -26,27 +27,22 @@ type ListIcon = EmojiIcon | FaviconIcon | ImageIcon;
 
 type BaseItem = {
   title: string;
+  text?: string;
   dateString?: string;
   icon?: ListIcon;
 };
 
-type InternalItem = BaseItem & {
-  slug: string;
+type ListItem = BaseItem & {
+  href?: string;
 };
-
-type ExternalItem = BaseItem & {
-  href: string;
-};
-
-type ListItem = InternalItem | ExternalItem;
 
 type ListSection = {
   title?: string;
   subItems?: ListItem[];
+  content?: React.ReactNode;
 };
 
 interface ListProps {
-  type: "projects" | "writing" | "shelf";
   items: ListSection[];
 }
 
@@ -77,46 +73,55 @@ function renderIcon(icon?: ListIcon) {
   );
 }
 
-function SubList({
-  type,
-  items,
-}: {
-  type: ListProps["type"];
-  items: ListItem[];
-}) {
+function SubList({ items }: { items: ListItem[] }) {
   return (
     <ul className="!space-y-0 list-none pl-0">
-      {items.map((item) => {
-        const isExternal = "href" in item;
-        const key = isExternal
-          ? (item as ExternalItem).href
-          : (item as InternalItem).slug;
-        const href = isExternal
-          ? (item as ExternalItem).href
-          : `/${type}/${(item as InternalItem).slug}`;
+      {items.map((item, index) => {
+        const href = item.href;
+        const isExternal = !!href && /^https?:\/\//.test(href);
+        const key = href ?? `${item.title}-${index}`;
 
         return (
-          <li className="pl-0 !m-0" key={key}>
+          <li className="pl-0 !mb-2 flex flex-col" key={key}>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between gap-2">
-                <Link
-                  href={href}
-                  className="no-underline hover:underline font-medium overflow-hidden"
-                  target={isExternal ? "_blank" : undefined}
-                >
-                  <span className="flex items-center gap-2 text-foreground">
+                {href ? (
+                  <Link
+                    href={href}
+                    className="no-underline hover:underline font-medium overflow-hidden"
+                    target={isExternal ? "_blank" : undefined}
+                  >
+                    <span className="flex items-center gap-2 text-foreground">
+                      <span className="shrink-0 empty:hidden">
+                        {renderIcon(item.icon)}
+                      </span>
+                      <span className="truncate">{item.title}</span>
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="flex items-center gap-2 text-foreground font-medium">
                     <span className="shrink-0 empty:hidden">
                       {renderIcon(item.icon)}
                     </span>
                     <span className="truncate">{item.title}</span>
                   </span>
-                </Link>
-                {item.dateString ? (
-                  <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
-                    {item.dateString}
-                  </span>
-                ) : null}
+                )}
+                <div className="flex gap-4">
+                  {item.text ? (
+                    <span className="text-stone-500 dark:text-stone-400 whitespace-nowrap max-md:hidden">
+                      {item.text}
+                    </span>
+                  ) : null}
+                  {item.dateString ? (
+                    <span className="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                      {item.dateString}
+                    </span>
+                  ) : null}
+                </div>
               </div>
+            </div>
+            <div className="text-stone-500 dark:text-stone-400 whitespace-nowrap md:hidden text-base">
+              {item.text}
             </div>
           </li>
         );
@@ -125,18 +130,30 @@ function SubList({
   );
 }
 
-export default function List({ type, items }: ListProps) {
+export default function List({ items }: ListProps) {
+  const hasSectionTitles = items.some((section) => section.title);
+
   return (
     <ul className="space-y-4 list-none pl-0">
       {items.map((section, index) => (
-        <li className="pl-0" key={section.title ?? index}>
+        <li
+          className={cn("pl-0 grid grid-cols-1 gap-4 md:gap-8 mb-12", {
+            "md:grid-cols-[100px_1fr]": hasSectionTitles,
+          })}
+          key={section.title ?? index}
+        >
           {section.title ? (
-            <h3 className="font-semibold text-lg">{section.title}</h3>
+            <h3 className="font-normal leading-[32px] text-stone-400 dark:text-stone-500 text-lg !my-0">
+              {section.title}
+            </h3>
           ) : null}
           {section.subItems && section.subItems.length > 0 ? (
             <div className="not-prose">
-              <SubList type={type} items={section.subItems} />
+              <SubList items={section.subItems} />
             </div>
+          ) : null}
+          {section.content && !section.subItems ? (
+            <div className="not-prose">{section.content}</div>
           ) : null}
         </li>
       ))}
