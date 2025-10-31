@@ -10,6 +10,12 @@ export async function getFirstDiaryEntry() {
       !!(process.env.AWS_REGION || process.env.VERCEL);
 
     const browser = await (async () => {
+      /**
+       * On Vercel, we use the lightweight version of Chromium to avoid
+       * exceeding serverless function memory limits.
+       *
+       * More: https://www.zenrows.com/blog/playwright-vercel#getting-started-with-vercel
+       */
       if (isServerlessLinux) {
         console.log("Using serverless Linux");
         const { chromium } = await import("playwright-core");
