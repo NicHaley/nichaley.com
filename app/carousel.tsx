@@ -12,6 +12,7 @@ import {
   CloudSun,
   Cloudy,
   Moon,
+  PauseIcon,
   PlayIcon,
   Sun,
 } from "lucide-react";
@@ -239,6 +240,7 @@ export default function Carousel({
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const slides: Slide[] = useMemo(() => {
     const result: Slide[] = [
@@ -334,7 +336,7 @@ export default function Carousel({
     contributions,
   ]);
   useEffect(() => {
-    if (!api) return;
+    if (!api || !isPlaying) return;
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -348,7 +350,7 @@ export default function Carousel({
     }, 50);
 
     return () => clearInterval(interval);
-  }, [api, current, slides.length]);
+  }, [api, current, slides.length, isPlaying]);
 
   useEffect(() => {
     if (!api) return;
@@ -458,11 +460,15 @@ export default function Carousel({
           </div>
           <button
             type="button"
+            onClick={() => setIsPlaying(!isPlaying)}
             className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md"
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
-            {/* <button type="button"> */}
-            <PlayIcon className="size-4" fill="currentColor" />
-            {/* </button> */}
+            {isPlaying ? (
+              <PauseIcon className="size-4" fill="currentColor" />
+            ) : (
+              <PlayIcon className="size-4" fill="currentColor" />
+            )}
           </button>
         </div>
       </div>
