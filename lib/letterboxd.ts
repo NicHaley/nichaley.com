@@ -40,14 +40,52 @@ export async function getFirstDiaryEntry() {
     await page.goto(url, { waitUntil: "load", timeout: 30000 });
     await page.waitForSelector(".diary-entry-row", { timeout: 20000 });
 
+    // Wait until the first entry's poster image is loaded and not an empty placeholder
+    try {
+      await page.waitForFunction(
+        () => {
+          const firstEntry = document.querySelector(
+            ".diary-entry-row"
+          ) as HTMLElement | null;
+          if (!firstEntry) return false;
+          const imgEl = firstEntry.querySelector(
+            ".poster.film-poster img.image"
+          ) as HTMLImageElement | null;
+          if (!imgEl) return false;
+          let src =
+            imgEl.getAttribute("srcset") ??
+            imgEl.getAttribute("data-srcset") ??
+            imgEl.getAttribute("src") ??
+            imgEl.getAttribute("data-src") ??
+            "";
+          if (src.includes(",")) {
+            const last = src
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .pop();
+            if (last) src = last.split(/\s+/)[0];
+          }
+          return src !== "" && !src.includes("empty-poster");
+        },
+        { timeout: 20000 }
+      );
+      console.log("Letterboxd poster loaded");
+    } catch (error) {
+      console.warn(
+        "Letterboxd poster wait timed out or failed; proceeding",
+        error
+      );
+    }
+
     const data = await page.evaluate(() => {
       const firstEntry = document.querySelector(
-        ".diary-entry-row",
+        ".diary-entry-row"
       ) as HTMLElement | null;
       if (!firstEntry) return null;
 
       const linkEl = firstEntry.querySelector(
-        "header.inline-production-masthead span > h2 > a",
+        "header.inline-production-masthead span > h2 > a"
       ) as HTMLAnchorElement | null;
       const title = linkEl?.textContent?.trim() ?? "";
       const href = linkEl?.getAttribute("href") ?? "";
@@ -56,7 +94,7 @@ export async function getFirstDiaryEntry() {
       ).trim();
 
       const imgEl = firstEntry.querySelector(
-        ".poster.film-poster img.image",
+        ".poster.film-poster img.image"
       ) as HTMLImageElement | null;
       let src =
         imgEl?.getAttribute("srcset") ??
