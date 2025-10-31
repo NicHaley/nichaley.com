@@ -19,14 +19,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Calendar, { type Activity } from "react-activity-calendar";
 import { createRoot } from "react-dom/client";
-import GitHubCalendar from "react-github-calendar";
 import {
   type CarouselApi,
   CarouselContent,
   CarouselItem,
   Carousel as UICarousel,
 } from "@/components/ui/carousel";
+import type { Response } from "@/lib/github";
 import type { OneCallResponse } from "@/lib/openweather";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,7 @@ interface CarouselProps {
     rating: string;
     image: string;
   };
+  contributions?: Response;
 }
 
 function AvatarPin() {
@@ -210,29 +212,13 @@ function MapPane({
   );
 }
 
-const selectLastHalfYear = (contributions) => {
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-  const shownMonths = 6;
-
-  return contributions.filter((activity) => {
-    const date = new Date(activity.date);
-    const monthOfDay = date.getMonth();
-
-    return (
-      date.getFullYear() === currentYear &&
-      monthOfDay > currentMonth - shownMonths &&
-      monthOfDay <= currentMonth
-    );
-  });
-};
-
 export default function Carousel({
   fullAddress,
   bbox,
   weatherData,
   recentPlayedTrack,
   diaryEntry,
+  contributions,
 }: CarouselProps) {
   const isRaining = useMemo(() => {
     if (!weatherData) return false;
@@ -316,7 +302,7 @@ export default function Carousel({
         : []),
       {
         id: "contributions",
-        text: "",
+        text: `${contributions?.total.lastYear} contributions in the last year`,
         tag: "Contributions",
         url: "https://github.com/nichaley",
         children: (
@@ -324,10 +310,13 @@ export default function Carousel({
             className="p-4 overflow-hidden no-scrollbar"
             style={{ direction: "rtl" }}
           >
-            <GitHubCalendar
-              username="nichaley"
-              transformData={selectLastHalfYear}
-              hideColorLegend
+            <Calendar
+              data={contributions?.contributions as Activity[]}
+              maxLevel={4}
+              theme={{
+                light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+                dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+              }}
               hideTotalCount
             />
           </div>
@@ -344,6 +333,7 @@ export default function Carousel({
     bbox,
     fullAddress,
     weatherData,
+    contributions?.total.lastYear,
   ]);
   useEffect(() => {
     if (!api) return;
