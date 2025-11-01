@@ -24,13 +24,13 @@ const requestOptions = (username: string) =>
       referer: `https://github.com/${username}`,
       "x-requested-with": "XMLHttpRequest",
     },
-  } as const);
+  }) as const;
 
 /**
  * @throws Error if scraping of GitHub profile fails
  */
 export async function scrapeContributionsForYear(
-  username: string
+  username: string,
 ): Promise<Response> {
   const url = `https://github.com/users/${username}/contributions`;
 
@@ -70,14 +70,14 @@ export async function scrapeContributionsForYear(
   return {
     total: baseTotal,
     contributions: sortedDays.map(
-      (day) => parseDay(day, tooltipsByDayId).contribution
+      (day) => parseDay(day, tooltipsByDayId).contribution,
     ),
   } satisfies Response;
 }
 
 const parseDay = (
   day: DomElementWithAttribs,
-  tooltipsByDayId: Record<string, string>
+  tooltipsByDayId: Record<string, string>,
 ) => {
   const attr = {
     id: day.attribs.id ?? "",
