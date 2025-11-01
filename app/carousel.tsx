@@ -12,6 +12,8 @@ import {
   CloudSun,
   Cloudy,
   Moon,
+  PauseIcon,
+  PlayIcon,
   Sun,
 } from "lucide-react";
 import mapboxgl from "mapbox-gl";
@@ -19,6 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Calendar, { type Activity } from "react-activity-calendar";
 import { createRoot } from "react-dom/client";
 import {
   type CarouselApi,
@@ -26,6 +29,7 @@ import {
   CarouselItem,
   Carousel as UICarousel,
 } from "@/components/ui/carousel";
+import type { Response } from "@/lib/github";
 import type { OneCallResponse } from "@/lib/openweather";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +55,7 @@ interface CarouselProps {
     rating: string;
     image: string;
   };
+  contributions?: Response;
 }
 
 function AvatarPin() {
@@ -94,7 +99,7 @@ const WeatherIcon = ({
   iconCode: keyof typeof openWeatherToLucideIcons;
 }) => {
   const IconComponent = getLucideIcon(iconCode);
-  return <IconComponent className="size-7 inline-block align-middle" />;
+  return <IconComponent className="size-5 inline-block align-middle" />;
 };
 
 function MapPane({
@@ -122,6 +127,7 @@ function MapPane({
           ? "mapbox://styles/mapbox/dark-v11"
           : "mapbox://styles/mapbox/light-v11",
       bounds: bbox,
+      interactive: false,
     });
 
     mapRef.current = map;
@@ -197,7 +203,7 @@ function MapPane({
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0 h-full w-full rounded-t-xl"
+      className="absolute inset-0 h-full w-full rounded-t-xl"
       style={{
         contain: "layout paint",
         WebkitMaskImage:
@@ -215,6 +221,7 @@ export default function Carousel({
   weatherData,
   recentPlayedTrack,
   diaryEntry,
+  contributions,
 }: CarouselProps) {
   const isRaining = useMemo(() => {
     if (!weatherData) return false;
@@ -234,6 +241,7 @@ export default function Carousel({
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const slides: Slide[] = useMemo(() => {
     const result: Slide[] = [
@@ -241,14 +249,17 @@ export default function Carousel({
         id: "map",
         text: (
           <div className="flex items-center gap-1">
-            <span>{fullAddress}</span> •{" "}
-            <WeatherIcon
-              iconCode={
-                weatherData?.current.weather[0]
-                  .icon as keyof typeof openWeatherToLucideIcons
-              }
-            />
-            <span>{Math.round(weatherData?.current.temp ?? 0)}°C</span>
+            <span className="truncate">{fullAddress}</span>
+            <span> • </span>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <WeatherIcon
+                iconCode={
+                  weatherData?.current.weather[0]
+                    .icon as keyof typeof openWeatherToLucideIcons
+                }
+              />
+              <span>{Math.round(weatherData?.current.temp ?? 0)}°C</span>
+            </div>
           </div>
         ),
         tag: "Now in",
@@ -256,48 +267,85 @@ export default function Carousel({
           <MapPane bbox={bbox} isRaining={isRaining} isSnowing={isSnowing} />
         ),
       },
-    ];
-
-    if (recentPlayedTrack) {
-      const artworkUrl = recentPlayedTrack.attributes.artwork.url
-        .replace("{w}", "500")
-        .replace("{h}", "500");
-      result.push({
-        id: "music",
-        text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
-        tag: "Listening to",
-        url: recentPlayedTrack.attributes.url,
+      ...(recentPlayedTrack
+        ? [
+            {
+              id: "music",
+              text: (
+                <div className="flex items-center gap-1">
+                  <span className="truncate">
+                    {recentPlayedTrack.attributes.name}
+                  </span>
+                  <span className="!no-underline">•</span>
+                  <span className="flex-shrink-0">
+                    {recentPlayedTrack.attributes.artistName}
+                  </span>
+                </div>
+              ),
+              tag: "Listening to",
+              url: recentPlayedTrack.attributes.url,
+              children: (
+                <Image
+                  src={recentPlayedTrack.attributes.artwork.url
+                    .replace("{w}", "500")
+                    .replace("{h}", "500")}
+                  alt={recentPlayedTrack.attributes.name}
+                  className="rounded mt-6 drop-shadow-xl"
+                  width={220}
+                  height={220}
+                />
+              ),
+            },
+          ]
+        : []),
+      ...(diaryEntry
+        ? [
+            {
+              id: "diary",
+              text: (
+                <div className="flex items-center gap-1">
+                  <span className="truncate">{diaryEntry.title}</span>
+                  <span>•</span>
+                  <span className="flex-shrink-0">{diaryEntry.rating}</span>
+                </div>
+              ),
+              tag: "Last watched",
+              url: diaryEntry.link,
+              children: (
+                <Image
+                  src={diaryEntry.image}
+                  alt={diaryEntry.title}
+                  className="rounded mt-6 drop-shadow-xl"
+                  width={180}
+                  height={180}
+                />
+              ),
+            },
+          ]
+        : []),
+      {
+        id: "contributions",
+        text: `${contributions?.total.lastYear} in the last year`,
+        tag: "Contributions",
+        url: "https://github.com/nichaley",
         children: (
-          <Image
-            src={artworkUrl}
-            alt={recentPlayedTrack.attributes.name}
-            className="rounded mt-8 drop-shadow-xl"
-            width={220}
-            height={220}
-          />
-        ),
-      });
-    }
-
-    if (diaryEntry) {
-      result.push({
-        id: "diary",
-        text: `${diaryEntry.title} • ${diaryEntry.rating}`,
-        tag: "Last watched",
-        url: diaryEntry.link,
-        children: (
-          <div>
-            <Image
-              src={diaryEntry.image}
-              alt={diaryEntry.title}
-              className="rounded mt-8 drop-shadow-xl"
-              width={180}
-              height={180}
+          <div
+            className="overflow-hidden flex justify-end pr-4 relative"
+            style={{ direction: "rtl" }}
+          >
+            <Calendar
+              data={contributions?.contributions as Activity[]}
+              maxLevel={4}
+              theme={{
+                light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+                dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+              }}
+              hideTotalCount
             />
           </div>
         ),
-      });
-    }
+      },
+    ];
 
     return result;
   }, [
@@ -308,9 +356,10 @@ export default function Carousel({
     bbox,
     fullAddress,
     weatherData,
+    contributions,
   ]);
   useEffect(() => {
-    if (!api) return;
+    if (!api || !isPlaying) return;
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -324,7 +373,7 @@ export default function Carousel({
     }, 50);
 
     return () => clearInterval(interval);
-  }, [api, current, slides.length]);
+  }, [api, current, slides.length, isPlaying]);
 
   useEffect(() => {
     if (!api) return;
@@ -360,14 +409,20 @@ export default function Carousel({
                 "flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800";
 
               const overlay = (
-                <div className="absolute inset-0 z-10 p-4">
-                  <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
-                    {slide.tag}
-                  </span>
+                <div
+                  className={cn("absolute inset-0 z-10 p-4", {
+                    "pointer-events-none": !slide.url,
+                  })}
+                >
+                  <div className="flex">
+                    <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
+                      {slide.tag}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-1">
                     <div
                       className={cn(
-                        "text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl",
+                        "text-lg font-medium text-gray-800 dark:text-gray-200 overflow-hidden",
                         {
                           "group-hover:underline": slide.url,
                         },
@@ -375,7 +430,7 @@ export default function Carousel({
                     >
                       {slide.text}
                     </div>
-                    {slide.url && <ArrowUpRightIcon className="size-6" />}
+                    {slide.url && <ArrowUpRightIcon className="size-5" />}
                   </div>
                 </div>
               );
@@ -406,30 +461,46 @@ export default function Carousel({
           </CarouselContent>
         </UICarousel>
 
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 justify-center gap-3 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md">
-          {slides.map((slide, i) => (
-            <button
-              key={slide.id}
-              onClick={() => onPillClick(i)}
-              className={cn(
-                "relative h-2 rounded-full bg-gray-400 transition-all",
-                current === i ? "w-12" : "w-2",
-              )}
-              type="button"
-            >
-              {current === i ? (
-                <div className="absolute inset-0 overflow-hidden rounded-full">
-                  <div
-                    className="h-full w-full rounded-full bg-gray-900"
-                    style={{
-                      width: `${progress}%`,
-                      transition: "width 50ms linear",
-                    }}
-                  />
-                </div>
-              ) : null}
-            </button>
-          ))}
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+          <div className="rounded-full bg-white/80 py-2 px-4 shadow-lg backdrop-blur-md gap-3 flex items-center justify-center">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.id}
+                onClick={() => {
+                  onPillClick(i);
+                }}
+                className={cn(
+                  "relative h-2 rounded-full bg-gray-400 transition-all cursor-pointer",
+                  current === i ? "w-12" : "w-2",
+                )}
+                type="button"
+              >
+                {current === i ? (
+                  <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <div
+                      className="h-full w-full rounded-full bg-gray-900"
+                      style={{
+                        width: `${progress}%`,
+                        transition: "width 50ms linear",
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer"
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <PauseIcon className="size-4" fill="currentColor" />
+            ) : (
+              <PlayIcon className="size-4" fill="currentColor" />
+            )}
+          </button>
         </div>
       </div>
     </section>

@@ -30,10 +30,12 @@
     "next-themes": "^0.4.6",
     "playwright-core": "^1.56.1",
     "react": "^19.0.0",
+    "react-activity-calendar": "^2.7.15",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.16",
     "@types/mdx": "^2.0.13",

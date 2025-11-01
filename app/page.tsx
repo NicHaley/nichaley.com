@@ -3,6 +3,7 @@ import Link from "next/link";
 import List from "@/components/list";
 import Page from "@/components/page";
 import { getRecentPlayedTracks } from "@/lib/apple-music";
+import { scrapeContributionsForYear } from "@/lib/github";
 import { getFirstDiaryEntry } from "@/lib/letterboxd";
 import { getWeather } from "@/lib/openweather";
 import Carousel from "./carousel";
@@ -37,11 +38,13 @@ async function getCurrentLocation() {
 
 export default async function Home() {
   const currentLocation = await getCurrentLocation();
-  const [weatherData, diaryEntry, recentPlayedTracks] = await Promise.all([
-    getWeather(currentLocation.latitude, currentLocation.longitude),
-    getFirstDiaryEntry(),
-    getRecentPlayedTracks(),
-  ]);
+  const [weatherData, diaryEntry, recentPlayedTracks, contributions] =
+    await Promise.all([
+      getWeather(currentLocation.latitude, currentLocation.longitude),
+      getFirstDiaryEntry(),
+      getRecentPlayedTracks(),
+      scrapeContributionsForYear("nichaley"),
+    ]);
   const recentPlayedTrack = recentPlayedTracks?.data?.[0];
 
   return (
@@ -83,6 +86,7 @@ export default async function Home() {
                   weatherData={weatherData}
                   recentPlayedTrack={recentPlayedTrack}
                   diaryEntry={diaryEntry}
+                  contributions={contributions}
                 />
               </div>
             ),
