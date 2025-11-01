@@ -88,7 +88,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
 };
@@ -392,7 +392,7 @@ export default function Carousel({
       api?.scrollTo(index);
       setProgress(0);
     },
-    [api],
+    [api]
   );
 
   return (
@@ -406,7 +406,7 @@ export default function Carousel({
           <CarouselContent>
             {slides.map((slide) => {
               const containerClass =
-                "flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800";
+                "flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100 dark:from-stone-900 dark:to-stone-800";
 
               const overlay = (
                 <div
@@ -425,7 +425,7 @@ export default function Carousel({
                         "text-lg font-medium text-gray-800 dark:text-gray-200 overflow-hidden",
                         {
                           "group-hover:underline": slide.url,
-                        },
+                        }
                       )}
                     >
                       {slide.text}
@@ -471,7 +471,7 @@ export default function Carousel({
                 }}
                 className={cn(
                   "relative h-2 rounded-full bg-gray-400 transition-all cursor-pointer",
-                  current === i ? "w-12" : "w-2",
+                  current === i ? "w-12" : "w-2"
                 )}
                 type="button"
               >
@@ -492,7 +492,7 @@ export default function Carousel({
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer"
+            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer text-gray-900"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
