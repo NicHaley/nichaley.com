@@ -99,7 +99,7 @@ const WeatherIcon = ({
   iconCode: keyof typeof openWeatherToLucideIcons;
 }) => {
   const IconComponent = getLucideIcon(iconCode);
-  return <IconComponent className="size-7 inline-block align-middle" />;
+  return <IconComponent className="size-5 inline-block align-middle" />;
 };
 
 function MapPane({
@@ -248,14 +248,17 @@ export default function Carousel({
         id: "map",
         text: (
           <div className="flex items-center gap-1">
-            <span>{fullAddress}</span> •{" "}
-            <WeatherIcon
-              iconCode={
-                weatherData?.current.weather[0]
-                  .icon as keyof typeof openWeatherToLucideIcons
-              }
-            />
-            <span>{Math.round(weatherData?.current.temp ?? 0)}°C</span>
+            <span className="truncate">{fullAddress}</span>
+            <span> • </span>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <WeatherIcon
+                iconCode={
+                  weatherData?.current.weather[0]
+                    .icon as keyof typeof openWeatherToLucideIcons
+                }
+              />
+              <span>{Math.round(weatherData?.current.temp ?? 0)}°C</span>
+            </div>
           </div>
         ),
         tag: "Now in",
@@ -267,7 +270,17 @@ export default function Carousel({
         ? [
             {
               id: "music",
-              text: `${recentPlayedTrack.attributes.name} • ${recentPlayedTrack.attributes.artistName}`,
+              text: (
+                <div className="flex items-center gap-1">
+                  <span className="truncate">
+                    {recentPlayedTrack.attributes.name}
+                  </span>
+                  <span className="!no-underline">•</span>
+                  <span className="flex-shrink-0">
+                    {recentPlayedTrack.attributes.artistName}
+                  </span>
+                </div>
+              ),
               tag: "Listening to",
               url: recentPlayedTrack.attributes.url,
               children: (
@@ -288,7 +301,13 @@ export default function Carousel({
         ? [
             {
               id: "diary",
-              text: `${diaryEntry.title} • ${diaryEntry.rating}`,
+              text: (
+                <div className="flex items-center gap-1">
+                  <span className="truncate">{diaryEntry.title}</span>
+                  <span>•</span>
+                  <span className="flex-shrink-0">{diaryEntry.rating}</span>
+                </div>
+              ),
               tag: "Last watched",
               url: diaryEntry.link,
               children: (
@@ -398,7 +417,7 @@ export default function Carousel({
                   <div className="flex items-center gap-1">
                     <div
                       className={cn(
-                        "text-lg font-medium text-gray-800 dark:text-gray-200 md:text-2xl",
+                        "text-lg font-medium text-gray-800 dark:text-gray-200 overflow-hidden",
                         {
                           "group-hover:underline": slide.url,
                         }
@@ -406,7 +425,7 @@ export default function Carousel({
                     >
                       {slide.text}
                     </div>
-                    {slide.url && <ArrowUpRightIcon className="size-6" />}
+                    {slide.url && <ArrowUpRightIcon className="size-5" />}
                   </div>
                 </div>
               );
