@@ -1,5 +1,16 @@
 import PostImage from "@/components/post-image"
-import Cover from "./IMG_3972.jpeg"
+import InlineImage from "@/components/inline-image";
+import Cover from "./IMG_3976.jpeg"
+import Before from "./IMG_3756.jpeg"
+import Sanding from "./IMG_3764.jpeg"
+import Acid from "./IMG_3781.jpeg"
+import Polish from "./IMG_3826.jpeg"
+import Paint from "./IMG_3841.jpeg"
+import Wheels from "./IMG_3769.jpeg"
+import After1 from "./IMG_3971.jpeg"
+import After2 from "./IMG_3972.jpeg"
+import After3 from "./IMG_3973.jpeg"
+import After4 from "./IMG_3974.jpeg"
 
 export const metadata = {
   title: 'Peugeot Restoration',
@@ -8,4 +19,65 @@ export const metadata = {
   image: <PostImage blur src={Cover} alt="Peugeot Restoration" />
 }
 
-Test
+During the early days of the pandemic, I acquired a trashed vintage Peugeot UO-9
+"Super Sport". I was looking to learn about bike restoration and maintenance,
+and so this bike provided the perfect canvas.
+
+Initially the bike was in pretty rough shape. There was some surface rust, and
+the paint was discolored and chipped. Luckily, most of the original components
+were still functional.
+
+<InlineImage src={Before} alt="Peugeot Before" caption="The bike before restoration." />
+
+The first step was to remove the components and clean up the frame. I knew I
+wanted to repaint the bike, so I began the annoying task of stripping the
+original paint and sanding it. Really I should have just had it sandblasted, but
+I felt compelled to do everything myself. This part was by far the most
+time consuming.
+
+<InlineImage src={Sanding} alt="Peugeot Sanding" caption="Removing the original paint." />
+
+The bike didn't come with its original wheels, so I purchased a new set with a
+wider range. Unfortunately, the new wheels were too wide for the original frame,
+so I had to increase the spacing of the dropouts ("cold setting"). I did this by
+using a threaded rod with bolts that I used to (very) slowly bend the frame
+outwards.
+
+<InlineImage src={Wheels} alt="Peugeot Wheels" caption="Making room for the new wheels." />
+
+The next challenge I discovered was that the quill stem was frozen, meaning I
+couldn't remove the fork from the frame. This also ended up being extremely
+difficult to resolve. My first approach was to try applying penetrating oil
+daily for a week, but I didn't have any luck. Next, I tried heating the stem
+using a blowtorch to try and get it to expand and break the rust, as well as
+hammering the top of the stem to try and break the rust free. Again, no luck.
+
+Finally, what ended up working was dissolving the stem (aluminum) in acid (lye
+crystals). I had to be super careful with this step to avoid inhaling the fumes
+or accidentally getting the acid on my skin.
+
+<InlineImage src={Acid} alt="Peugeot Acid" caption="Dissolving the stem in acid." />
+
+With the stem removed, I was now free to finish cleaning up the frame. This part
+was really satisfying as the polished steel began to shine through. At this
+point I also cleaned and polished the original components.
+
+<InlineImage src={Polish} alt="Peugeot Polish" caption="Polishing the frame." />
+
+The next step was to paint the bike. I used a spray primer, base coat, and clear
+coat to paint it a glossy pebble-white colour. It turned out nicely, but if I
+was to do this again I would have it professionally powder coated instead since
+the spray paint was very prone to chipping.
+
+<InlineImage src={Paint} alt="Peugeot Paint" caption="Painting the bike." />
+
+The final step was putting the bike back together. This was relatively
+straightforward, with the exception of applying the decals which I took care to
+position perfectly.
+
+The final result had me pretty jazzed!
+
+<InlineImage src={After1} alt="Peugeot After" />
+<InlineImage src={After2} alt="Peugeot After" />
+<InlineImage src={After3} alt="Peugeot After" />
+<InlineImage src={After4} alt="Peugeot After" />
