@@ -127,6 +127,7 @@ function MapPane({
           ? "mapbox://styles/mapbox/dark-v11"
           : "mapbox://styles/mapbox/light-v11",
       bounds: bbox,
+      interactive: false,
     });
 
     mapRef.current = map;
@@ -202,7 +203,7 @@ function MapPane({
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0 h-full w-full rounded-t-xl"
+      className="absolute inset-0 h-full w-full rounded-t-xl"
       style={{
         contain: "layout paint",
         WebkitMaskImage:
@@ -408,7 +409,11 @@ export default function Carousel({
                 "flex justify-center items-center group relative size-full cursor-pointer overflow-hidden rounded-lg bg-linear-to-t from-stone-200 to-stone-100  dark:from-stone-900 dark:to-stone-800";
 
               const overlay = (
-                <div className="absolute inset-0 z-10 p-4">
+                <div
+                  className={cn("absolute inset-0 z-10 p-4", {
+                    "pointer-events-none": !slide.url,
+                  })}
+                >
                   <div className="flex">
                     <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
                       {slide.tag}
@@ -457,7 +462,7 @@ export default function Carousel({
         </UICarousel>
 
         <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-          <div className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md gap-3 flex items-center justify-center">
+          <div className="rounded-full bg-white/80 py-2 px-4 shadow-lg backdrop-blur-md gap-3 flex items-center justify-center">
             {slides.map((slide, i) => (
               <button
                 key={slide.id}
