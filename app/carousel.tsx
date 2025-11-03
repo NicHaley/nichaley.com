@@ -88,7 +88,7 @@ const openWeatherToLucideIcons = {
 };
 
 const getLucideIcon = (
-  openWeatherIconCode: keyof typeof openWeatherToLucideIcons,
+  openWeatherIconCode: keyof typeof openWeatherToLucideIcons
 ) => {
   return openWeatherToLucideIcons[openWeatherIconCode] || Cloud;
 };
@@ -392,7 +392,7 @@ export default function Carousel({
       api?.scrollTo(index);
       setProgress(0);
     },
-    [api],
+    [api]
   );
 
   return (
@@ -415,17 +415,17 @@ export default function Carousel({
                   })}
                 >
                   <div className="flex">
-                    <span className="mb-1 inline-flex rounded-md bg-gray-800 dark:bg-gray-200 px-2 py-0.5 text-xs font-medium text-white dark:text-gray-800">
+                    <span className="mb-1 inline-flex rounded-md bg-stone-800 dark:bg-stone-200 px-2 py-0.5 text-xs font-medium text-white dark:text-stone-800">
                       {slide.tag}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
                     <div
                       className={cn(
-                        "text-lg font-medium text-gray-800 dark:text-gray-200 overflow-hidden",
+                        "text-lg font-medium text-stone-800 dark:text-stone-200 overflow-hidden",
                         {
                           "group-hover:underline": slide.url,
-                        },
+                        }
                       )}
                     >
                       {slide.text}
@@ -470,15 +470,15 @@ export default function Carousel({
                   onPillClick(i);
                 }}
                 className={cn(
-                  "relative h-2 rounded-full bg-gray-400 transition-all cursor-pointer",
-                  current === i ? "w-12" : "w-2",
+                  "relative h-2 rounded-full bg-stone-400 transition-all cursor-pointer",
+                  current === i ? "w-12" : "w-2"
                 )}
                 type="button"
               >
                 {current === i ? (
                   <div className="absolute inset-0 overflow-hidden rounded-full">
                     <div
-                      className="h-full w-full rounded-full bg-gray-900"
+                      className="h-full w-full rounded-full bg-stone-900"
                       style={{
                         width: `${progress}%`,
                         transition: "width 50ms linear",
@@ -492,7 +492,7 @@ export default function Carousel({
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer text-gray-900"
+            className="rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md cursor-pointer text-stone-900"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? (
