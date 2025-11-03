@@ -56,8 +56,8 @@ export default async function Home() {
             content: (
               <div className="flex flex-col gap-4">
                 <p>
-                  I&apos;m Nic — a product engineer based in Montreal 🥯 I enjoy
-                  building tools that help connect people and places. Find me on{" "}
+                  I&apos;m Nic — a product engineer based in Montreal 🥯 I work
+                  with startups to take products from 0 → 1. Find me on{" "}
                   <Link
                     className="font-medium underline"
                     href="https://github.com/nichaley"
