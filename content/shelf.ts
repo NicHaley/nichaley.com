@@ -39,6 +39,10 @@ export const shelfSections = [
         url: "https://react.dev/",
       },
       {
+        title: "Resend",
+        url: "https://resend.com/",
+      },
+      {
         title: "shadcn",
         url: "https://ui.shadcn.com/",
       },
