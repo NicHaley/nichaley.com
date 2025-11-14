@@ -31,6 +31,10 @@ export const shelfSections = [
         url: "https://nextjs.org/",
       },
       {
+        title: "Notes",
+        url: "https://www.icloud.com/notes",
+      },
+      {
         title: "Notion",
         url: "https://www.notion.com/",
       },
@@ -88,6 +92,10 @@ export const shelfSections = [
   {
     title: "Resources",
     bookmarks: [
+      {
+        title: "Basic Apple Guy",
+        url: "https://basicappleguy.com/",
+      },
       {
         title: "Brutalist Web Design",
         url: "https://brutalist-web.design/",
