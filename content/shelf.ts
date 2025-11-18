@@ -93,6 +93,10 @@ export const shelfSections = [
     title: "Resources",
     bookmarks: [
       {
+        title: "Apple Human Interface Guidelines",
+        url: "https://developer.apple.com/design/human-interface-guidelines",
+      },
+      {
         title: "Basic Apple Guy",
         url: "https://basicappleguy.com/",
       },
