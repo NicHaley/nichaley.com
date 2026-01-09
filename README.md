@@ -1,6 +1,9 @@
 ## Getting Started
 
-Install
+
+### Prereqs:
+1. Install node v24
+2. Install pnpm
 
 ### Step 1: Install deps
 ```
