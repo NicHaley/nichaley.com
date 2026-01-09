@@ -2,11 +2,23 @@
 
 Install
 
+### Step 1: Install deps
 ```
 pnpm i
 ```
 
-Local Dev
+### Step 2: Install Playwright
+```
+pnpm exec playwright install
+```
+
+### Step 3: Add environment variables
+```
+vercel env pull --environment=development;
+```
+
+
+### Step 4: Run Local Dev
 
 ```
 pnpm dev
