@@ -61,9 +61,7 @@ export default async function Home() {
                   products from 0 → 1.
                 </p>
                 <p>
-                  Outside of work, I'm a father, urbanist, and cinephile. I
-                  spend part of my time volunteering as a bike mechanic with
-                  community groups to make cycling accessible to all.
+                  Outside of work, my interests revolve around cycling, urbanism, and film. In recent years I have been learning piano and volunteering at a local bike co-op, though lately I've been mostly preoccupied as a new dad.
                 </p>
                 <p>
                   Find me on{" "}
