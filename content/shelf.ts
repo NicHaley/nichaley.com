@@ -114,6 +114,10 @@ export const shelfSections = [
         url: "https://www.goodreads.com/book/show/37638098-creative-selection",
       },
       {
+        title: "Developing Taste",
+        url: "https://emilkowal.ski/ui/developing-taste"
+      },
+      {
         title: "Gradient Generator",
         url: "https://www.joshwcomeau.com/gradient-generator/",
       },
