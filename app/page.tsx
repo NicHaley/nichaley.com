@@ -102,6 +102,11 @@ export default async function Home() {
             title: "Work",
             subItems: [
               {
+                title: "Motion",
+                text: "Senior Product Engineer",
+                dateString: "2026 - Now",
+              },
+              {
                 title: "Upfront",
                 text: "Founding Engineer",
                 dateString: "2024 - 2025",
