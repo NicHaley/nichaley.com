@@ -61,7 +61,10 @@ export default async function Home() {
                   products from 0 → 1.
                 </p>
                 <p>
-                  Outside of work, my interests revolve around cycling, urbanism, and film. In recent years I have been learning piano and volunteering at a local bike co-op, though lately I've been mostly preoccupied as a new dad.
+                  Outside of work, my interests revolve around cycling,
+                  urbanism, and film. In recent years I have been learning piano
+                  and volunteering at a local bike co-op, though lately I've
+                  been mostly preoccupied as a new dad.
                 </p>
                 <p>
                   Find me on{" "}
@@ -101,11 +104,6 @@ export default async function Home() {
           {
             title: "Work",
             subItems: [
-              {
-                title: "Motion",
-                text: "Senior Product Engineer",
-                dateString: "2026 - Now",
-              },
               {
                 title: "Upfront",
                 text: "Founding Engineer",
