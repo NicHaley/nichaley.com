@@ -95,7 +95,7 @@ export default async function Home() {
                   bbox={currentLocation.bbox}
                   weatherData={weatherData}
                   recentPlayedTrack={recentPlayedTrack}
-                  diaryEntry={diaryEntry}
+                  diaryEntry={diaryEntry ?? undefined}
                   contributions={contributions}
                 />
               </div>

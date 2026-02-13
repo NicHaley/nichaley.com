@@ -1,10 +1,59 @@
+import { Redis } from "@upstash/redis";
 import chromiumBinary from "@sparticuz/chromium";
 
 const letterboxdUrl = "https://letterboxd.com";
 const url = `${letterboxdUrl}/nichaley/diary/`;
 
-export async function getFirstDiaryEntry() {
-  async function scrapeWithPlaywright() {
+const REDIS_KEY = "letterboxd_diary_entry";
+
+type DiaryEntry = {
+  title: string;
+  link: string;
+  rating: string;
+  image: string;
+};
+
+function getRedis() {
+  const redisUrl = process.env.UPSTASH_REDIS_KV_REST_API_URL;
+  const redisToken = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
+  if (!redisUrl || !redisToken) return null;
+  return new Redis({ url: redisUrl, token: redisToken });
+}
+
+/**
+ * Scrapes the most recent diary entry from Letterboxd. On success, caches
+ * the result in Redis so that future builds can fall back to it if the
+ * scrape fails (e.g. Cloudflare block, timeout, Vercel cold-start issues).
+ */
+export async function getFirstDiaryEntry(): Promise<DiaryEntry | null> {
+  const redis = getRedis();
+
+  try {
+    const entry = await scrapeWithPlaywright();
+    // Cache every successful scrape so we have a fallback for next time
+    if (redis) {
+      await redis.set(REDIS_KEY, JSON.stringify(entry));
+    }
+    return entry;
+  } catch (error) {
+    console.error("Letterboxd scrape failed, falling back to cache", error);
+    if (redis) {
+      const cached = await redis.get<string>(REDIS_KEY);
+      if (cached) {
+        return typeof cached === "string" ? JSON.parse(cached) : cached as unknown as DiaryEntry;
+      }
+    }
+    return null;
+  }
+}
+
+/**
+ * Uses Playwright to navigate to the Letterboxd diary page and extract
+ * the title, link, rating, and poster image from the first entry.
+ *
+ * Letterboxd is behind Cloudflare, so we need a real browser (not fetch/curl).
+ */
+async function scrapeWithPlaywright(): Promise<DiaryEntry> {
     const isServerlessLinux =
       process.platform === "linux" &&
       !!(process.env.AWS_REGION || process.env.VERCEL);
@@ -40,35 +89,23 @@ export async function getFirstDiaryEntry() {
     await page.goto(url, { waitUntil: "load", timeout: 30000 });
     await page.waitForSelector(".diary-entry-row", { timeout: 20000 });
 
-    // Scroll the first poster into view to trigger lazy-loading, then wait for the image src
-    const posterEl = page.locator(".diary-entry-row .poster.film-poster img.image").first();
-    await posterEl.scrollIntoViewIfNeeded().catch(() => {});
-    try {
-      await posterEl.waitFor({ state: "attached", timeout: 10000 });
-      // Wait briefly for lazy-load attributes to populate
-      await page.waitForFunction(
+    // Letterboxd lazy-loads poster images — they start as empty-poster
+    // placeholders and only load once scrolled into the viewport. We scroll
+    // the first poster into view to trigger the swap, then briefly wait for
+    // the real image src to appear.
+    const posterImg = page.locator(".diary-entry-row .poster.film-poster img.image").first();
+    await posterImg.scrollIntoViewIfNeeded().catch(() => {});
+    await page
+      .waitForFunction(
         () => {
-          const imgEl = document.querySelector(
+          const img = document.querySelector(
             ".diary-entry-row .poster.film-poster img.image",
           ) as HTMLImageElement | null;
-          if (!imgEl) return false;
-          const src =
-            imgEl.getAttribute("srcset") ??
-            imgEl.getAttribute("data-srcset") ??
-            imgEl.getAttribute("src") ??
-            imgEl.getAttribute("data-src") ??
-            "";
-          return src !== "" && !src.includes("empty-poster");
+          return img?.src && !img.src.includes("empty-poster");
         },
-        { timeout: 10000 },
-      );
-      console.log("Letterboxd poster loaded");
-    } catch (error) {
-      console.warn(
-        "Letterboxd poster wait timed out or failed; proceeding",
-        error,
-      );
-    }
+        { timeout: 5000 },
+      )
+      .catch(() => {});
 
     const data = await page.evaluate(() => {
       const firstEntry = document.querySelector(
@@ -88,20 +125,19 @@ export async function getFirstDiaryEntry() {
       const imgEl = firstEntry.querySelector(
         ".poster.film-poster img.image",
       ) as HTMLImageElement | null;
-      let src =
+      // Prefer srcset (higher-res 2x image) over src (1x thumbnail)
+      const raw =
         imgEl?.getAttribute("srcset") ??
-        imgEl?.getAttribute("data-srcset") ??
         imgEl?.getAttribute("src") ??
-        imgEl?.getAttribute("data-src") ??
         "";
-      if (src.includes(",")) {
-        const last = src
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean)
-          .pop();
-        if (last) src = last.split(/\s+/)[0];
-      }
+      // srcset may contain descriptors like "url 2x" or "url1 1x, url2 2x"
+      // — split on commas, take the last entry, and strip the descriptor suffix
+      const src = raw
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .pop()
+        ?.split(/\s+/)[0] ?? "";
 
       return { title, href, rating, image: src };
     });
@@ -109,10 +145,8 @@ export async function getFirstDiaryEntry() {
     await browser.close();
     if (!data) throw new Error("Failed to extract diary entry");
 
+    // Upscale the thumbnail to a larger poster size (70x105 → 460x690)
     const image = data.image.replace("70-0-105", "460-0-690");
     const link = `${letterboxdUrl}${data.href}`;
     return { title: data.title, link, rating: data.rating, image };
-  }
-
-  return await scrapeWithPlaywright();
 }
