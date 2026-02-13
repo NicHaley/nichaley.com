@@ -40,35 +40,27 @@ export async function getFirstDiaryEntry() {
     await page.goto(url, { waitUntil: "load", timeout: 30000 });
     await page.waitForSelector(".diary-entry-row", { timeout: 20000 });
 
-    // Wait until the first entry's poster image is loaded and not an empty placeholder
+    // Scroll the first poster into view to trigger lazy-loading, then wait for the image src
+    const posterEl = page.locator(".diary-entry-row .poster.film-poster img.image").first();
+    await posterEl.scrollIntoViewIfNeeded().catch(() => {});
     try {
+      await posterEl.waitFor({ state: "attached", timeout: 10000 });
+      // Wait briefly for lazy-load attributes to populate
       await page.waitForFunction(
         () => {
-          const firstEntry = document.querySelector(
-            ".diary-entry-row",
-          ) as HTMLElement | null;
-          if (!firstEntry) return false;
-          const imgEl = firstEntry.querySelector(
-            ".poster.film-poster img.image",
+          const imgEl = document.querySelector(
+            ".diary-entry-row .poster.film-poster img.image",
           ) as HTMLImageElement | null;
           if (!imgEl) return false;
-          let src =
+          const src =
             imgEl.getAttribute("srcset") ??
             imgEl.getAttribute("data-srcset") ??
             imgEl.getAttribute("src") ??
             imgEl.getAttribute("data-src") ??
             "";
-          if (src.includes(",")) {
-            const last = src
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .pop();
-            if (last) src = last.split(/\s+/)[0];
-          }
           return src !== "" && !src.includes("empty-poster");
         },
-        { timeout: 20000 },
+        { timeout: 10000 },
       );
       console.log("Letterboxd poster loaded");
     } catch (error) {
