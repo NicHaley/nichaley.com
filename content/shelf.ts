@@ -115,7 +115,7 @@ export const shelfSections = [
       },
       {
         title: "Developing Taste",
-        url: "https://emilkowal.ski/ui/developing-taste"
+        url: "https://emilkowal.ski/ui/developing-taste",
       },
       {
         title: "Gradient Generator",
