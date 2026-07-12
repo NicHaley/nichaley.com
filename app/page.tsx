@@ -1,4 +1,5 @@
 import Link from "next/link";
+// biome-ignore lint/correctness/noUnusedImports: temporarily disabled on the page; kept for easy re-enable
 import Contributions from "@/components/contributions";
 import List from "@/components/list";
 import Page from "@/components/page";
@@ -7,6 +8,7 @@ import { scrapeContributionsForYear } from "@/lib/github";
 export const dynamic = "force-static";
 
 export default async function Home() {
+  // biome-ignore lint/correctness/noUnusedVariables: consumed by the (temporarily disabled) <Contributions> below
   const contributions = await scrapeContributionsForYear("nichaley").catch(
     () => undefined,
   );
@@ -54,7 +56,7 @@ export default async function Home() {
                   </Link>
                   .
                 </p>
-                {/*<Contributions contributions={contributions} />*/}
+                {/* <Contributions contributions={contributions} /> */}
               </div>
             ),
           },
