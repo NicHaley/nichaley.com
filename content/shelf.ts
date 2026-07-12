@@ -3,8 +3,8 @@ export const shelfSections = [
     title: "Software",
     bookmarks: [
       {
-        title: "Cursor",
-        url: "https://www.cursor.com/",
+        title: "Claude Code",
+        url: "https://claude.com/claude-code",
       },
       {
         title: "Drizzle",
@@ -15,12 +15,20 @@ export const shelfSections = [
         url: "https://www.figma.com/",
       },
       {
+        title: "Ghostty",
+        url: "https://ghostty.org/",
+      },
+      {
         title: "Inngest",
         url: "https://www.inngest.com/",
       },
       {
         title: "Linear",
         url: "https://www.linear.app/",
+      },
+      {
+        title: "MapOS",
+        url: "https://mapos.md/",
       },
       {
         title: "Neon",
@@ -37,6 +45,14 @@ export const shelfSections = [
       {
         title: "Notion",
         url: "https://www.notion.com/",
+      },
+      {
+        title: "Obsidian",
+        url: "https://obsidian.md/",
+      },
+      {
+        title: "Paper",
+        url: "https://paper.design/",
       },
       {
         title: "React",
@@ -57,6 +73,10 @@ export const shelfSections = [
       {
         title: "Turborepo",
         url: "https://turborepo.com/",
+      },
+      {
+        title: "Zed",
+        url: "https://zed.dev/",
       },
     ],
   },

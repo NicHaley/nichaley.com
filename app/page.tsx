@@ -54,7 +54,7 @@ export default async function Home() {
                   </Link>
                   .
                 </p>
-                <Contributions contributions={contributions} />
+                {/*<Contributions contributions={contributions} />*/}
               </div>
             ),
           },
