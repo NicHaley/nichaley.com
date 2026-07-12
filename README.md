@@ -1,8 +1,7 @@
 ## Getting Started
 
-
 ### Prereqs:
-1. Install node v24
+1. Install node v22+
 2. Install pnpm
 
 ### Step 1: Install deps
@@ -10,46 +9,33 @@
 pnpm i
 ```
 
-### Step 2: Install Playwright
-```
-pnpm exec playwright install
-```
-
-### Step 3: Add environment variables
-```
-vercel env pull --environment=development;
-```
-
-
-### Step 4: Run Local Dev
-
+### Step 2: Run local dev
 ```
 pnpm dev
 ```
 
+No environment variables are required — the site is fully static.
+
 ## Stats
 
-The front page stats work by combining data from different sources. The stats (about) page is forced to generate statically, and is revalidated every hour.
+The about (front) page shows a GitHub contributions calendar. It is generated
+statically at build time by scraping the public GitHub profile
+(`lib/github.ts`), so the snapshot refreshes on each deploy.
 
-### Current location
+## Deploying (Cloudflare Workers)
 
-This works by:
+The site is deployed to Cloudflare Workers via
+[`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare).
 
-1. iPhone Shortcuts automation gets current location and sends POST request to /api/update-location
-2. Location stored in Redis (managed through Upstash Vercel integration)
-3. Location read from Redis
+- Preview the production build locally (build + populate cache + Wrangler dev):
+  ```
+  pnpm preview
+  ```
+- Deploy to Cloudflare (build + populate cache + deploy):
+  ```
+  pnpm deploy
+  ```
 
-### Weather
-
-Location passed to request to openweathermap.org
-
-### Letterboxd
-
-Simple scraper setup to get data from https://letterboxd.com/nichaley/diary/
-
-### Apple Music
-
-Works using the Apple Music API, which requires an Apple Developer Program membership. Authenticating requires:
-
-1. Developer Token: JWT signed with Apple private key
-2. User Token: The token is generated via Apple's MusicKit SDK, which unfortunately can only run in the client. The token appears to be long-lived (6 months). It's not ideal, but the token can be stored in env variables, and needs to be manually refreshed before the 6 month expiry. To refresh it, go to `http://localhost:3000/secret/apple-music-token`. If it expires before the music section will just be hidden.
+Configuration lives in `wrangler.jsonc` and `open-next.config.ts`. Prerendered
+pages are served from the Workers static assets binding, so no R2/KV/D1 is
+required.

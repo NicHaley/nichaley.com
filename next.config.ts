@@ -1,4 +1,5 @@
 import createMDX from "@next/mdx";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -9,21 +10,13 @@ const nextConfig: NextConfig = {
     viewTransition: true,
   },
   images: {
+    // Cloudflare Workers serves images directly; skip Next's Image
+    // Optimization API (which would otherwise require the Cloudflare
+    // Images product) to keep the deployment simple.
+    unoptimized: true,
     remotePatterns: [
       {
         hostname: "www.google.com",
-      },
-      {
-        hostname: "is1-ssl.mzstatic.com",
-      },
-      {
-        hostname: "is5-ssl.mzstatic.com",
-      },
-      {
-        hostname: "s.ltrbxd.com",
-      },
-      {
-        hostname: "a.ltrbxd.com",
       },
     ],
   },
@@ -35,3 +28,9 @@ const withMDX = createMDX({
 
 // Merge MDX config with Next.js config
 export default withMDX(nextConfig);
+
+// Enables getCloudflareContext() (bindings/env) during `next dev` only.
+// Guarded so it never spins up workerd during `next build`.
+if (process.env.NODE_ENV === "development") {
+  initOpenNextCloudflareForDev();
+}

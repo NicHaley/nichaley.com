@@ -1,51 +1,15 @@
-import { Redis } from "@upstash/redis";
 import Link from "next/link";
+import Contributions from "@/components/contributions";
 import List from "@/components/list";
 import Page from "@/components/page";
-import { getRecentPlayedTracks } from "@/lib/apple-music";
 import { scrapeContributionsForYear } from "@/lib/github";
-import { getFirstDiaryEntry } from "@/lib/letterboxd";
-import { getWeather } from "@/lib/openweather";
-import Carousel from "./carousel";
 
 export const dynamic = "force-static";
-export const revalidate = 3600; // 1 hour
-
-const redisUrl = process.env.UPSTASH_REDIS_KV_REST_API_URL;
-const redisToken = process.env.UPSTASH_REDIS_KV_REST_API_TOKEN;
-
-const redis = new Redis({
-  url: redisUrl,
-  token: redisToken,
-});
-
-const fallbackLocation = {
-  fullAddress: "Montréal, Québec, Canada",
-  latitude: 45.5017,
-  longitude: -73.5673,
-  bbox: [45.49, -73.58, 45.51, -73.55] as [number, number, number, number],
-};
-
-async function getCurrentLocation() {
-  const _currentLocation = (await redis.get("current_location")) as {
-    fullAddress: string;
-    latitude: number;
-    longitude: number;
-    bbox: [number, number, number, number];
-  } | null;
-  return _currentLocation ?? fallbackLocation;
-}
 
 export default async function Home() {
-  const currentLocation = await getCurrentLocation();
-  const [weatherData, diaryEntry, recentPlayedTracks, contributions] =
-    await Promise.all([
-      getWeather(currentLocation.latitude, currentLocation.longitude),
-      getFirstDiaryEntry(),
-      getRecentPlayedTracks(),
-      scrapeContributionsForYear("nichaley"),
-    ]);
-  const recentPlayedTrack = recentPlayedTracks?.data?.[0];
+  const contributions = await scrapeContributionsForYear("nichaley").catch(
+    () => undefined,
+  );
 
   return (
     <Page title="Nic Haley">
@@ -90,14 +54,7 @@ export default async function Home() {
                   </Link>
                   .
                 </p>
-                <Carousel
-                  fullAddress={currentLocation.fullAddress}
-                  bbox={currentLocation.bbox}
-                  weatherData={weatherData}
-                  recentPlayedTrack={recentPlayedTrack}
-                  diaryEntry={diaryEntry ?? undefined}
-                  contributions={contributions}
-                />
+                <Contributions contributions={contributions} />
               </div>
             ),
           },
