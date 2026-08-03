@@ -12,6 +12,14 @@ export default defineConfig({
 
   integrations: [mdx()],
 
+  image: {
+    // Default any <Image> without explicit widths to a responsive srcset.
+    // responsiveStyles is left off (the default) because the image components
+    // set object-fit and max-height themselves with Tailwind classes.
+    layout: "constrained",
+    breakpoints: [500, 736, 1000, 1472],
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },

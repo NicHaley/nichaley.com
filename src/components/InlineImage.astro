@@ -11,9 +11,15 @@ const { src, alt, caption } = Astro.props;
 ---
 
 <figure class="flex flex-col gap-2 my-4 max-md:-mx-4">
+  {/* The prose column caps at 736px, and below md: the figure bleeds to the
+      full viewport width. Widths top out at 1472 (736 at 2x) because nothing
+      here is ever displayed wider than that. */}
   <Image
     src={src}
     alt={alt}
+    width={736}
+    widths={[500, 736, 1000, 1472]}
+    sizes="(min-width: 1024px) 736px, (min-width: 768px) 75vw, 100vw"
     class="!my-0 object-cover max-h-[500px] md:rounded"
   />
   {

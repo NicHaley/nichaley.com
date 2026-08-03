@@ -14,10 +14,16 @@ const { src, alt } = Astro.props;
 >
   {/* Always above the fold and almost always the LCP element, so it should not
       wait for the lazy-load pass. */}
+  {/* object-contain inside the aspect-video frame means 672px is the widest
+      this can ever render (736px column less p-8), and portrait sources render
+      far narrower still because they are bound by the frame's height. */}
   <Image
     src={src}
     alt={alt}
     loading="eager"
+    width={672}
+    widths={[400, 672, 1000, 1344]}
+    sizes="(min-width: 1024px) 672px, (min-width: 768px) 70vw, 90vw"
     class="!my-0 rounded w-auto h-auto max-w-full max-h-full object-contain drop-shadow-xl"
   />
 </div>
