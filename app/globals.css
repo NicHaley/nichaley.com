@@ -156,10 +156,29 @@
   }
 }
 
+/* <main> is a different size on every page, so the UA's default group
+   animation morphs its box from the old geometry to the new one. Pin the
+   group to the new geometry and let only the snapshots animate, otherwise
+   the content drifts and then snaps when the 250ms group animation ends
+   ahead of the 750ms blur. */
+::view-transition-group(.blur-fade) {
+  animation: none;
+}
+
 ::view-transition-old(.blur-fade) {
+  /* plus-lighter is the UA default; it washes out a blurred cross-fade */
+  mix-blend-mode: normal;
   animation: vt-blur-fade-out 750ms ease both;
 }
 
 ::view-transition-new(.blur-fade) {
+  mix-blend-mode: normal;
   animation: vt-blur-fade-in 750ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.blur-fade),
+  ::view-transition-new(.blur-fade) {
+    animation-duration: 1ms;
+  }
 }
