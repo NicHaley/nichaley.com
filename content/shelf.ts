@@ -96,6 +96,10 @@ export const shelfSections = [
         url: "https://www.apple.com/macbook-pro-14-and-16/",
       },
       {
+        title: "M4 Pro Mac Mini",
+        url: "https://www.apple.com/mac-mini/",
+      },
+      {
         title: "Omnium Minimax",
         url: "https://omniumcargo.com/mini-max/",
       },
