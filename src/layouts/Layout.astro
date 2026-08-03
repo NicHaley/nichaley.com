@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import NavLink from "@/components/NavLink.astro";
 import "@/styles/global.css";
 
@@ -35,6 +36,7 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter />
   </head>
   <body class="font-sans antialiased bg-background">
     <div
@@ -64,7 +66,19 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
           }
         </ul>
       </nav>
-      <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
+      {/* Only <main> animates; the nav and footer are identical across pages
+          and stay in the root snapshot.
+
+          transition:name gives the snapshot a stable view-transition-name that
+          CSS can target — passing an animation object instead would name it
+          with a build hash. transition:animate="none" then stops Astro
+          injecting its default 180ms fade, leaving the blur-fade in
+          global.css in sole charge. */}
+      <main
+        transition:name="blur-fade"
+        transition:animate="none"
+        class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]"
+      >
         <slot />
       </main>
     </div>

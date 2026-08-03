@@ -52,8 +52,15 @@ as-is.
 
 ## Notes on the setup
 
-- **No client-side JavaScript.** Nothing in `dist/` is a `.js` file. Navigation
-  is plain browser page loads, with no router and no page transitions.
+- **Page transitions.** `<ClientRouter />` in `src/layouts/Layout.astro` turns
+  navigation into same-document swaps so `<main>` can blur-fade between pages.
+  This is the only JavaScript the site ships (~16 KB unminified, one module).
+  `<main>` uses `transition:name="blur-fade"` for a stable
+  `view-transition-name` plus `transition:animate="none"` to suppress Astro's
+  default fade; the real animation lives in `src/styles/global.css`, unlayered
+  so it outranks Astro's `@layer astro` rules. Reduced-motion is handled by
+  ClientRouter itself. Removing the `<ClientRouter />` import and that CSS block
+  takes the site back to zero JavaScript.
 - **Dark mode follows the OS.** There is no toggle, so there is no theme
   provider and no flash of the wrong theme — just a
   `prefers-color-scheme` block in `src/styles/global.css`.
