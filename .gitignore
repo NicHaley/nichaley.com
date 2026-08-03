@@ -4,21 +4,12 @@
 /node_modules
 /.pnp
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
-# testing
-/coverage
+# build output
+dist/
 
-# next.js
-/.next/
-/out/
-
-# production
-/build
+# astro generated types
+.astro/
 
 # misc
 .DS_Store
@@ -32,16 +23,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env*.local
 
-# vercel
-.vercel
-
-# cloudflare / opennext
-.open-next
+# cloudflare
 .wrangler
-cloudflare-env.d.ts
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-.env*.local

@@ -1,0 +1,24 @@
+---
+import List from "@/components/List.astro";
+import ListItems, { type ListItem } from "@/components/ListItems.astro";
+import ListSection from "@/components/ListSection.astro";
+import Page from "@/components/Page.astro";
+import Layout from "@/layouts/Layout.astro";
+import { listProjects, projectDateString } from "@/lib/content";
+
+const items: ListItem[] = (await listProjects()).map((project) => ({
+  href: `/projects/${project.id}`,
+  title: project.data.title,
+  dateString: projectDateString(project.data),
+}));
+---
+
+<Layout title="Projects">
+  <Page title="Projects" description="Notable things I've built for work and fun">
+    <List>
+      <ListSection>
+        <ListItems items={items} />
+      </ListSection>
+    </List>
+  </Page>
+</Layout>

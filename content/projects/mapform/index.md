@@ -1,0 +1,11 @@
+---
+title: Mapform
+startDate: 2024-03-01T12:00:00Z
+endDate: 2025-10-01T12:00:00Z
+url: https://github.com/NicHaley/Mapform
+image: ./mapform.jpeg
+---
+
+Mapform is a side project I started in 2024. Inspired by tools like Notion and
+Kepler.gl, it offers a rich mapping experience integrated with AI. I'm currently
+testing a new version and preparing a public beta release.

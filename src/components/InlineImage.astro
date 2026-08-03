@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="flex flex-col gap-2 my-4 max-md:-mx-4">
+  <Image
+    src={src}
+    alt={alt}
+    class="!my-0 object-cover max-h-[500px] md:rounded"
+  />
+  {
+    caption && (
+      <figcaption class="text-sm text-stone-500 !my-0 max-md:mx-4">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

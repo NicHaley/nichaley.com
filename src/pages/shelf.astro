@@ -1,0 +1,35 @@
+---
+import List from "@/components/List.astro";
+import ListItems, { type ListItem } from "@/components/ListItems.astro";
+import ListSection from "@/components/ListSection.astro";
+import Page from "@/components/Page.astro";
+import { shelfSections } from "@/data/shelf";
+import Layout from "@/layouts/Layout.astro";
+
+const sections = shelfSections.map((section) => ({
+  title: section.title,
+  items: section.bookmarks.map(
+    (bookmark): ListItem => ({
+      title: bookmark.title,
+      href: bookmark.url,
+      icon: {
+        src: `https://www.google.com/s2/favicons?domain=${new URL(bookmark.url).hostname}`,
+      },
+    }),
+  ),
+}));
+---
+
+<Layout title="Shelf">
+  <Page title="Shelf" description="Tools and resources I keep on hand">
+    <List>
+      {
+        sections.map((section) => (
+          <ListSection title={section.title}>
+            <ListItems items={section.items} />
+          </ListSection>
+        ))
+      }
+    </List>
+  </Page>
+</Layout>

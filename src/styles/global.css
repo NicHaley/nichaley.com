@@ -1,0 +1,58 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  /* No webfont: the system UI font, which is what the site has always actually
+     rendered. Spelled out rather than left to Tailwind's default --font-sans,
+     which leads with -apple-system/Segoe UI and would shift slightly.
+     --font-mono is omitted because Tailwind's default already matches. */
+  --font-sans:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.985 0.001 106.423); /* Tailwind bg-stone-50 */
+  --foreground: oklch(0.216 0.006 56.043); /* Tailwind text-stone-900 */
+  --border: oklch(0.928 0.006 264.531);
+  --ring: oklch(0.707 0.022 261.325);
+  --primary: oklch(0.21 0.034 264.665);
+  --primary-foreground: oklch(0.985 0.002 247.839);
+}
+
+/* There is no theme toggle, so dark mode follows the OS directly. This drops
+   the theme-provider script and its flash-of-wrong-theme problem entirely. To
+   reintroduce a toggle, switch this back to a `.dark` class plus a
+   `@custom-variant dark (&:is(.dark *))` rule. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(19.6% 0.006 56.043);
+    --foreground: oklch(0.985 0.002 247.839);
+    --border: oklch(1 0 0 / 10%);
+    --ring: oklch(0.551 0.027 264.364);
+    --primary: oklch(0.928 0.006 264.531);
+    --primary-foreground: oklch(0.21 0.034 264.665);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

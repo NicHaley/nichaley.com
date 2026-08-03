@@ -22,3 +22,26 @@ jobs:
           version: 2.3.2
       - name: Run Biome
         run: biome ci .
+
+  # `astro build` does not typecheck the way `next build` did, so types need
+  # their own job or nothing checks them.
+  types:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck

@@ -1,0 +1,24 @@
+---
+import List from "@/components/List.astro";
+import ListItems, { type ListItem } from "@/components/ListItems.astro";
+import ListSection from "@/components/ListSection.astro";
+import Page from "@/components/Page.astro";
+import Layout from "@/layouts/Layout.astro";
+import { formatPostDate, listPosts } from "@/lib/content";
+
+const items: ListItem[] = (await listPosts()).map((post) => ({
+  href: `/writing/${post.id}`,
+  title: post.data.title,
+  dateString: formatPostDate(post.data.date),
+}));
+---
+
+<Layout title="Writing">
+  <Page title="Writing" description="Thoughts on work and life">
+    <List>
+      <ListSection>
+        <ListItems items={items} />
+      </ListSection>
+    </List>
+  </Page>
+</Layout>

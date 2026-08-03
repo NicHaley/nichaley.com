@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+---
+
+<div
+  class="flex flex-col gap-2 mb-4 p-4 md:p-8 aspect-video bg-linear-to-t from-stone-200 to-stone-100 dark:from-stone-900 dark:to-stone-800 rounded items-center justify-center"
+>
+  {/* Always above the fold and almost always the LCP element, so it should not
+      wait for the lazy-load pass. */}
+  <Image
+    src={src}
+    alt={alt}
+    loading="eager"
+    class="!my-0 rounded w-auto h-auto max-w-full max-h-full object-contain drop-shadow-xl"
+  />
+</div>

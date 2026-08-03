@@ -1,0 +1,39 @@
+---
+import HeroImage from "./HeroImage.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** External link rendered as a "Visit" button below the content. */
+  url?: string;
+  image?: ImageMetadata;
+}
+
+const { title, description, url, image } = Astro.props;
+---
+
+<article>
+  {image && <HeroImage src={image} alt={title} />}
+  <header class="mb-8">
+    <h1 class="mb-2 text-2xl font-semibold">{title}</h1>
+    {
+      description && (
+        <p class="mb-2 mt-0 text-stone-500 dark:text-stone-400 text-base flex items-center gap-2 font-medium">
+          {description}
+        </p>
+      )
+    }
+  </header>
+  <slot />
+  {
+    url && (
+      <a
+        href={url}
+        target="_blank"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2 no-underline"
+      >
+        ↗ Visit
+      </a>
+    )
+  }
+</article>

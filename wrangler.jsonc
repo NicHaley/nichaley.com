@@ -1,12 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "nichaley-com",
-  "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-08",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // No "main": the site is prerendered, so this is a static-assets-only
+  // deployment with no Worker script to run on requests.
   "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "directory": "dist",
+    // Serve /writing/sketching rather than /writing/sketching/, matching the
+    // URLs the site has always used.
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
   },
   "observability": {
     "enabled": true

@@ -1,0 +1,27 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+{/* A titled section reserves a 100px label column on desktop; an untitled one
+    spans the full width. */}
+<li
+  class:list={[
+    "pl-0 grid grid-cols-1 gap-4 md:gap-8 mb-12",
+    title && "md:grid-cols-[100px_1fr]",
+  ]}
+>
+  {
+    title && (
+      <h3 class="font-normal leading-[32px] text-stone-400 dark:text-stone-500 text-lg !my-0">
+        {title}
+      </h3>
+    )
+  }
+  <div class="not-prose overflow-hidden">
+    <slot />
+  </div>
+</li>

@@ -1,0 +1,30 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import Page from "@/components/Page.astro";
+import Layout from "@/layouts/Layout.astro";
+import { formatPostDate, listPosts } from "@/lib/content";
+
+export const getStaticPaths = (async () => {
+  const posts = await listPosts();
+
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: CollectionEntry<"writing">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, image } = post.data;
+---
+
+<Layout title={title} description={description}>
+  <Page title={title} description={formatPostDate(date)} image={image}>
+    <Content />
+  </Page>
+</Layout>

@@ -1,0 +1,87 @@
+---
+export interface ListItem {
+  title: string;
+  /** Secondary label — a role, or what the thing is. */
+  text?: string;
+  dateString?: string;
+  href?: string;
+  /** Remote favicon shown before the title. */
+  icon?: { src: string };
+}
+
+interface Props {
+  items: ListItem[];
+}
+
+const { items } = Astro.props;
+
+const ICON_SIZE = 16;
+---
+
+<ul class="!space-y-0 list-none pl-0">
+  {
+    items.map((item) => {
+      const isExternal = !!item.href && /^https?:\/\//.test(item.href);
+      const Title = item.href ? "a" : "span";
+
+      return (
+        <li class="pl-0 flex flex-col">
+          <div class="flex flex-col gap-1">
+            <div class="flex justify-between gap-2">
+              <Title
+                href={item.href}
+                target={isExternal ? "_blank" : undefined}
+                class:list={[
+                  "font-medium",
+                  item.href && "no-underline hover:underline overflow-hidden",
+                ]}
+              >
+                <span class="flex items-center gap-2 text-foreground">
+                  {item.icon && (
+                    // The title beside it already names the link, so the icon
+                    // is decorative. The grey box is what shows through when a
+                    // third-party favicon 404s.
+                    <span
+                      aria-hidden="true"
+                      class="shrink-0 inline-block rounded bg-stone-200"
+                      style={`width:${ICON_SIZE}px;height:${ICON_SIZE}px`}
+                    >
+                      <img
+                        src={item.icon.src}
+                        alt=""
+                        width={ICON_SIZE}
+                        height={ICON_SIZE}
+                        loading="lazy"
+                        onerror="this.remove()"
+                      />
+                    </span>
+                  )}
+                  <span class="truncate">{item.title}</span>
+                </span>
+              </Title>
+              <div class="flex gap-4">
+                {item.text && (
+                  <span class="text-stone-500 dark:text-stone-400 whitespace-nowrap max-md:hidden">
+                    {item.text}
+                  </span>
+                )}
+                {item.dateString && (
+                  <span class="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+                    {item.dateString}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+          {/* On mobile the secondary label drops below the title instead of
+              sitting beside it. */}
+          {item.text && (
+            <div class="text-stone-500 dark:text-stone-400 whitespace-nowrap md:hidden text-base -mt-1 mb-1">
+              {item.text}
+            </div>
+          )}
+        </li>
+      );
+    })
+  }
+</ul>

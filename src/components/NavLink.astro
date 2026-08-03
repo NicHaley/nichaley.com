@@ -1,0 +1,25 @@
+---
+interface Props {
+  href: string;
+  exact?: boolean;
+}
+
+const { href, exact = false } = Astro.props;
+
+const pathname = Astro.url.pathname.replace(/(.)\/$/, "$1");
+const isActive = exact ? pathname === href : pathname.startsWith(href);
+---
+
+{/* The active and inactive text colors are mutually exclusive rather than
+    layered, so neither depends on Tailwind's output ordering to win. */}
+<a
+  href={href}
+  class:list={[
+    "hover:underline",
+    isActive
+      ? "text-foreground dark:text-white font-semibold"
+      : "text-stone-500 dark:text-stone-400",
+  ]}
+>
+  <slot />
+</a>

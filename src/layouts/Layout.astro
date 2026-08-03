@@ -1,0 +1,81 @@
+---
+import NavLink from "@/components/NavLink.astro";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Nic Haley", description = "Nic Haley's personal website" } =
+  Astro.props;
+
+const sections = [
+  { title: "about", href: "/", exact: true },
+  { title: "projects", href: "/projects" },
+  { title: "writing", href: "/writing" },
+  { title: "shelf", href: "/shelf" },
+];
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/opengraph-image.png", Astro.site);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="font-sans antialiased bg-background">
+    <div
+      class="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative"
+    >
+      <nav
+        class="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)]"
+      >
+        <a href="/">
+          <img
+            class="dark:invert"
+            src="/glasses.svg"
+            alt="Nic Haley — home"
+            width="48"
+            height="48"
+          />
+        </a>
+        <ul class="flex md:flex-col gap-3 md:gap-2 md:mt-8 max-md:ml-auto">
+          {
+            sections.map((section) => (
+              <li>
+                <NavLink href={section.href} exact={section.exact}>
+                  {section.title}
+                </NavLink>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
+        <slot />
+      </main>
+    </div>
+    <div class="p-4 md:p-12">
+      <a
+        class="no-underline hover:underline text-stone-500 dark:text-stone-400"
+        href="https://github.com/NicHaley/nichaley.com"
+        target="_blank"
+      >
+        ↗ source
+      </a>
+    </div>
+  </body>
+</html>
