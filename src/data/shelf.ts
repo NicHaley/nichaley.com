@@ -43,10 +43,6 @@ export const shelfSections = [
         url: "https://www.icloud.com/notes",
       },
       {
-        title: "Notion",
-        url: "https://www.notion.com/",
-      },
-      {
         title: "Obsidian",
         url: "https://obsidian.md/",
       },

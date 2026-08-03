@@ -66,19 +66,13 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
           }
         </ul>
       </nav>
-      {/* Only <main> animates; the nav and footer are identical across pages
-          and stay in the root snapshot.
-
-          transition:name gives the snapshot a stable view-transition-name that
-          CSS can target — passing an animation object instead would name it
-          with a build hash. transition:animate="none" then stops Astro
-          injecting its default 180ms fade, leaving the blur-fade in
-          global.css in sole charge. */}
-      <main
-        transition:name="blur-fade"
-        transition:animate="none"
-        class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]"
-      >
+      {/* Deliberately unnamed. Giving <main> its own view-transition-name made
+          it a transition group whose box changes height between pages, and the
+          group's transform encodes scroll position — so suppressing that
+          group's animation (needed to stop the box morphing) also discarded the
+          scroll compensation, and the outgoing snapshot visibly slid. The whole
+          page animates as `root` instead; see global.css. */}
+      <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
         <slot />
       </main>
     </div>

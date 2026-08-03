@@ -57,14 +57,18 @@
   }
 }
 
-/* Page transitions, driven by <ClientRouter /> in Layout.astro. <main> carries
-   transition:name="blur-fade", which becomes the view-transition-name these
-   pseudo-element selectors match.
+/* Page transitions, driven by <ClientRouter /> in Layout.astro.
 
-   These rules are deliberately unlayered. Astro emits its own transition CSS
-   inside @layer astro, and unlayered author styles outrank any cascade layer
-   regardless of specificity — that is the documented way to override it. Do
-   not wrap this block in a layer. */
+   The whole page animates as the UA's `root` snapshot, not a named element.
+   Naming an element makes it a transition group, and a group's transform
+   encodes the scroll position — the `from` keyframe carries the old scroll
+   offset and the `to` keyframe the new one. Stopping that group from morphing
+   its box (which <main> needs, since its height changes per page) means
+   killing its animation, which also discards that scroll compensation and
+   leaves the outgoing snapshot visibly sliding. Safari and Firefox show it
+   worst. `root` sidesteps it entirely: both snapshots are viewport-sized, so
+   there is no box to morph and no group animation to suppress.
+   See https://github.com/w3c/csswg-drafts/issues/10197 */
 @keyframes vt-blur-fade-out {
   from {
     filter: blur(0);
@@ -87,26 +91,27 @@
   }
 }
 
-/* <main> is a different size on every page, so the UA's default group
-   animation morphs its box from the old geometry to the new one. Pin the
-   group to the new geometry and let only the snapshots animate, otherwise
-   the content drifts and then snaps when the 250ms group animation ends
-   ahead of the 750ms blur. */
-::view-transition-group(blur-fade) {
-  animation: none;
-}
-
-::view-transition-old(blur-fade) {
+::view-transition-old(root),
+::view-transition-new(root) {
   /* plus-lighter is the UA default; it washes out a blurred cross-fade */
   mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
   animation: vt-blur-fade-out 750ms ease both;
 }
 
-::view-transition-new(blur-fade) {
-  mix-blend-mode: normal;
+::view-transition-new(root) {
   animation: vt-blur-fade-in 750ms ease both;
 }
 
-/* No prefers-reduced-motion block here on purpose: <ClientRouter /> ships its
-   own, applying `animation: none !important` to every view-transition
-   pseudo-element, which already overrides the rules above. */
+/* Astro only ships its own reduced-motion killswitch alongside the CSS it
+   generates for transition:* directives, and there are none here — so this
+   block is doing real work, not duplicating it. With no animations to wait on
+   the transition finishes immediately, which is the intent. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

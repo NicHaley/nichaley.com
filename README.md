@@ -53,14 +53,22 @@ as-is.
 ## Notes on the setup
 
 - **Page transitions.** `<ClientRouter />` in `src/layouts/Layout.astro` turns
-  navigation into same-document swaps so `<main>` can blur-fade between pages.
-  This is the only JavaScript the site ships (~16 KB unminified, one module).
-  `<main>` uses `transition:name="blur-fade"` for a stable
-  `view-transition-name` plus `transition:animate="none"` to suppress Astro's
-  default fade; the real animation lives in `src/styles/global.css`, unlayered
-  so it outranks Astro's `@layer astro` rules. Reduced-motion is handled by
-  ClientRouter itself. Removing the `<ClientRouter />` import and that CSS block
-  takes the site back to zero JavaScript.
+  navigation into same-document swaps, and the whole page blur-fades. This is
+  the only JavaScript the site ships (~16 KB unminified, one module).
+
+  No element carries a `transition:*` directive. That is deliberate: naming an
+  element makes it a view-transition *group*, and a group's transform encodes
+  scroll position. `<main>` changes height between pages, so its box has to be
+  stopped from morphing — but the only way to do that is to kill the group's
+  animation, which also discards the scroll compensation and makes the outgoing
+  snapshot slide (badly in Safari). Animating the UA's `root` snapshot avoids
+  this: both snapshots are viewport-sized, so nothing morphs.
+
+  The animation and its `prefers-reduced-motion` fallback live in
+  `src/styles/global.css`. Astro only ships its own reduced-motion killswitch
+  alongside `transition:*` directives, so with none present that block is
+  load-bearing. Removing the `<ClientRouter />` import and that CSS takes the
+  site back to zero JavaScript.
 - **Dark mode follows the OS.** There is no toggle, so there is no theme
   provider and no flash of the wrong theme — just a
   `prefers-color-scheme` block in `src/styles/global.css`.
