@@ -72,12 +72,14 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
           }
         </ul>
       </nav>
-      {/* Deliberately unnamed. Giving <main> its own view-transition-name made
+      {
+        /* Deliberately unnamed. Giving <main> its own view-transition-name made
           it a transition group whose box changes height between pages, and the
           group's transform encodes scroll position — so suppressing that
           group's animation (needed to stop the box morphing) also discarded the
           scroll compensation, and the outgoing snapshot visibly slid. The whole
-          page animates as `root` instead; see global.css. */}
+          page animates as `root` instead; see global.css. */
+      }
       <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
         <slot />
       </main>
@@ -87,7 +89,7 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
         class="no-underline hover:underline text-stone-500 dark:text-stone-400"
         href="/rss.xml"
       >
-        ↗ RSS
+        ↗ rss
       </a>
       <a
         class="no-underline hover:underline text-stone-500 dark:text-stone-400"

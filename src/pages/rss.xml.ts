@@ -22,7 +22,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: "Nic Haley",
-    description: "Code and Bikes",
+    description: "Thoughts, mostly on software and bikes",
     site: context.site,
     trailingSlash: false,
     customData: `<language>en-us</language>`,
