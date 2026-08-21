@@ -28,6 +28,12 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Nic Haley"
+      href={new URL("rss.xml", Astro.site)}
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
@@ -76,7 +82,13 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
         <slot />
       </main>
     </div>
-    <div class="p-4 md:p-12">
+    <div class="p-4 md:p-12 flex flex-col gap-2">
+      <a
+        class="no-underline hover:underline text-stone-500 dark:text-stone-400"
+        href="/rss.xml"
+      >
+        RSS
+      </a>
       <a
         class="no-underline hover:underline text-stone-500 dark:text-stone-400"
         href="https://github.com/NicHaley/nichaley.com"

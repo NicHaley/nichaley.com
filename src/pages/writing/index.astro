@@ -13,8 +13,11 @@ const items: ListItem[] = (await listPosts()).map((post) => ({
 }));
 ---
 
-<Layout title="Writing">
-  <Page title="Writing" description="Thoughts on work and life">
+<Layout title="Writing" description="Code and Bikes">
+  <Page title="Writing" description="Code and Bikes">
+    <a slot="meta" class="no-underline hover:underline" href="/rss.xml">
+      RSS
+    </a>
     <List>
       <ListSection>
         <ListItems items={items} />
