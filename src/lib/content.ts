@@ -6,13 +6,9 @@ type ProjectData = CollectionEntry<"projects">["data"];
 const endTime = (endDate: ProjectData["endDate"]) =>
   endDate === "now" ? Date.now() : endDate.getTime();
 
-/** "2015" for a project inside one year, "2023 - 2024" when it spans two. */
-export const projectDateString = ({ startDate, endDate }: ProjectData) => {
-  const start = startDate.getFullYear().toString();
-  const end = endDate === "now" ? "Now" : endDate.getFullYear().toString();
-
-  return start === end ? start : `${start} - ${end}`;
-};
+/** The year the project started, e.g. "2023". */
+export const projectDateString = ({ startDate }: ProjectData) =>
+  startDate.getFullYear().toString();
 
 export const formatPostDate = (date: Date) =>
   new Intl.DateTimeFormat("en-US", {
