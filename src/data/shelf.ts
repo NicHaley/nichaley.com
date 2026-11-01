@@ -63,6 +63,10 @@ export const shelfSections = [
         url: "https://ui.shadcn.com/",
       },
       {
+        title: "SketchShot",
+        url: "https://sketchshot.app/",
+      },
+      {
         title: "Tailwind CSS",
         url: "https://tailwindcss.com/",
       },
