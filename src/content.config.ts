@@ -3,7 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 /** Each entry is a folder with an `index.md` and its images beside it, so the
- *  folder name is the slug: `content/writing/sketching/index.md` → `sketching`. */
+ *  folder name is the slug: `content/projects/mapos/index.md` → `mapos`. */
 const entryPerFolder = (base: string) =>
   glob({
     base,
@@ -25,15 +25,6 @@ const projects = defineCollection({
     }),
 });
 
-const writing = defineCollection({
-  loader: entryPerFolder("./content/writing"),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      description: z.string().optional(),
-      image: image().optional(),
-      date: z.coerce.date(),
-    }),
-});
-
-export const collections = { projects, writing };
+// `content/writing/` holds old posts that are no longer published. To bring
+// them back, restore the `writing` collection and `src/pages/writing/` from git.
+export const collections = { projects };

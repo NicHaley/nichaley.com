@@ -16,27 +16,27 @@ pnpm dev
 
 No environment variables are required — the site is fully static.
 
-## Writing
+## Adding content
 
-Posts and projects live in `content/`, one folder per entry, with images beside
+Projects live in `content/projects/`, one folder per entry, with images beside
 the prose:
 
 ```
-content/writing/sketching/
+content/projects/mapos/
 ├── index.md
-└── sketch.jpg
+└── mapos.png
 ```
 
-The folder name is the URL slug (`/writing/sketching`). Frontmatter is validated
+The folder name is the URL slug (`/projects/mapos`). Frontmatter is validated
 against the schemas in `src/content.config.ts`, so a typo or a missing field
 fails the build instead of rendering blank.
 
-- **Writing** needs `title` and `date`; `image` (a path relative to the entry,
-  shown as the hero) and `description` are optional.
-- **Projects** need `title`, `startDate` and `endDate`. `endDate: now` marks
-  something ongoing and renders as "Now". `url` adds a "Visit" button.
+- **Projects** need `title`, `startDate` and `endDate`; `image` (a path
+  relative to the entry, shown as the hero) and `description` are optional.
+  `endDate: now` marks something ongoing and renders as "Now". `url` adds a
+  "Visit" button.
 
-Use `index.md` by default. Only reach for `index.mdx` when the post needs a
+Use `index.md` by default. Only reach for `index.mdx` when the entry needs a
 component — currently just `<InlineImage>`, for an in-body image with a caption:
 
 ```mdx
