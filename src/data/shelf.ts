@@ -1,4 +1,12 @@
-export const shelfSections = [
+interface Bookmark {
+  title: string;
+  url: string;
+  /** Overrides the favicon looked up from the URL's domain, e.g. when the site
+   * belongs to the company rather than the product. Path under /public. */
+  icon?: string;
+}
+
+export const shelfSections: { title: string; bookmarks: Bookmark[] }[] = [
   {
     title: "Software",
     bookmarks: [
@@ -57,6 +65,11 @@ export const shelfSections = [
       {
         title: "Resend",
         url: "https://resend.com/",
+      },
+      {
+        title: "Rex",
+        url: "https://www.superlogical.com/",
+        icon: "/shelf/rex.png",
       },
       {
         title: "shadcn",
