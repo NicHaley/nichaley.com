@@ -15,6 +15,10 @@ export const shelfSections: { title: string; bookmarks: Bookmark[] }[] = [
         url: "https://claude.com/claude-code",
       },
       {
+        title: "Cloudflare",
+        url: "https://www.cloudflare.com/",
+      },
+      {
         title: "Drizzle",
         url: "https://orm.drizzle.team/",
       },
@@ -43,16 +47,8 @@ export const shelfSections: { title: string; bookmarks: Bookmark[] }[] = [
         url: "https://neon.tech/",
       },
       {
-        title: "Next.js",
-        url: "https://nextjs.org/",
-      },
-      {
         title: "Notes",
         url: "https://www.icloud.com/notes",
-      },
-      {
-        title: "Obsidian",
-        url: "https://obsidian.md/",
       },
       {
         title: "Paper",
