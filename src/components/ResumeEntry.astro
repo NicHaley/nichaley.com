@@ -1,0 +1,51 @@
+---
+import type { Entry } from "@/data/experience";
+
+interface Props {
+  entry: Entry;
+  /** Reserves a logo slot, so names line up even where a logo is missing. */
+  withIcon?: boolean;
+}
+
+const { entry, withIcon = false } = Astro.props;
+const { name, note, role, dates, highlights, icon } = entry;
+---
+
+<div class="break-inside-avoid">
+  <div class="flex justify-between gap-4">
+    <p class="flex items-center gap-2">
+      {
+        withIcon && (
+          <span
+            aria-hidden="true"
+            class="size-4 shrink-0 overflow-hidden rounded bg-stone-200 dark:bg-stone-700"
+          >
+            {icon && <img class="size-full" src={icon} alt="" width="16" height="16" />}
+          </span>
+        )
+      }
+      <span>
+        <span class="font-medium">{name}</span>
+        {note && <span class="text-stone-500 dark:text-stone-400">{` (${note})`}</span>}
+        {role && <span class="text-stone-500 dark:text-stone-400">{` · ${role}`}</span>}
+      </span>
+    </p>
+    <span class="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+      {dates}
+    </span>
+  </div>
+  {
+    highlights && (
+      <ul
+        class:list={[
+          "mt-1 list-disc marker:text-stone-400 text-stone-700 dark:text-stone-300",
+          withIcon ? "pl-6" : "pl-5",
+        ]}
+      >
+        {highlights.map((highlight) => (
+          <li>{highlight}</li>
+        ))}
+      </ul>
+    )
+  }
+</div>

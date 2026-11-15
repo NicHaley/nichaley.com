@@ -1,0 +1,145 @@
+---
+import ResumeEntry from "@/components/ResumeEntry.astro";
+import ResumeSection from "@/components/ResumeSection.astro";
+import { type Entry, education, volunteer, work } from "@/data/experience";
+import Layout from "@/layouts/Layout.astro";
+
+const skills = [
+  "TypeScript",
+  "React",
+  "Node",
+  "tRPC",
+  "Postgres",
+  "PostGIS",
+  "Drizzle",
+  "MapLibre",
+  "Tailwind",
+  "Figma",
+  "Claude Code",
+];
+
+// Lucide icon paths (lucide.dev), drawn at 24×24.
+const contact = [
+  {
+    label: "Montreal, Canada",
+    icon: '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+  },
+  {
+    label: "+1 514-914-4632",
+    href: "tel:+15149144632",
+    icon: '<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>',
+  },
+  {
+    label: "hello@nichaley.com",
+    href: "mailto:hello@nichaley.com",
+    icon: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  },
+  {
+    label: "nichaley.com",
+    href: "https://nichaley.com",
+    icon: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/nichaley",
+    icon: '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/nicholas-haley-22757389/",
+    icon: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+  },
+];
+
+const current = (entries: Entry[]) => entries.filter((e) => !e.previous);
+const previous = (entries: Entry[]) =>
+  entries
+    .filter((e) => e.previous)
+    .map((e) => e.name)
+    .join(", ");
+---
+
+<Layout title="Nic Haley — Resume" description="Nic Haley's resume" noindex>
+  <div class="not-prose flex flex-col gap-6 text-base leading-snug">
+    <header class="flex flex-col gap-4 sm:flex-row sm:justify-between print:flex-row print:justify-between">
+      <div class="flex items-center gap-4 self-start">
+        <img
+          class="hidden print:block"
+          src="/glasses.svg"
+          alt=""
+          width="48"
+          height="48"
+        />
+        <div>
+          <h1 class="text-2xl font-semibold">Nic Haley</h1>
+          <p class="text-stone-500 dark:text-stone-400 font-medium">
+            Product Engineer
+          </p>
+        </div>
+      </div>
+      <ul class="text-stone-500 dark:text-stone-400">
+        {
+          contact.map(({ label, href, icon }) => (
+            <li class="flex items-center gap-2">
+              <svg
+                class="size-3.5 shrink-0 text-stone-400 dark:text-stone-500"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={icon}
+              />
+              {href ? (
+                <a class="hover:underline" href={href}>
+                  {label}
+                </a>
+              ) : (
+                label
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </header>
+
+    <ResumeSection title="Profile">
+      <p class="text-stone-700 dark:text-stone-300">
+        Product engineer with 12+ years of experience combining product
+        thinking, design, and engineering to build web applications from MVP →
+        millions of users. Founding engineer at multiple startups, including Ada
+        (Series C, $1.2B valuation), and now leading product at Curbcut.
+      </p>
+    </ResumeSection>
+
+    <ResumeSection title="Experience">
+      {current(work).map((entry) => <ResumeEntry entry={entry} />)}
+      <p>
+        <span class="text-stone-500 dark:text-stone-400">Previous:</span>{" "}
+        {previous(work)}
+      </p>
+    </ResumeSection>
+
+    <ResumeSection title="Education" compact>
+      {education.map((entry) => <ResumeEntry entry={entry} />)}
+    </ResumeSection>
+
+    <ResumeSection title="Volunteer" compact>
+      {current(volunteer).map((entry) => <ResumeEntry entry={entry} />)}
+      <p>
+        <span class="text-stone-500 dark:text-stone-400">Previous:</span>{" "}
+        {previous(volunteer)}
+      </p>
+    </ResumeSection>
+
+    <ResumeSection title="Skills">
+      <p>{skills.join(" · ")}</p>
+    </ResumeSection>
+
+    <ResumeSection title="Interests">
+      <p>Cycling, urbanism, and film.</p>
+    </ResumeSection>
+  </div>
+</Layout>

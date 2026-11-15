@@ -6,10 +6,15 @@ import "@/styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  /** Keeps unlinked pages out of search results. */
+  noindex?: boolean;
 }
 
-const { title = "Nic Haley", description = "Nic Haley's personal website" } =
-  Astro.props;
+const {
+  title = "Nic Haley",
+  description = "Nic Haley's personal website",
+  noindex = false,
+} = Astro.props;
 
 const sections = [
   { title: "about", href: "/", exact: true },
@@ -29,6 +34,7 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
     <link rel="canonical" href={canonical} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -39,10 +45,10 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
   </head>
   <body class="font-sans antialiased bg-background">
     <div
-      class="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative"
+      class="min-h-dvh p-4 md:p-12 flex flex-col md:grid md:grid-cols-[auto_1fr] md:items-start gap-8 md:gap-24 flex-1 relative print:block print:min-h-0 print:p-0"
     >
       <nav
-        class="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)]"
+        class="md:sticky md:top-12 flex md:flex-col max-md:items-center md:h-[calc(100vh-6rem)] print:hidden"
       >
         <a href="/">
           <img
@@ -73,11 +79,11 @@ const ogImage = new URL("/opengraph-image.png", Astro.site);
           scroll compensation, and the outgoing snapshot visibly slid. The whole
           page animates as `root` instead; see global.css. */
       }
-      <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px]">
+      <main class="prose prose-lg prose-stone dark:prose-invert md:mt-[78px] print:mt-0 print:max-w-none">
         <slot />
       </main>
     </div>
-    <div class="p-4 md:p-12 flex flex-col gap-2">
+    <div class="p-4 md:p-12 flex flex-col gap-2 print:hidden">
       <a
         class="no-underline hover:underline text-stone-500 dark:text-stone-400"
         href="https://github.com/NicHaley/nichaley.com"

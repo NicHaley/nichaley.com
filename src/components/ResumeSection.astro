@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  /** Tighter spacing for lists of one-line entries. */
+  compact?: boolean;
+}
+
+const { title, compact = false } = Astro.props;
+---
+
+{/* Print pages are narrower than the md breakpoint, so the label column is
+    restated for print. */}
+<section
+  class="grid grid-cols-1 gap-2 md:grid-cols-[100px_1fr] md:gap-8 print:grid-cols-[100px_1fr] print:gap-8"
+>
+  <h2 class="text-stone-400 dark:text-stone-500">{title}</h2>
+  <div class:list={["flex flex-col", compact ? "gap-1" : "gap-3"]}>
+    <slot />
+  </div>
+</section>
