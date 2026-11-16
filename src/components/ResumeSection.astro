@@ -14,7 +14,7 @@ const { title, compact = false } = Astro.props;
   class="grid grid-cols-1 gap-2 md:grid-cols-[100px_1fr] md:gap-8 print:grid-cols-[90px_1fr] print:gap-6"
 >
   <h2 class="text-stone-400 dark:text-stone-500">{title}</h2>
-  <div class:list={["flex flex-col", compact ? "gap-1" : "gap-3"]}>
+  <div class:list={["flex flex-col", compact ? "gap-1.5" : "gap-4"]}>
     <slot />
   </div>
 </section>

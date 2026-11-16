@@ -5,15 +5,37 @@ import { type Entry, education, volunteer, work } from "@/data/experience";
 import Layout from "@/layouts/Layout.astro";
 
 const skills = [
-  "TypeScript",
-  "React",
-  "Node",
-  "Postgres",
-  "PostGIS",
-  "MapLibre",
-  "Tailwind",
-  "Figma",
-  "Claude Code",
+  {
+    group: "Design",
+    items: [
+      "Prototyping",
+      "UX",
+      "Design systems",
+      "Paper",
+      "Figma",
+    ],
+  },
+  {
+    group: "AI",
+    items: [
+      "Claude Code",
+      "MCP",
+      "Agent skills",
+      "LLM features (agents, tool calling, RAG)",
+    ],
+  },
+  {
+    group: "Engineering",
+    items: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Node",
+      "Postgres",
+      "PostGIS",
+      "Cloudflare",
+    ],
+  },
 ];
 
 // Lucide icon paths (lucide.dev), drawn at 24×24.
@@ -53,12 +75,11 @@ const current = (entries: Entry[]) => entries.filter((e) => !e.previous);
 const previous = (entries: Entry[]) =>
   entries
     .filter((e) => e.previous)
-    .map((e) => e.name)
-    .join(", ");
+    .map((e) => e.name);
 ---
 
 <Layout title="Nic Haley — Resume" description="Nic Haley's resume" noindex>
-  <div class="not-prose flex flex-col gap-6 text-base leading-snug">
+  <div class="not-prose flex flex-col gap-7 text-base leading-snug">
     <header class="flex flex-col gap-4 sm:flex-row sm:justify-between print:flex-row print:justify-between">
       <div class="flex items-center gap-4 self-start">
         <img
@@ -105,19 +126,24 @@ const previous = (entries: Entry[]) =>
 
     <ResumeSection title="Profile">
       <p class="text-stone-700 dark:text-stone-300">
-        Product engineer with 12+ years combining product
-        thinking, design, and engineering to build web apps from MVP →
-        millions of users. Founding engineer at multiple startups, including Ada
-        (Series C, $1.2B valuation), and now leading product at Curbcut.
+        Product engineer with 12+ years experience building and scaling web
+        applications from MVP → millions of users. Founding engineer at multiple
+        startups, including Ada (Series C, $1.2B valuation). Dedicated to
+        building rich user experiences with craft and simplicity.
       </p>
     </ResumeSection>
 
     <ResumeSection title="Experience">
       {current(work).map((entry) => <ResumeEntry entry={entry} />)}
-      <p>
-        <span class="text-stone-500 dark:text-stone-400">Previous:</span>{" "}
-        {previous(work)}
-      </p>
+      <div class="flex justify-between gap-4">
+        <p>
+          <span class="text-stone-500 dark:text-stone-400">Previous:</span>{" "}
+          {[...previous(work), "Freelance"].join(", ")}
+        </p>
+        <span class="text-stone-400 dark:text-stone-500 whitespace-nowrap">
+          2014 – 2016
+        </span>
+      </div>
     </ResumeSection>
 
     <ResumeSection title="Education" compact>
@@ -126,18 +152,19 @@ const previous = (entries: Entry[]) =>
 
     <ResumeSection title="Volunteer" compact>
       {current(volunteer).map((entry) => <ResumeEntry entry={entry} />)}
-      <p>
-        <span class="text-stone-500 dark:text-stone-400">Previous:</span>{" "}
-        {previous(volunteer)}
-      </p>
     </ResumeSection>
 
     <ResumeSection title="Skills">
-      <p>{skills.join(" · ")}</p>
-    </ResumeSection>
-
-    <ResumeSection title="Interests">
-      <p>Cycling, urbanism, and film.</p>
+      <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5">
+        {
+          skills.map(({ group, items }) => (
+            <>
+              <dt class="text-stone-500 dark:text-stone-400">{group}</dt>
+              <dd>{items.join(" · ")}</dd>
+            </>
+          ))
+        }
+      </dl>
     </ResumeSection>
   </div>
 </Layout>
