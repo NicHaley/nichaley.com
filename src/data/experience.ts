@@ -18,7 +18,7 @@ export const work: Entry[] = [
     dates: "2026 – Now",
     highlights: [
       "Leading product for Curbcut Studio, a new SaaS platform giving planning teams self-serve access to hundreds of spatial indicators. Own the roadmap, design, prototyping, and system architecture, and manage one developer.",
-      "Designed and built Studio from the ground up: map exploration, an AI assistant that turns plain-language questions into maps, a dashboard builder, and publishing and export, all bilingual with enterprise SSO.",
+      "Designed and built Studio from scratch: map exploration, an AI assistant that turns questions into maps, dashboards, and publishing, all bilingual with enterprise SSO.",
     ],
   },
   {
@@ -35,7 +35,7 @@ export const work: Entry[] = [
     role: "Founder",
     dates: "2023 – 2024",
     highlights: [
-      "Built an AI technical writing assistant for CI/CD, backed by District 3. Ran the full product lifecycle: user research, design, prototyping, development, and testing.",
+      "Built an AI technical writing assistant for CI/CD, backed by District 3.",
     ],
   },
   {
@@ -43,8 +43,7 @@ export const work: Entry[] = [
     role: "Lead Frontend Developer",
     dates: "2021 – 2023",
     highlights: [
-      "Managed frontend team and established engineering best practices.",
-      "Led rebuild of flagship SDKs and ran design sprints to guide product direction.",
+      "Managed frontend team, led rebuild of flagship SDKs, and ran design sprints.",
     ],
   },
   {
