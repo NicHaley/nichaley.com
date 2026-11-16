@@ -60,7 +60,7 @@ export const work: Entry[] = [
     role: "Founding Engineer",
     dates: "2016 – 2020",
     highlights: [
-      "Defined frontend tech stack and built early versions of Ada’s dashboard, chat widget, embed script, iOS SDK, and more—now used by companies like Meta, Square, and Shopify, reaching 100M+ end-users.",
+      "Defined frontend tech stack and built early versions of Ada’s dashboard, chat widget, embed script, iOS SDK, and more—now used by companies like Meta, Square, and Shopify, reaching 100M+ end-users. Recently acquired by Dialpad.",
     ],
   },
   {
